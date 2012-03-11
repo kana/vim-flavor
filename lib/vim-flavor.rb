@@ -1,4 +1,4 @@
-require "vim-flavor/version"
+require 'vim-flavor/version'
 
 module Vim
   module Flavor
