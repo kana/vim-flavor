@@ -4,8 +4,8 @@ require File.expand_path('../lib/vim-flavor/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["Kana Natsuno"]
   gem.email         = ["dev@whileimautomaton.net"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
+  gem.description   = %q{See the README file.}
+  gem.summary       = %q{A tool to manage your favorite Vim plugins}
   gem.homepage      = ""
 
   gem.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
