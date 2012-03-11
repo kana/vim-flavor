@@ -14,4 +14,6 @@ Gem::Specification.new do |gem|
   gem.name          = "vim-flavor"
   gem.require_paths = ["lib"]
   gem.version       = Vim::Flavor::VERSION
+
+  gem.add_development_dependency('rspec', '~> 2.8')
 end
