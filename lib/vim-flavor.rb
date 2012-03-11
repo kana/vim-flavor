@@ -1,3 +1,4 @@
+require 'bundler/setup'
 require 'vim-flavor/version'
 
 module Vim
