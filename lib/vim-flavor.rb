@@ -43,5 +43,34 @@ module Vim
           first
       end
     end
+
+    DOT_PATH = "#{Dir.getwd()}/.vim-flavor"
+    CACHED_REPOS_PATH = "#{DOT_PATH}/repos"
+
+    class Flavor
+      @@properties = [
+        :groups,
+        :locked_version,
+        :repo_name,
+        :repo_uri,
+        :version_contraint,
+      ]
+
+      @@properties.each do |p|
+        attr_accessor p
+      end
+
+      def initialize()
+        @groups = []
+      end
+
+      def zapped_repo_uri
+        repo_uri.gsub(/[^A-Za-z0-9._-]/, '_')
+      end
+
+      def cached_repo_path
+        @cached_repo_path ||=
+          "#{CACHED_REPOS_PATH}/#{zapped_repo_uri}"
+      end
   end
 end
