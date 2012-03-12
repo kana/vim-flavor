@@ -78,5 +78,18 @@ module Vim
         @cached_repo_path ||=
           "#{CACHED_REPOS_PATH}/#{zapped_repo_uri}"
       end
+
+      def clone()
+        message = %x[
+          {
+            git clone '#{@repo_uri}' '#{cached_repo_path}'
+          } 2>&1
+        ]
+        if $? != 0 then
+          raise RuntimeError, message
+        end
+        true
+      end
+    end
   end
 end
