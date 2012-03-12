@@ -1,5 +1,6 @@
 require 'bundler/setup'
 require 'vim-flavor/version'
+require 'yaml'
 
 module Vim
   module Flavor
@@ -223,6 +224,35 @@ module Vim
       ensure
         group_names.each do
           @default_groups.pop()
+        end
+      end
+    end
+
+    class LockFile
+      # TODO: Resolve dependencies recursively.
+
+      attr_reader :flavors, :path
+
+      def initialize(path)
+        @flavors = {}  # repo_uri => flavor
+        @path = path
+      end
+
+      def load()
+        h = File.open(@path, 'rb') do |f|
+          YAML.load(f.read())
+        end
+
+        @flavors = h[:flavors]
+      end
+
+      def save()
+        h = {}
+
+        h[:flavors] = @flavors
+
+        File.open(@path, 'wb') do |f|
+          YAML.dump(h, f)
         end
       end
     end
