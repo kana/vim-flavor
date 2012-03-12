@@ -90,6 +90,18 @@ module Vim
         end
         true
       end
+
+      def fetch()
+        message = %x[
+          {
+            cd #{cached_repo_path.inspect} &&
+            git fetch origin
+          } 2>&1
+        ]
+        if $? != 0 then
+          raise RuntimeError, message
+        end
+      end
     end
   end
 end

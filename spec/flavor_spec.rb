@@ -20,6 +20,16 @@ describe Vim::Flavor::Flavor do
     END
   end
 
+  def update_a_test_repo(path)
+    system(<<-"END")
+      {
+        cd #{path.inspect} &&
+        echo '*foo* *bar*' >doc/foo.txt &&
+        git commit -am 'Update foo again'
+      } >/dev/null
+    END
+  end
+
   def clean_up_stashed_stuffs()
     FileUtils.rm_rf([Vim::Flavor::DOT_PATH], :secure => true)
   end
@@ -49,7 +59,44 @@ describe Vim::Flavor::Flavor do
   end
 
   describe '#fetch' do
-    it 'should fetch recent changes from the repository'
+    before :each do
+      @test_repo_path = "#{Vim::Flavor::DOT_PATH}/test/origin"
+
+      @flavor = described_class.new()
+      @flavor.repo_uri = @test_repo_path
+      @flavor.locked_version = '1.0.0'
+    end
+
+    after :each do
+      clean_up_stashed_stuffs()
+    end
+
+    it 'should fail if the repository is not cloned yet' do
+      expect {
+        @flavor.fetch()
+      }.to raise_error(RuntimeError)
+    end
+
+    it 'should fetch recent changes from the repository' do
+      create_a_test_repo(@test_repo_path)
+      @flavor.clone()
+      %x{
+        cd #{@flavor.cached_repo_path.inspect}
+        git log -n1 --format='%s'
+      }.should == "Update foo\n"
+
+      update_a_test_repo(@test_repo_path)
+
+      @flavor.fetch()
+      %x{
+        cd #{@flavor.cached_repo_path.inspect}
+        git log -n1 --format='%s' HEAD
+      }.should == "Update foo\n"
+      %x{
+        cd #{@flavor.cached_repo_path.inspect}
+        git log -n1 --format='%s' FETCH_HEAD
+      }.should == "Update foo again\n"
+    end
   end
 
   describe '#checkout' do
