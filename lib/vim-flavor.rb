@@ -102,6 +102,18 @@ module Vim
           raise RuntimeError, message
         end
       end
+
+      def checkout()
+        message = %x[
+          {
+            cd #{cached_repo_path.inspect} &&
+            git checkout -f #{locked_version.inspect}
+          } 2>&1
+        ]
+        if $? != 0 then
+          raise RuntimeError, message
+        end
+      end
     end
   end
 end

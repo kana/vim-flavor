@@ -100,7 +100,37 @@ describe Vim::Flavor::Flavor do
   end
 
   describe '#checkout' do
-    it 'should checkout the given version'
+    before :each do
+      @test_repo_path = "#{Vim::Flavor::DOT_PATH}/test/origin"
+
+      @flavor = described_class.new()
+      @flavor.repo_uri = @test_repo_path
+      @flavor.locked_version = '1.0.0'
+    end
+
+    after :each do
+      clean_up_stashed_stuffs()
+    end
+
+    it 'should checkout the given version' do
+      create_a_test_repo(@test_repo_path)
+      update_a_test_repo(@test_repo_path)
+
+      @flavor.clone()
+      @flavor.checkout()
+
+      head_id = %x{
+        cd #{@flavor.cached_repo_path.inspect} &&
+        git log -n1 --format='%s' HEAD
+      }
+      $?.should == 0
+      tag_id = %x{
+        cd #{@flavor.cached_repo_path.inspect} &&
+        git log -n1 --format='%s' #{@flavor.locked_version.inspect}
+      }
+      $?.should == 0
+      head_id.should == tag_id
+    end
   end
 
   describe '#deploy' do
