@@ -132,6 +132,18 @@ module Vim
           raise RuntimeError, message
         end
       end
+
+      def undeploy(vimfiles_path)
+        deploy_path = make_deploy_path(vimfiles_path)
+        message = %x[
+          {
+            rm -fr '#{deploy_path}'
+          } 2>&1
+        ]
+        if $? != 0 then
+          raise RuntimeError, message
+        end
+      end
     end
   end
 end

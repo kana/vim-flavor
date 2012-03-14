@@ -195,6 +195,32 @@ describe Vim::Flavor::Flavor do
   end
 
   describe '#undeploy' do
-    it 'should remove deployed files'
+    before :each do
+      @test_repo_path = "#{Vim::Flavor::DOT_PATH}/test/origin"
+
+      @flavor = described_class.new()
+      @flavor.repo_uri = @test_repo_path
+      @flavor.locked_version = '1.0.0'
+
+      @vimfiles_path = "#{Vim::Flavor::DOT_PATH}/vimfiles"
+      @deploy_path = @flavor.make_deploy_path(@vimfiles_path)
+    end
+
+    after :each do
+      clean_up_stashed_stuffs()
+    end
+
+    it 'should remove deployed files' do
+      create_a_test_repo(@test_repo_path)
+      @flavor.clone()
+      @flavor.checkout()
+      @flavor.deploy(@vimfiles_path)
+
+      File.exists?(@deploy_path).should be_true
+
+      @flavor.undeploy(@vimfiles_path)
+
+      File.exists?(@deploy_path).should be_false
+    end
   end
 end
