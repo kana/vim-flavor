@@ -134,7 +134,64 @@ describe Vim::Flavor::Flavor do
   end
 
   describe '#deploy' do
-    it 'should deploy files to a given path'
+    before :each do
+      @test_repo_path = "#{Vim::Flavor::DOT_PATH}/test/origin"
+
+      @flavor = described_class.new()
+      @flavor.repo_uri = @test_repo_path
+      @flavor.locked_version = '1.0.0'
+
+      @vimfiles_path = "#{Vim::Flavor::DOT_PATH}/vimfiles"
+      @deploy_path = @flavor.make_deploy_path(@vimfiles_path)
+    end
+
+    after :each do
+      clean_up_stashed_stuffs()
+    end
+
+    it 'should deploy files to a given path' do
+      create_a_test_repo(@test_repo_path)
+      @flavor.clone()
+      @flavor.checkout()
+
+      File.exists?(@deploy_path).should be_false
+
+      @flavor.deploy(@vimfiles_path)
+
+      File.exists?(@deploy_path).should be_true
+      File.exists?("#{@deploy_path}/autoload/foo.vim").should be_true
+      File.exists?("#{@deploy_path}/doc/foo.txt").should be_true
+      File.exists?("#{@deploy_path}/plugin/foo.vim").should be_true
+    end
+
+    it 'should :helptags automatically' do
+      create_a_test_repo(@test_repo_path)
+      @flavor.clone()
+      @flavor.checkout()
+
+      File.exists?("#{@deploy_path}/doc/tags").should be_false
+
+      @flavor.deploy(@vimfiles_path)
+
+      File.exists?("#{@deploy_path}/doc/tags").should be_true
+    end
+
+    it 'should not care about existing content' do
+      create_a_test_repo(@test_repo_path)
+      @flavor.clone()
+      @flavor.checkout()
+
+      @flavor.deploy(@vimfiles_path)
+      system(<<-"END")
+        touch '#{@deploy_path}/plugin/oldname.vim'
+      END
+
+      File.exists?("#{@deploy_path}/plugin/oldname.vim").should be_true
+
+      @flavor.deploy(@vimfiles_path)
+
+      File.exists?("#{@deploy_path}/plugin/oldname.vim").should be_true
+    end
   end
 
   describe '#undeploy' do
