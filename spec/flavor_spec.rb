@@ -16,6 +16,10 @@ describe Vim::Flavor::Flavor do
         echo '*foo*' >doc/foo.txt
         git commit -am 'Update foo'
         git tag -a -m 'Version 1.0.0' 1.0.0
+        git tag -a -m 'Version 1.1.1' 1.1.1
+        git tag -a -m 'Version 1.1.2' 1.1.2
+        git tag -a -m 'Version 1.2.1' 1.2.1
+        git tag -a -m 'Version 1.2.2' 1.2.2
       } >/dev/null
     END
   end
@@ -221,6 +225,32 @@ describe Vim::Flavor::Flavor do
       @flavor.undeploy(@vimfiles_path)
 
       File.exists?(@deploy_path).should be_false
+    end
+  end
+
+  describe '#list_versions' do
+    before :each do
+      @test_repo_path = "#{Vim::Flavor::DOT_PATH}/test/origin"
+
+      @flavor = described_class.new()
+      @flavor.repo_uri = @test_repo_path
+      @flavor.locked_version = '1.0.0'
+    end
+
+    after :each do
+      clean_up_stashed_stuffs()
+    end
+
+    it 'should list tags as versions' do
+      create_a_test_repo(@test_repo_path)
+      @flavor.clone()
+      @flavor.list_versions().should == [
+        '1.0.0',
+        '1.1.1',
+        '1.1.2',
+        '1.2.1',
+        '1.2.2',
+      ].map {|vs| Gem::Version.create(vs)}
     end
   end
 end

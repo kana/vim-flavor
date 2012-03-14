@@ -144,6 +144,23 @@ module Vim
           raise RuntimeError, message
         end
       end
+
+      def list_versions()
+        tags = %x[
+          {
+            cd '#{cached_repo_path}' &&
+            git tag
+          } 2>&1
+        ]
+        if $? != 0 then
+          raise RuntimeError, message
+        end
+
+        tags.
+          split(/[\r\n]/).
+          select {|t| t != ''}.
+          map {|t| Gem::Version.create(t)}
+      end
     end
   end
 end
