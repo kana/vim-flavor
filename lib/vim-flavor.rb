@@ -161,6 +161,11 @@ module Vim
           select {|t| t != ''}.
           map {|t| Gem::Version.create(t)}
       end
+
+      def update_locked_version()
+        @locked_version =
+          version_contraint.find_the_best_version(list_versions())
+      end
     end
   end
 end

@@ -253,4 +253,33 @@ describe Vim::Flavor::Flavor do
       ].map {|vs| Gem::Version.create(vs)}
     end
   end
+
+  describe '#update_locked_version' do
+    before :each do
+      @test_repo_path = "#{Vim::Flavor::DOT_PATH}/test/origin"
+
+      @flavor = described_class.new()
+      @flavor.repo_uri = @test_repo_path
+      @flavor.locked_version = nil
+    end
+
+    after :each do
+      clean_up_stashed_stuffs()
+    end
+
+    it 'should update locked_version according to version_contraint' do
+      create_a_test_repo(@test_repo_path)
+      @flavor.clone()
+
+      @flavor.version_contraint =
+        Vim::Flavor::VersionConstraint.new('>= 0')
+      @flavor.update_locked_version()
+      @flavor.locked_version.should == Gem::Version.create('1.2.2')
+
+      @flavor.version_contraint =
+        Vim::Flavor::VersionConstraint.new('~> 1.1.0')
+      @flavor.update_locked_version()
+      @flavor.locked_version.should == Gem::Version.create('1.1.2')
+    end
+  end
 end
