@@ -269,6 +269,28 @@ module Vim
         @lockfile = nil  # LockFile
         @lockfile_path = "#{Dir.getwd()}/VimFlavor.lock"
       end
+
+      def make_new_flavors(current_flavors, locked_flavors, mode)
+        new_flavors = {}
+
+        current_flavors.each do |repo_uri, cf|
+          lf = locked_flavors[repo_uri]
+          nf = cf.dup()
+
+          nf.locked_version =
+            if (not lf) or
+              cf.version_contraint != lf.version_contraint or
+              mode == :update then
+              cf.locked_version
+            else
+              lf.locked_version
+            end
+
+          new_flavors[repo_uri] = nf
+        end
+
+        new_flavors
+      end
     end
   end
 end
