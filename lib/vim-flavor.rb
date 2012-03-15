@@ -64,6 +64,12 @@ module Vim
         @groups = []
       end
 
+      def ==(other)
+        @@properties.all? do |p|
+          self.send(p) == other.send(p)
+        end
+      end
+
       def zapped_repo_uri
         repo_uri.gsub(/[^A-Za-z0-9._-]/, '_')
       end
