@@ -13,6 +13,69 @@ describe Vim::Flavor::Facade do
     end
   end
 
+  describe '#load' do
+    before :each do
+      @tmp_path = "#{Vim::Flavor::DOT_PATH}/tmp"
+      @facade = described_class.new()
+      @facade.flavorfile_path = "#{@tmp_path}/VimFlavor"
+      @facade.lockfile_path = "#{@tmp_path}/VimFlavor.lock"
+
+      @flavor1 = Vim::Flavor::Flavor.new()
+      @flavor1.groups = [:default]
+      @flavor1.repo_name = 'kana/vim-smartinput'
+      @flavor1.repo_uri = 'git://github.com/kana/vim-smartinput.git'
+      @flavor1.version_contraint =
+        Vim::Flavor::VersionConstraint.new('>= 0')
+      @flavor2 = Vim::Flavor::Flavor.new()
+      @flavor2.groups = [:default]
+      @flavor2.repo_name = 'kana/vim-smarttill'
+      @flavor2.repo_uri = 'git://github.com/kana/vim-smarttill.git'
+      @flavor2.version_contraint =
+        Vim::Flavor::VersionConstraint.new('>= 0')
+
+      FileUtils.mkdir_p(@tmp_path)
+      File.open(@facade.flavorfile_path, 'w') do |f|
+        f.write(<<-'END')
+          flavor 'kana/vim-smartinput'
+          flavor 'kana/vim-smarttill'
+        END
+      end
+      File.open(@facade.lockfile_path, 'w') do |f|
+        f.write(<<-'END')
+          :flavors:
+            - foo
+            - bar
+        END
+      end
+    end
+
+    after :each do
+      FileUtils.rm_rf([Vim::Flavor::DOT_PATH], :secure => true)
+    end
+
+    it 'should load both files' do
+      @facade.load()
+
+      @facade.flavorfile_path.should == "#{@tmp_path}/VimFlavor"
+      @facade.lockfile_path.should == "#{@tmp_path}/VimFlavor.lock"
+      @facade.flavorfile.flavors.keys.length == 2
+      @facade.flavorfile.flavors[@flavor1.repo_uri].should == @flavor1
+      @facade.flavorfile.flavors[@flavor2.repo_uri].should == @flavor2
+      @facade.lockfile.flavors.should == ['foo', 'bar']
+    end
+
+    it 'should load a lockfile if it exists' do
+      @facade.load()
+
+      @facade.lockfile.flavors.should == ['foo', 'bar']
+
+      @facade.lockfile_path = "#{@tmp_path}/VimFlavor.lock.xxx"
+      @facade.load()
+
+      @facade.lockfile.flavors.should == {}
+    end
+  end
+
   describe '#make_new_flavors' do
     before :each do
       @facade = described_class.new()

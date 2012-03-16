@@ -259,15 +259,23 @@ module Vim
 
     class Facade
       attr_reader :flavorfile
-      attr_reader :flavorfile_path
+      attr_accessor :flavorfile_path
       attr_reader :lockfile
-      attr_reader :lockfile_path
+      attr_accessor :lockfile_path
 
       def initialize()
         @flavorfile = nil  # FlavorFile
         @flavorfile_path = "#{Dir.getwd()}/VimFlavor"
         @lockfile = nil  # LockFile
         @lockfile_path = "#{Dir.getwd()}/VimFlavor.lock"
+      end
+
+      def load()
+        @flavorfile = FlavorFile.new()
+        @flavorfile.eval_flavorfile(@flavorfile_path)
+
+        @lockfile = LockFile.new(@lockfile_path)
+        @lockfile.load() if File.exists?(@lockfile_path)
       end
 
       def make_new_flavors(current_flavors, locked_flavors, mode)
