@@ -256,5 +256,19 @@ module Vim
         end
       end
     end
+
+    class Facade
+      attr_reader :flavorfile
+      attr_reader :flavorfile_path
+      attr_reader :lockfile
+      attr_reader :lockfile_path
+
+      def initialize()
+        @flavorfile = nil  # FlavorFile
+        @flavorfile_path = "#{Dir.getwd()}/VimFlavor"
+        @lockfile = nil  # LockFile
+        @lockfile_path = "#{Dir.getwd()}/VimFlavor.lock"
+      end
+    end
   end
 end
