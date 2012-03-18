@@ -16,4 +16,5 @@ Gem::Specification.new do |gem|
   gem.version       = Vim::Flavor::VERSION
 
   gem.add_development_dependency('rspec', '~> 2.8')
+  gem.add_development_dependency('thor', '~> 0.14.6')
 end
