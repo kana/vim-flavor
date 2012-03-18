@@ -72,17 +72,17 @@ module Vim
         end
       end
 
-      def zapped_repo_uri
-        repo_uri.gsub(/[^A-Za-z0-9._-]/, '_')
+      def zapped_repo_dir_name
+        @repo_name.gsub(/[^A-Za-z0-9._-]/, '_')
       end
 
       def cached_repo_path
         @cached_repo_path ||=
-          "#{CACHED_REPOS_PATH}/#{zapped_repo_uri}"
+          "#{CACHED_REPOS_PATH}/#{zapped_repo_dir_name}"
       end
 
       def make_deploy_path(vimfiles_path)
-        "#{vimfiles_path}/flavors/#{zapped_repo_uri}"
+        "#{vimfiles_path}/flavors/#{zapped_repo_dir_name}"
       end
 
       def clone()

@@ -178,6 +178,7 @@ describe Vim::Flavor::Facade do
       @test_repo_path = "#{Vim::Flavor::DOT_PATH}/test/origin"
 
       @flavor = Vim::Flavor::Flavor.new()
+      @flavor.repo_name = '@test_repo_path'
       @flavor.repo_uri = @test_repo_path
       @flavor.locked_version = '1.0.0'
 

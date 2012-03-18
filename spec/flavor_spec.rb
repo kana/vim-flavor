@@ -9,6 +9,7 @@ describe Vim::Flavor::Flavor do
       @test_repo_path = "#{Vim::Flavor::DOT_PATH}/test/origin"
 
       @flavor = described_class.new()
+      @flavor.repo_name = '@test_repo_path'
       @flavor.repo_uri = @test_repo_path
       @flavor.locked_version = '1.0.0'
     end
@@ -33,6 +34,7 @@ describe Vim::Flavor::Flavor do
       @test_repo_path = "#{Vim::Flavor::DOT_PATH}/test/origin"
 
       @flavor = described_class.new()
+      @flavor.repo_name = '@test_repo_path'
       @flavor.repo_uri = @test_repo_path
       @flavor.locked_version = '1.0.0'
     end
@@ -74,6 +76,7 @@ describe Vim::Flavor::Flavor do
       @test_repo_path = "#{Vim::Flavor::DOT_PATH}/test/origin"
 
       @flavor = described_class.new()
+      @flavor.repo_name = '@test_repo_path'
       @flavor.repo_uri = @test_repo_path
       @flavor.locked_version = '1.0.0'
 
@@ -144,6 +147,7 @@ describe Vim::Flavor::Flavor do
       @test_repo_path = "#{Vim::Flavor::DOT_PATH}/test/origin"
 
       @flavor = described_class.new()
+      @flavor.repo_name = '@test_repo_path'
       @flavor.repo_uri = @test_repo_path
       @flavor.locked_version = '1.0.0'
 
@@ -173,6 +177,7 @@ describe Vim::Flavor::Flavor do
       @test_repo_path = "#{Vim::Flavor::DOT_PATH}/test/origin"
 
       @flavor = described_class.new()
+      @flavor.repo_name = '@test_repo_path'
       @flavor.repo_uri = @test_repo_path
       @flavor.locked_version = '1.0.0'
     end
@@ -199,6 +204,7 @@ describe Vim::Flavor::Flavor do
       @test_repo_path = "#{Vim::Flavor::DOT_PATH}/test/origin"
 
       @flavor = described_class.new()
+      @flavor.repo_name = '@test_repo_path'
       @flavor.repo_uri = @test_repo_path
       @flavor.locked_version = nil
     end
