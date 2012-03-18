@@ -350,6 +350,13 @@ module Vim
         save_lockfile()
         deploy_flavors(lockfile.flavors.values, vimfiles_path)
       end
+
+      def upgrade(vimfiles_path)
+        load()
+        complete_locked_flavors(:upgrade_all)
+        save_lockfile()
+        deploy_flavors(lockfile.flavors.values, vimfiles_path)
+      end
     end
   end
 end

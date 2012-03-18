@@ -439,4 +439,57 @@ describe Vim::Flavor::Facade do
       result2.should == result1
     end
   end
+
+  describe '#upgrade' do
+    before :each do
+      @test_repo_path = "#{Vim::Flavor::DOT_PATH}/test/origin"
+      @tmp_path = "#{Vim::Flavor::DOT_PATH}/tmp"
+      @vimfiles_path = "#{Vim::Flavor::DOT_PATH}/vimfiles"
+      @facade = described_class.new()
+      @facade.flavorfile_path = "#{@tmp_path}/VimFlavor"
+      @facade.lockfile_path = "#{@tmp_path}/VimFlavor.lock"
+
+      create_a_test_repo(@test_repo_path)
+      FileUtils.mkdir_p(@tmp_path)
+      File.open(@facade.flavorfile_path, 'w') do |f|
+        f.write(<<-"END")
+          flavor 'file://#{@test_repo_path}', '~> 1.1.1'
+        END
+      end
+    end
+
+    after :each do
+      clean_up_stashed_stuffs()
+    end
+
+    it 'should upgrade Vim plugins according to VimFlavor' do
+      File.exists?(@facade.lockfile_path).should be_false
+      File.exists?(@vimfiles_path).should be_false
+      @facade.lockfile.should be_nil
+
+      @facade.upgrade(@vimfiles_path)
+
+      File.exists?(@facade.lockfile_path).should be_true
+      File.exists?(@vimfiles_path).should be_true
+      @facade.lockfile.flavors.values.each do |f|
+        File.exists?(f.make_deploy_path(@vimfiles_path)).should be_true
+      end
+    end
+
+    it 'should always upgrade existing VimFlavor.lock' do
+      def self.upgrade()
+        @facade.upgrade(@vimfiles_path)
+        [
+          @facade.lockfile.flavors.map {|_, f| f.locked_version},
+          @facade.flavorfile.flavors.count(),
+        ]
+      end
+
+      result1 = self.upgrade()
+      update_a_test_repo(@test_repo_path)
+      result2 = self.upgrade()
+
+      result2.should_not == result1
+    end
+  end
 end
