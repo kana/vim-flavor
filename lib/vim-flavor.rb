@@ -1,4 +1,5 @@
 require 'bundler/setup'
+require 'thor'
 require 'vim-flavor/version'
 require 'yaml'
 
@@ -357,6 +358,9 @@ module Vim
         save_lockfile()
         deploy_flavors(lockfile.flavors.values, vimfiles_path)
       end
+    end
+
+    class CLI < Thor
     end
   end
 end
