@@ -343,6 +343,13 @@ module Vim
         # FIXME: Compute more appropriate value.
         "#{ENV['HOME']}/.vim"
       end
+
+      def install(vimfiles_path)
+        load()
+        complete_locked_flavors(:upgrade_if_necessary)
+        save_lockfile()
+        deploy_flavors(lockfile.flavors.values, vimfiles_path)
+      end
     end
   end
 end
