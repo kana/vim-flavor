@@ -7,4 +7,9 @@ describe Vim::Flavor::CLI do
     it 'should use the default vimfiles path', :pending => true do end
     it 'should use a given vimfiles path', :pending => true do end
   end
+
+  describe '#upgrade' do
+    it 'should use the default vimfiles path', :pending => true do end
+    it 'should use a given vimfiles path', :pending => true do end
+  end
 end
