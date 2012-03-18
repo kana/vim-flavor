@@ -41,4 +41,12 @@ describe Vim::Flavor::LockFile do
 
     lf.flavors.should == {'foo' => 'bar'}
   end
+
+  describe '::poro_from_flavors' do
+    it 'should create PORO from flavors'
+  end
+
+  describe '::flavors_from_poro' do
+    it 'should create flavors from PORO'
+  end
 end

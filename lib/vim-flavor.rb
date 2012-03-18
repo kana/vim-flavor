@@ -233,17 +233,27 @@ module Vim
           YAML.load(f.read())
         end
 
-        @flavors = h[:flavors]
+        @flavors = self.class.flavors_from_poro(h[:flavors])
       end
 
       def save()
         h = {}
 
-        h[:flavors] = @flavors
+        h[:flavors] = self.class.poro_from_flavors(@flavors)
 
         File.open(@path, 'wb') do |f|
           YAML.dump(h, f)
         end
+      end
+
+      def self.poro_from_flavors(flavors)
+        # TODO: Implement to hide implementation details from lock files.
+        flavors
+      end
+
+      def self.flavors_from_poro(poro)
+        # TODO: Implement to hide implementation details from lock files.
+        poro
       end
     end
 
