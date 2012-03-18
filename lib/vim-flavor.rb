@@ -299,6 +299,14 @@ module Vim
 
         new_flavors
       end
+
+      def deploy_flavors(flavor_list, vimfiles_path)
+        # FIXME: Unify the way to get the flavors directory.
+        FileUtils.rm_rf(["#{vimfiles_path}/flavors"], :secure => true)
+        flavor_list.each do |f|
+          f.deploy(vimfiles_path)
+        end
+      end
     end
   end
 end

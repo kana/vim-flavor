@@ -1,5 +1,6 @@
 require 'bundler/setup'
 require 'fileutils'
+require 'spec_helper'
 require 'vim-flavor'
 
 describe Vim::Flavor::Facade do
@@ -167,6 +168,59 @@ describe Vim::Flavor::Facade do
       ).should == {
         f1d.repo_uri => f1d,
       }
+    end
+  end
+
+  describe '#deploy_flavors' do
+    before :each do
+      @facade = described_class.new()
+
+      @test_repo_path = "#{Vim::Flavor::DOT_PATH}/test/origin"
+
+      @flavor = Vim::Flavor::Flavor.new()
+      @flavor.repo_uri = @test_repo_path
+      @flavor.locked_version = '1.0.0'
+
+      @flavors = [@flavor]
+
+      @vimfiles_path = "#{Vim::Flavor::DOT_PATH}/vimfiles"
+    end
+
+    after :each do
+      FileUtils.rm_rf([Vim::Flavor::DOT_PATH], :secure => true)
+    end
+
+    it 'should replace a given path with given flavors' do
+      create_a_test_repo(@test_repo_path)
+      @flavors.each do |f|
+        f.clone()
+        f.checkout()
+      end
+
+      File.exists?(@vimfiles_path).should be_false
+      @flavors.each do |f|
+        File.exists?(f.make_deploy_path(@vimfiles_path)).should be_false
+      end
+
+      @facade.deploy_flavors(@flavors, @vimfiles_path)
+
+      File.exists?(@vimfiles_path).should be_true
+      @flavors.each do |f|
+        File.exists?(f.make_deploy_path(@vimfiles_path)).should be_true
+      end
+
+      system(<<-"END")
+        touch '#{@vimfiles_path}/foo'
+        touch '#{@vimfiles_path}/flavors/foo'
+      END
+
+      File.exists?("#{@vimfiles_path}/foo").should be_true
+      File.exists?("#{@vimfiles_path}/flavors/foo").should be_true
+
+      @facade.deploy_flavors(@flavors, @vimfiles_path)
+
+      File.exists?("#{@vimfiles_path}/foo").should be_true
+      File.exists?("#{@vimfiles_path}/flavors/foo").should be_false
     end
   end
 end
