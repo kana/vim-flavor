@@ -69,40 +69,6 @@ describe Vim::Flavor::Flavor do
     end
   end
 
-  describe '#checkout' do
-    before :each do
-      @test_repo_path = "#{Vim::Flavor::DOT_PATH}/test/origin"
-
-      @flavor = described_class.new()
-      @flavor.repo_uri = @test_repo_path
-      @flavor.locked_version = '1.0.0'
-    end
-
-    after :each do
-      clean_up_stashed_stuffs()
-    end
-
-    it 'should checkout the given version' do
-      create_a_test_repo(@test_repo_path)
-      update_a_test_repo(@test_repo_path)
-
-      @flavor.clone()
-      @flavor.checkout()
-
-      head_id = %x{
-        cd #{@flavor.cached_repo_path.inspect} &&
-        git log -n1 --format='%s' HEAD
-      }
-      $?.should == 0
-      tag_id = %x{
-        cd #{@flavor.cached_repo_path.inspect} &&
-        git log -n1 --format='%s' #{@flavor.locked_version.inspect}
-      }
-      $?.should == 0
-      head_id.should == tag_id
-    end
-  end
-
   describe '#deploy' do
     before :each do
       @test_repo_path = "#{Vim::Flavor::DOT_PATH}/test/origin"
@@ -119,10 +85,9 @@ describe Vim::Flavor::Flavor do
       clean_up_stashed_stuffs()
     end
 
-    it 'should deploy files to a given path' do
+    it 'should deploy files of a locked version to a given path' do
       create_a_test_repo(@test_repo_path)
       @flavor.clone()
-      @flavor.checkout()
 
       File.exists?(@deploy_path).should be_false
 
@@ -132,12 +97,23 @@ describe Vim::Flavor::Flavor do
       File.exists?("#{@deploy_path}/autoload/foo.vim").should be_true
       File.exists?("#{@deploy_path}/doc/foo.txt").should be_true
       File.exists?("#{@deploy_path}/plugin/foo.vim").should be_true
+
+      head_id = %x{
+        cd #{@flavor.cached_repo_path.inspect} &&
+        git rev-list -n1 HEAD
+      }
+      $?.should == 0
+      tag_id = %x{
+        cd #{@flavor.cached_repo_path.inspect} &&
+        git rev-list -n1 #{@flavor.locked_version.inspect}
+      }
+      $?.should == 0
+      head_id.should == tag_id
     end
 
     it 'should :helptags automatically' do
       create_a_test_repo(@test_repo_path)
       @flavor.clone()
-      @flavor.checkout()
 
       File.exists?("#{@deploy_path}/doc/tags").should be_false
 
@@ -149,7 +125,6 @@ describe Vim::Flavor::Flavor do
     it 'should not care about existing content' do
       create_a_test_repo(@test_repo_path)
       @flavor.clone()
-      @flavor.checkout()
 
       @flavor.deploy(@vimfiles_path)
       system(<<-"END")
@@ -183,7 +158,6 @@ describe Vim::Flavor::Flavor do
     it 'should remove deployed files' do
       create_a_test_repo(@test_repo_path)
       @flavor.clone()
-      @flavor.checkout()
       @flavor.deploy(@vimfiles_path)
 
       File.exists?(@deploy_path).should be_true

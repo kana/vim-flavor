@@ -194,7 +194,6 @@ describe Vim::Flavor::Facade do
       create_a_test_repo(@test_repo_path)
       @flavors.each do |f|
         f.clone()
-        f.checkout()
       end
 
       File.exists?(@vimfiles_path).should be_false

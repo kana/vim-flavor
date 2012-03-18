@@ -109,23 +109,12 @@ module Vim
         end
       end
 
-      def checkout()
-        message = %x[
-          {
-            cd #{cached_repo_path.inspect} &&
-            git checkout -f #{locked_version.inspect}
-          } 2>&1
-        ]
-        if $? != 0 then
-          raise RuntimeError, message
-        end
-      end
-
       def deploy(vimfiles_path)
         deploy_path = make_deploy_path(vimfiles_path)
         message = %x[
           {
             cd '#{cached_repo_path}' &&
+            git checkout -f #{locked_version.inspect} &&
             git checkout-index -a -f --prefix='#{deploy_path}/' &&
             vim -u NONE -i NONE -n -N -e -c 'helptags #{deploy_path}/doc | qall!'
           } 2>&1
