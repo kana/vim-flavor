@@ -223,4 +223,53 @@ describe Vim::Flavor::Facade do
       File.exists?("#{@vimfiles_path}/flavors/foo").should be_false
     end
   end
+
+  describe '#save_lockfile' do
+    before :each do
+      @tmp_path = "#{Vim::Flavor::DOT_PATH}/tmp"
+      @facade = described_class.new()
+      @facade.flavorfile_path = "#{@tmp_path}/VimFlavor"
+      @facade.lockfile_path = "#{@tmp_path}/VimFlavor.lock"
+
+      FileUtils.mkdir_p(@tmp_path)
+      File.open(@facade.flavorfile_path, 'w') do |f|
+        f.write(<<-'END')
+        END
+      end
+    end
+
+    after :each do
+      clean_up_stashed_stuffs()
+    end
+
+    it 'should save locked flavors' do
+      @facade.load()
+
+      @facade.lockfile.flavors.should == {}
+
+      flavor1 = Vim::Flavor::Flavor.new()
+      flavor1.groups = [:default]
+      flavor1.repo_name = 'kana/vim-smartinput'
+      flavor1.repo_uri = 'git://github.com/kana/vim-smartinput.git'
+      flavor1.version_contraint =
+        Vim::Flavor::VersionConstraint.new('>= 0')
+      @facade.lockfile.instance_eval do
+        @flavors = {
+          flavor1.repo_uri => flavor1,
+        }
+      end
+      @facade.save_lockfile()
+      @facade.lockfile.instance_eval do
+        @flavors = nil
+      end
+
+      @facade.lockfile.flavors.should == nil
+
+      @facade.load()
+
+      @facade.lockfile.flavors.should == {
+        flavor1.repo_uri => flavor1,
+      }
+    end
+  end
 end

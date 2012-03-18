@@ -307,6 +307,10 @@ module Vim
           f.deploy(vimfiles_path)
         end
       end
+
+      def save_lockfile()
+        @lockfile.save()
+      end
     end
   end
 end
