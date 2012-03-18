@@ -338,6 +338,11 @@ module Vim
           @flavors = nfs
         end
       end
+
+      def get_default_vimfiles_path()
+        # FIXME: Compute more appropriate value.
+        "#{ENV['HOME']}/.vim"
+      end
     end
   end
 end

@@ -378,4 +378,12 @@ describe Vim::Flavor::Facade do
       }
     end
   end
+
+  describe '#get_default_vimfiles_path' do
+    it 'should return an appropriate value for *nix' do
+      # FIXME: Add proper tests depending on the current environment.
+      @facade = described_class.new()
+      @facade.get_default_vimfiles_path().should == "#{ENV['HOME']}/.vim"
+    end
+  end
 end
