@@ -311,6 +311,33 @@ module Vim
       def save_lockfile()
         @lockfile.save()
       end
+
+      def complete_locked_flavors(mode)
+        nfs = {}
+        @flavorfile.flavors.each do |repo_uri, cf|
+          nf = cf.dup()
+          lf = @lockfile.flavors[repo_uri]
+
+          if not File.exists?(nf.cached_repo_path)
+            nf.clone()
+          end
+
+          if mode == :upgrade_all or
+            (not lf) or
+            nf.version_contraint != lf.version_contraint then
+            nf.fetch()
+            nf.update_locked_version()
+          else
+            nf.locked_version = lf.locked_version
+          end
+
+          nfs[repo_uri] = nf
+        end
+
+        @lockfile.instance_eval do
+          @flavors = nfs
+        end
+      end
     end
   end
 end

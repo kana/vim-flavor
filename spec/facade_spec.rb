@@ -272,4 +272,110 @@ describe Vim::Flavor::Facade do
       }
     end
   end
+
+  describe '#complete_locked_flavors' do
+    before :each do
+      @test_repo_path = "#{Vim::Flavor::DOT_PATH}/test/origin"
+      @tmp_path = "#{Vim::Flavor::DOT_PATH}/tmp"
+      @facade = described_class.new()
+      @facade.flavorfile_path = "#{@tmp_path}/VimFlavor"
+      @facade.lockfile_path = "#{@tmp_path}/VimFlavor.lock"
+
+      create_a_test_repo(@test_repo_path)
+      FileUtils.mkdir_p(@tmp_path)
+      File.open(@facade.flavorfile_path, 'w') do |f|
+        f.write(<<-"END")
+          flavor 'file://#{@test_repo_path}', '~> 1.1.1'
+        END
+      end
+    end
+
+    after :each do
+      clean_up_stashed_stuffs()
+    end
+
+    it 'should complete flavors if they are not locked' do
+      @facade.load()
+
+      cf1 = @facade.flavorfile.flavors.values[0]
+      cf1.locked_version.should be_nil
+      File.exists?(cf1.cached_repo_path).should be_false
+      @facade.lockfile.flavors.should == {}
+
+      @facade.complete_locked_flavors(:upgrade_if_necessary)
+
+      lf1 = @facade.lockfile.flavors.values[0]
+      lf1.locked_version.should == Gem::Version.create('1.1.2')
+      File.exists?(lf1.cached_repo_path).should be_true
+      @facade.lockfile.flavors.should == {
+        lf1.repo_uri => lf1,
+      }
+
+      @facade.complete_locked_flavors(:upgrade_if_necessary)
+
+      lf1d = @facade.lockfile.flavors.values[0]
+      lf1d.locked_version.should == Gem::Version.create('1.1.2')
+      File.exists?(lf1d.cached_repo_path).should be_true
+      @facade.lockfile.flavors.should == {
+        lf1d.repo_uri => lf1d,
+      }
+    end
+
+    it 'should complete flavors if their constraint are changed' do
+      @facade.load()
+
+      cf1 = @facade.flavorfile.flavors.values[0]
+      cf1.locked_version.should be_nil
+      File.exists?(cf1.cached_repo_path).should be_false
+      @facade.lockfile.flavors.should == {}
+
+      @facade.complete_locked_flavors(:upgrade_if_necessary)
+
+      lf1 = @facade.lockfile.flavors.values[0]
+      lf1.locked_version.should == Gem::Version.create('1.1.2')
+      File.exists?(lf1.cached_repo_path).should be_true
+      @facade.lockfile.flavors.should == {
+        lf1.repo_uri => lf1,
+      }
+
+      cf1.version_contraint = Vim::Flavor::VersionConstraint.new('~> 1.1.2')
+      update_a_test_repo(@test_repo_path)
+      @facade.complete_locked_flavors(:upgrade_if_necessary)
+
+      lf1d = @facade.lockfile.flavors.values[0]
+      lf1d.locked_version.should == Gem::Version.create('1.1.9')
+      File.exists?(lf1d.cached_repo_path).should be_true
+      @facade.lockfile.flavors.should == {
+        lf1d.repo_uri => lf1d,
+      }
+    end
+
+    it 'should upgrade flavors even if their constraint are not changed' do
+      @facade.load()
+
+      cf1 = @facade.flavorfile.flavors.values[0]
+      cf1.locked_version.should be_nil
+      File.exists?(cf1.cached_repo_path).should be_false
+      @facade.lockfile.flavors.should == {}
+
+      @facade.complete_locked_flavors(:upgrade_all)
+
+      lf1 = @facade.lockfile.flavors.values[0]
+      lf1.locked_version.should == Gem::Version.create('1.1.2')
+      File.exists?(lf1.cached_repo_path).should be_true
+      @facade.lockfile.flavors.should == {
+        lf1.repo_uri => lf1,
+      }
+
+      update_a_test_repo(@test_repo_path)
+      @facade.complete_locked_flavors(:upgrade_all)
+
+      lf1d = @facade.lockfile.flavors.values[0]
+      lf1d.locked_version.should == Gem::Version.create('1.1.9')
+      File.exists?(lf1d.cached_repo_path).should be_true
+      @facade.lockfile.flavors.should == {
+        lf1d.repo_uri => lf1d,
+      }
+    end
+  end
 end
