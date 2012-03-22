@@ -11,13 +11,12 @@ def create_a_test_repo(path)
       touch autoload/foo.vim doc/foo.txt plugin/foo.vim
       git add autoload doc plugin
       git commit -am 'Commit foo'
-      echo '*foo*' >doc/foo.txt
-      git commit -am 'Update foo'
-      git tag -a -m 'Version 1.0.0' 1.0.0
-      git tag -a -m 'Version 1.1.1' 1.1.1
-      git tag -a -m 'Version 1.1.2' 1.1.2
-      git tag -a -m 'Version 1.2.1' 1.2.1
-      git tag -a -m 'Version 1.2.2' 1.2.2
+      for version in '1.0.0' '1.1.1' '1.1.2' '1.2.1' '1.2.2'
+      do
+        echo "*foo* $version" >doc/foo.txt
+        git commit -am 'Update foo'
+        git tag -a -m "Version $version" "$version"
+      done
     } >/dev/null
   END
 end
