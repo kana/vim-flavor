@@ -50,22 +50,22 @@ describe Vim::Flavor::Flavor do
     it 'should fetch recent changes from the repository' do
       create_a_test_repo(@test_repo_path)
       @flavor.clone()
-      %x{
+      cloned_id = %x{
         cd #{@flavor.cached_repo_path.inspect}
-        git log -n1 --format='%s'
-      }.should == "Update foo\n"
+        git rev-list -n1 HEAD
+      }
 
       update_a_test_repo(@test_repo_path)
 
       @flavor.fetch()
       %x{
         cd #{@flavor.cached_repo_path.inspect}
-        git log -n1 --format='%s' HEAD
-      }.should == "Update foo\n"
-      %x{
+        git rev-list -n1 HEAD
+      }.should == cloned_id
+      fetch_id = %x{
         cd #{@flavor.cached_repo_path.inspect}
-        git log -n1 --format='%s' FETCH_HEAD
-      }.should == "Update foo again\n"
+        git rev-list -n1 FETCH_HEAD
+      }.should_not == cloned_id
     end
   end
 

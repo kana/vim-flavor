@@ -25,8 +25,12 @@ def update_a_test_repo(path)
   system(<<-"END")
     {
       cd #{path.inspect} &&
-      echo '*foo* *bar*' >doc/foo.txt &&
-      git commit -am 'Update foo again'
+      for version in '1.0.9' '1.1.9' '1.2.9' '1.3.9'
+      do
+        echo "*foo* $version" >doc/foo.txt
+        git commit -am 'Update foo'
+        git tag -a -m "Version $version" "$version"
+      done
     } >/dev/null
   END
 end
