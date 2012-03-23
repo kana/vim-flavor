@@ -252,12 +252,18 @@ module Vim
       attr_accessor :flavorfile_path
       attr_reader :lockfile
       attr_accessor :lockfile_path
+      attr_accessor :traced
 
       def initialize()
         @flavorfile = nil  # FlavorFile
         @flavorfile_path = "#{Dir.getwd()}/VimFlavor"
         @lockfile = nil  # LockFile
         @lockfile_path = "#{Dir.getwd()}/VimFlavor.lock"
+        @traced = false
+      end
+
+      def trace(message)
+        print(message) if @traced
       end
 
       def load()
