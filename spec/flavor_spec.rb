@@ -4,6 +4,21 @@ require 'spec_helper'
 require 'vim-flavor'
 
 describe Vim::Flavor::Flavor do
+  describe '#==' do
+    it 'should return true only for equivalent flavors' do
+      f0 = {:x => :y}
+      f1 = described_class.new()
+      f2 = described_class.new()
+      f3 = described_class.new()
+      f3.groups = [:test]
+
+      f1.should_not == f0
+      f1.should == f1
+      f1.should == f2
+      f1.should_not == f3
+    end
+  end
+
   describe '#clone' do
     before :each do
       @test_repo_path = "#{Vim::Flavor::DOT_PATH}/test/origin"
