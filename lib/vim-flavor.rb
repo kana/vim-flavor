@@ -67,6 +67,7 @@ module Vim
       end
 
       def ==(other)
+        return false if self.class != other.class
         @@properties.all? do |p|
           self.send(p) == other.send(p)
         end
