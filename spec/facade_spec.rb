@@ -223,16 +223,16 @@ describe Vim::Flavor::Facade do
 
       system(<<-"END")
         touch '#{@vimfiles_path}/foo'
-        touch '#{@vimfiles_path}/flavors/foo'
+        touch '#{@vimfiles_path.to_flavors_path()}/foo'
       END
 
       File.exists?("#{@vimfiles_path}/foo").should be_true
-      File.exists?("#{@vimfiles_path}/flavors/foo").should be_true
+      File.exists?("#{@vimfiles_path.to_flavors_path()}/foo").should be_true
 
       @facade.deploy_flavors(@flavors, @vimfiles_path)
 
       File.exists?("#{@vimfiles_path}/foo").should be_true
-      File.exists?("#{@vimfiles_path}/flavors/foo").should be_false
+      File.exists?("#{@vimfiles_path.to_flavors_path()}/foo").should be_false
     end
   end
 
