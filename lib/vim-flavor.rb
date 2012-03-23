@@ -300,6 +300,7 @@ module Vim
         # FIXME: Unify the way to get the flavors directory.
         FileUtils.rm_rf(["#{vimfiles_path}/flavors"], :secure => true)
         flavor_list.each do |f|
+          trace("Deploying #{f.repo_name} (#{f.locked_version})\n")
           f.deploy(vimfiles_path)
         end
       end
