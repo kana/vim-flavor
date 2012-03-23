@@ -7,8 +7,6 @@ describe Vim::Flavor::FlavorFile do
       @ff = described_class.new()
     end
 
-    it 'should contains kana/vim-flavor implicitly'
-
     it 'should treat "$USER/$REPO" as a GitHub repository' do
       @ff.interpret do
         flavor 'kana/vim-textobj-indent'

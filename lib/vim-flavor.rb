@@ -381,6 +381,8 @@ module Vim
           ["#{vimfiles_path.to_flavors_path()}"],
           :secure => true
         )
+
+        create_vim_script_for_bootstrap(vimfiles_path)
         flavor_list.each do |f|
           trace("Deploying #{f.repo_name} (#{f.locked_version})\n")
           f.deploy(vimfiles_path)

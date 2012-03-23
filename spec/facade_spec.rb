@@ -250,6 +250,7 @@ describe Vim::Flavor::Facade do
       @flavors = [@flavor]
 
       @vimfiles_path = "#{Vim::Flavor::DOT_PATH}/vimfiles"
+      @bootstrap_path = "#{@vimfiles_path.to_flavors_path()}/bootstrap.vim"
     end
 
     after :each do
@@ -263,6 +264,7 @@ describe Vim::Flavor::Facade do
       end
 
       File.exists?(@vimfiles_path).should be_false
+      File.exists?(@bootstrap_path).should be_false
       @flavors.each do |f|
         File.exists?(f.make_deploy_path(@vimfiles_path)).should be_false
       end
@@ -270,6 +272,7 @@ describe Vim::Flavor::Facade do
       @facade.deploy_flavors(@flavors, @vimfiles_path)
 
       File.exists?(@vimfiles_path).should be_true
+      File.exists?(@bootstrap_path).should be_true
       @flavors.each do |f|
         File.exists?(f.make_deploy_path(@vimfiles_path)).should be_true
       end
