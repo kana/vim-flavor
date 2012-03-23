@@ -5,7 +5,21 @@
 
 == Set up the utility for a new-style plugin management
 
-Requirement: Ruby 1.9.2
+=== Requirements
+
+* Git 1.7.9 or later
+* Ruby 1.9.2 or later
+* Vim 7.3 or later
+
+
+=== Supported platforms
+
+* Unix-like environments such as Linux, Mac OS X, etc.
+* Though Microsoft Windows is not directly supported,
+  it is possible to manage Vim plugins via Cygwin or other environments.
+
+
+=== Installation steps
 
 ----
 gem install vim-flavor
@@ -19,13 +33,14 @@ gem install vim-flavor
 ----
 cd $YOUR_REPOSITORY_FOR_DOTFILES
 
-cat >VimFlavors <<'END'
+cat >VimFlavor <<'END'
   # * Declare using git://github.com/kana/vim-textobj-indent.git
   # * vim-flavor fetches a plugin from git://github.com/$USER/$REPO.git
   #   if the argument is written in '$USER/$REPO' format.
   # * kana/vim-textobj-indent requires kana/vim-textobj-user.
   #   Such dependencies are automatically installed
-  #   if the flavored plugin declares its dependencies with VimFlavors file.
+  #   if the flavored plugin declares its dependencies with VimFlavor file.
+  #   (FIXME: Resolving dependencies will be implemented later.)
   flavor 'kana/vim-textobj-indent'
 
   # * Declare using git://github.com/vim-scripts/fakeclip.git
@@ -38,41 +53,40 @@ cat >VimFlavors <<'END'
   #   if the argument seems to be a URI.
   flavor 'git://github.com/kana/vim-altr.git'
 
-  # * Declare using a specific version of kana/vim-smartchr.
+  # * Declare using kana/vim-smartchr 0.1.0 or later and older than 0.2.0.
   flavor 'kana/vim-smartchr', '~> 0.1.0'
 
-  # * Declare using a specific branch of kana/vim-smartinput.
-  flavor 'kana/vim-smartinput', :branch => 'next'
+  # * Declare using kana/vim-smartword 0.1 or later and older than 1.0.
+  flavor 'kana/vim-smartword', '~> 0.1'
+
+  # * Declare using kana/vim-smarttill 0.1.0 or later.
+  flavor 'kana/vim-smarttill', '>= 0.1.0'
 END
 
-# Fetch the plugins declared in the VimFlavors,
-# create VimFlavors.lock for a snapshot of all plugins and versions,
-# then install the plugins into ~/.vim etc.
+# Fetch the plugins declared in the VimFlavor,
+# create VimFlavor.lock for a snapshot of all plugins and versions,
+# then install the plugins and a bootstrap script into ~/.vim etc.
 vim-flavor install
 
-git add VimFlavor VimFlavor.lock
+# Add the following line into the first line of your vimrc:
+#
+#   runtime flavors/bootstrap.vim
+vim vimrc
+
+git add VimFlavor VimFlavor.lock vimrc
 git commit -m 'Use vim-flavor to manage my favorite Vim plugins'
 ----
 
 
 
 
-== Update a plugin to the latest version
+== Upgrade all plugins to the latest version
 
 ----
-# Fetch recent changes from the repository,
-# update VimFlavors.lock to use the recent version of fakeclip,
-# then install the new version of the plugin into ~/.vim etc.
-vim-flavor update fakeclip
-----
+vim-flavor upgrade
 
-
-
-
-== Update all plugins to the latest version
-
-----
-vim-flavor update
+git add VimFlavor.lock
+git commit -m 'Upgrade my favorite Vim plugins'
 ----
 
 
@@ -81,16 +95,19 @@ vim-flavor update
 == Add more plugins into your dotfile repository
 
 ----
-cat >>VimFlavors <<'END'
+cat >>VimFlavor <<'END'
 
   flavor 'kana/vim-operator-replace'
 
 END
 
 # Fetch newly added plugins,
-# update VimFlavors.lock for the plugins,
+# update VimFlavor.lock for the plugins,
 # then install the plugins into ~/.vim etc.
 vim-flavor install
+
+git add VimFlavor VimFlavor.lock
+git commit -m 'Use kana/vim-operator-replace'
 ----
 
 
@@ -99,11 +116,24 @@ vim-flavor install
 == Remove plugins from your dotfile repository
 
 ----
-sed -i~ -e '/vim-smartchr/d' VimFlavors
+# Remove declarations of unused plugins from VimFlavor.
+sed -i~ -e '/vim-smartchr/d' VimFlavor
 
-# Update VimFlavors.lock for the removed plugins,
+# Update VimFlavor.lock for the removed plugins,
 # then clean up the plugins from ~/.vim etc.
 vim-flavor install
+
+git add VimFlavor VimFlavor.lock
+git commit -m 'Farewell kana/vim-smartchr'
+----
+
+
+
+
+== Install plugins into a non-standard directory
+
+----
+vim-flavor install --vimfiles-path=/cygdrive/c/Users/kana/vimfiles
 ----
 
 
