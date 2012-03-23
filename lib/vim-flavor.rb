@@ -12,6 +12,10 @@ module Vim
         @base_version, @operator = parse(s)
       end
 
+      def to_s()
+        "#{@operator} #{@base_version}"
+      end
+
       def ==(other)
         self.base_version == other.base_version &&
           self.operator == other.operator

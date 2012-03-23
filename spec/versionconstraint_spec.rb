@@ -125,4 +125,13 @@ describe Vim::Flavor::VersionConstraint do
         Gem::Version.create('2.0.0')
     end
   end
+
+  describe '#to_s' do
+    it 'should convert into a string representation' do
+      vc1 = described_class.new('~> 1.2.3')
+      described_class.new(vc1.to_s()).should == vc1
+      vc2 = described_class.new('>= 0')
+      described_class.new(vc2.to_s()).should == vc2
+    end
+  end
 end
