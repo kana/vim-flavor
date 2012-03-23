@@ -27,12 +27,16 @@ describe Vim::Flavor::Facade do
       @flavor1.repo_uri = 'git://github.com/kana/vim-smartinput.git'
       @flavor1.version_contraint =
         Vim::Flavor::VersionConstraint.new('>= 0')
+      @flavor1d = @flavor1.dup()
+      @flavor1d.locked_version = Gem::Version.create('1.2.3')
       @flavor2 = Vim::Flavor::Flavor.new()
       @flavor2.groups = [:default]
       @flavor2.repo_name = 'kana/vim-smarttill'
       @flavor2.repo_uri = 'git://github.com/kana/vim-smarttill.git'
       @flavor2.version_contraint =
         Vim::Flavor::VersionConstraint.new('>= 0')
+      @flavor2d = @flavor2.dup()
+      @flavor2d.locked_version = Gem::Version.create('4.5.6')
 
       FileUtils.mkdir_p(@tmp_path)
       File.open(@facade.flavorfile_path, 'w') do |f|
@@ -44,8 +48,12 @@ describe Vim::Flavor::Facade do
       File.open(@facade.lockfile_path, 'w') do |f|
         f.write(<<-'END')
           :flavors:
-            - foo
-            - bar
+            git://github.com/kana/vim-smartinput.git:
+              :groups:
+                - :default
+              :locked_version: 1.2.3
+              :repo_name: kana/vim-smartinput
+              :version_contraint: >= 0
         END
       end
     end
@@ -62,13 +70,17 @@ describe Vim::Flavor::Facade do
       @facade.flavorfile.flavors.keys.length == 2
       @facade.flavorfile.flavors[@flavor1.repo_uri].should == @flavor1
       @facade.flavorfile.flavors[@flavor2.repo_uri].should == @flavor2
-      @facade.lockfile.flavors.should == ['foo', 'bar']
+      @facade.lockfile.flavors.should == {
+        @flavor1d.repo_uri => @flavor1d,
+      }
     end
 
     it 'should load a lockfile if it exists' do
       @facade.load()
 
-      @facade.lockfile.flavors.should == ['foo', 'bar']
+      @facade.lockfile.flavors.should == {
+        @flavor1d.repo_uri => @flavor1d,
+      }
 
       @facade.lockfile_path = "#{@tmp_path}/VimFlavor.lock.xxx"
       @facade.load()
@@ -249,10 +261,10 @@ describe Vim::Flavor::Facade do
 
       flavor1 = Vim::Flavor::Flavor.new()
       flavor1.groups = [:default]
+      flavor1.locked_version = Gem::Version.create('1.2.3')
       flavor1.repo_name = 'kana/vim-smartinput'
       flavor1.repo_uri = 'git://github.com/kana/vim-smartinput.git'
-      flavor1.version_contraint =
-        Vim::Flavor::VersionConstraint.new('>= 0')
+      flavor1.version_contraint = Vim::Flavor::VersionConstraint.new('>= 0')
       @facade.lockfile.instance_eval do
         @flavors = {
           flavor1.repo_uri => flavor1,

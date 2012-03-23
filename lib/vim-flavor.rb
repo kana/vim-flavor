@@ -252,13 +252,33 @@ module Vim
       end
 
       def self.poro_from_flavors(flavors)
-        # TODO: Implement to hide implementation details from lock files.
-        flavors
+        Hash[
+          flavors.values.map {|f|
+            [
+              f.repo_uri,
+              {
+                :groups => f.groups,
+                :locked_version => f.locked_version.to_s(),
+                :repo_name => f.repo_name,
+                :version_contraint => f.version_contraint.to_s(),
+              }
+            ]
+          }
+        ]
       end
 
       def self.flavors_from_poro(poro)
-        # TODO: Implement to hide implementation details from lock files.
-        poro
+        Hash[
+          poro.to_a().map {|repo_uri, h|
+            f = Flavor.new()
+            f.groups = h[:groups]
+            f.locked_version = Gem::Version.create(h[:locked_version])
+            f.repo_name = h[:repo_name]
+            f.repo_uri = repo_uri
+            f.version_contraint = VersionConstraint.new(h[:version_contraint])
+            [f.repo_uri, f]
+          }
+        ]
       end
     end
 
