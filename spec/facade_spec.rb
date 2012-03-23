@@ -183,6 +183,59 @@ describe Vim::Flavor::Facade do
     end
   end
 
+  describe '#create_vim_script_for_bootstrap' do
+    before :each do
+      @facade = described_class.new()
+      @home_path = "#{Vim::Flavor::DOT_PATH}"
+      @vimfiles_path = "#{@home_path}/.vim"
+    end
+
+    after :each do
+      FileUtils.rm_rf([Vim::Flavor::DOT_PATH], :secure => true)
+    end
+
+    it 'should create a bootstrap script into a given vimfiles path' do
+      bootstrap_path = "#{@vimfiles_path.to_flavors_path()}/bootstrap.vim"
+
+      File.exists?(bootstrap_path).should be_false
+      @facade.create_vim_script_for_bootstrap(@vimfiles_path)
+      File.exists?(bootstrap_path).should be_true
+    end
+
+    it 'should create a valid bootstrap script' do
+      @facade.create_vim_script_for_bootstrap(@vimfiles_path)
+
+      _rtp = %x{
+        HOME='#{@home_path}'
+        for plugin_name in 'foo' 'bar' 'baz'
+        do
+          mkdir -p "#{@vimfiles_path.to_flavors_path()}/$plugin_name"
+        done
+        vim -u NONE -i NONE -e -s -c '
+          set nocompatible verbose=1
+          source #{@vimfiles_path}/flavors/bootstrap.vim
+          verbose echo &runtimepath
+          qall!
+        ' 2>&1
+      }
+      rtps =
+        _rtp.
+        gsub(/[\r\n]/, '').
+        split(/,/).
+        select {|p| p.start_with?(@home_path)}
+      rtps.should == [
+        "#{@home_path}/.vim",
+        "#{@home_path}/.vim/flavors/bar",
+        "#{@home_path}/.vim/flavors/baz",
+        "#{@home_path}/.vim/flavors/foo",
+        "#{@home_path}/.vim/flavors/foo/after",
+        "#{@home_path}/.vim/flavors/baz/after",
+        "#{@home_path}/.vim/flavors/bar/after",
+        "#{@home_path}/.vim/after",
+      ]
+    end
+  end
+
   describe '#deploy_flavors' do
     before :each do
       @facade = described_class.new()
@@ -197,6 +250,7 @@ describe Vim::Flavor::Facade do
       @flavors = [@flavor]
 
       @vimfiles_path = "#{Vim::Flavor::DOT_PATH}/vimfiles"
+      @bootstrap_path = "#{@vimfiles_path.to_flavors_path()}/bootstrap.vim"
     end
 
     after :each do
@@ -210,6 +264,7 @@ describe Vim::Flavor::Facade do
       end
 
       File.exists?(@vimfiles_path).should be_false
+      File.exists?(@bootstrap_path).should be_false
       @flavors.each do |f|
         File.exists?(f.make_deploy_path(@vimfiles_path)).should be_false
       end
@@ -217,6 +272,7 @@ describe Vim::Flavor::Facade do
       @facade.deploy_flavors(@flavors, @vimfiles_path)
 
       File.exists?(@vimfiles_path).should be_true
+      File.exists?(@bootstrap_path).should be_true
       @flavors.each do |f|
         File.exists?(f.make_deploy_path(@vimfiles_path)).should be_true
       end
