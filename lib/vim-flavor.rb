@@ -314,18 +314,22 @@ module Vim
           nf = cf.dup()
           lf = @lockfile.flavors[repo_uri]
 
-          if not File.exists?(nf.cached_repo_path)
-            nf.clone()
-          end
+          trace("Using #{nf.repo_name} ... ")
+          begin
+            if not File.exists?(nf.cached_repo_path)
+              nf.clone()
+            end
 
-          if mode == :upgrade_all or
-            (not lf) or
-            nf.version_contraint != lf.version_contraint then
-            nf.fetch()
-            nf.update_locked_version()
-          else
-            nf.locked_version = lf.locked_version
+            if mode == :upgrade_all or
+              (not lf) or
+              nf.version_contraint != lf.version_contraint then
+              nf.fetch()
+              nf.update_locked_version()
+            else
+              nf.locked_version = lf.locked_version
+            end
           end
+          trace("(#{nf.locked_version})\n")
 
           nfs[repo_uri] = nf
         end
