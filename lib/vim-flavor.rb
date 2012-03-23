@@ -377,6 +377,7 @@ module Vim
         :desc => 'A path to your vimfiles directory.'
       def upgrade()
         facade = Facade.new()
+        facade.traced = true
         facade.upgrade(
           options[:vimfiles_path] || facade.get_default_vimfiles_path()
         )
