@@ -366,6 +366,7 @@ module Vim
         :desc => 'A path to your vimfiles directory.'
       def install()
         facade = Facade.new()
+        facade.traced = true
         facade.install(
           options[:vimfiles_path] || facade.get_default_vimfiles_path()
         )
