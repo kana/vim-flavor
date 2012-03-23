@@ -5,6 +5,16 @@ require 'yaml'
 
 module Vim
   module Flavor
+    module StringExtension
+      def to_flavors_path()
+        "#{self}/flavors"
+      end
+    end
+
+    class ::String
+      include StringExtension
+    end
+
     class VersionConstraint
       attr_reader :base_version, :operator
 
@@ -87,7 +97,7 @@ module Vim
       end
 
       def make_deploy_path(vimfiles_path)
-        "#{vimfiles_path}/flavors/#{zapped_repo_dir_name}"
+        "#{vimfiles_path.to_flavors_path()}/#{zapped_repo_dir_name}"
       end
 
       def clone()
@@ -332,8 +342,10 @@ module Vim
       end
 
       def deploy_flavors(flavor_list, vimfiles_path)
-        # FIXME: Unify the way to get the flavors directory.
-        FileUtils.rm_rf(["#{vimfiles_path}/flavors"], :secure => true)
+        FileUtils.rm_rf(
+          ["#{vimfiles_path.to_flavors_path()}"],
+          :secure => true
+        )
         flavor_list.each do |f|
           trace("Deploying #{f.repo_name} (#{f.locked_version})\n")
           f.deploy(vimfiles_path)
