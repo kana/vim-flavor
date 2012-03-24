@@ -132,7 +132,12 @@ module Vim
             cd '#{cached_repo_path}' &&
             git checkout -f #{locked_version.inspect} &&
             git checkout-index -a -f --prefix='#{deploy_path}/' &&
-            vim -u NONE -i NONE -n -N -e -c 'helptags #{deploy_path}/doc | qall!'
+            {
+              vim -u NONE -i NONE -n -N -e -s -c '
+                silent! helptags #{deploy_path}/doc
+                qall!
+              ' || true
+            }
           } 2>&1
         ]
         if $? != 0 then

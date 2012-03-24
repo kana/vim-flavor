@@ -140,6 +140,27 @@ describe Vim::Flavor::Flavor do
       File.exists?("#{@deploy_path}/doc/tags").should be_true
     end
 
+    it 'should not :helptags if the plugin does not contain any document' do
+      create_a_test_repo(@test_repo_path)
+      @flavor.clone()
+      system(<<-"END")
+        {
+          cd '#{@flavor.cached_repo_path}' &&
+          rm -r doc &&
+          git commit -am 'Remove the document' &&
+          git tag -f '#{@flavor.locked_version}'
+        } >/dev/null 2>&1
+      END
+
+      File.exists?("#{@deploy_path}/doc").should be_false
+      File.exists?("#{@deploy_path}/doc/tags").should be_false
+
+      @flavor.deploy(@vimfiles_path)
+
+      File.exists?("#{@deploy_path}/doc").should be_false
+      File.exists?("#{@deploy_path}/doc/tags").should be_false
+    end
+
     it 'should not care about existing content' do
       create_a_test_repo(@test_repo_path)
       @flavor.clone()
