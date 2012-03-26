@@ -20,17 +20,15 @@ describe Vim::Flavor::Flavor do
   end
 
   describe '#clone' do
+    with_temporary_directory
+
     before :each do
-      @test_repo_path = "#{Vim::Flavor.dot_path}/test/origin"
+      @test_repo_path = "#{@tmp_path}/test/origin"
 
       @flavor = described_class.new()
       @flavor.repo_name = '@test_repo_path'
       @flavor.repo_uri = @test_repo_path
       @flavor.locked_version = '1.0.0'
-    end
-
-    after :each do
-      clean_up_stashed_stuffs()
     end
 
     it 'should clone the repository into a given path' do
@@ -45,17 +43,15 @@ describe Vim::Flavor::Flavor do
   end
 
   describe '#fetch' do
+    with_temporary_directory
+
     before :each do
-      @test_repo_path = "#{Vim::Flavor.dot_path}/test/origin"
+      @test_repo_path = "#{@tmp_path}/test/origin"
 
       @flavor = described_class.new()
       @flavor.repo_name = '@test_repo_path'
       @flavor.repo_uri = @test_repo_path
       @flavor.locked_version = '1.0.0'
-    end
-
-    after :each do
-      clean_up_stashed_stuffs()
     end
 
     it 'should fail if the repository is not cloned yet' do
@@ -87,20 +83,18 @@ describe Vim::Flavor::Flavor do
   end
 
   describe '#deploy' do
+    with_temporary_directory
+
     before :each do
-      @test_repo_path = "#{Vim::Flavor.dot_path}/test/origin"
+      @test_repo_path = "#{@tmp_path}/test/origin"
 
       @flavor = described_class.new()
       @flavor.repo_name = '@test_repo_path'
       @flavor.repo_uri = @test_repo_path
       @flavor.locked_version = '1.0.0'
 
-      @vimfiles_path = "#{Vim::Flavor.dot_path}/vimfiles"
+      @vimfiles_path = "#{@tmp_path}/vimfiles"
       @deploy_path = @flavor.make_deploy_path(@vimfiles_path)
-    end
-
-    after :each do
-      clean_up_stashed_stuffs()
     end
 
     it 'should deploy files of a locked version to a given path' do
@@ -179,20 +173,18 @@ describe Vim::Flavor::Flavor do
   end
 
   describe '#undeploy' do
+    with_temporary_directory
+
     before :each do
-      @test_repo_path = "#{Vim::Flavor.dot_path}/test/origin"
+      @test_repo_path = "#{@tmp_path}/test/origin"
 
       @flavor = described_class.new()
       @flavor.repo_name = '@test_repo_path'
       @flavor.repo_uri = @test_repo_path
       @flavor.locked_version = '1.0.0'
 
-      @vimfiles_path = "#{Vim::Flavor.dot_path}/vimfiles"
+      @vimfiles_path = "#{@tmp_path}/vimfiles"
       @deploy_path = @flavor.make_deploy_path(@vimfiles_path)
-    end
-
-    after :each do
-      clean_up_stashed_stuffs()
     end
 
     it 'should remove deployed files' do
@@ -209,17 +201,15 @@ describe Vim::Flavor::Flavor do
   end
 
   describe '#list_versions' do
+    with_temporary_directory
+
     before :each do
-      @test_repo_path = "#{Vim::Flavor.dot_path}/test/origin"
+      @test_repo_path = "#{@tmp_path}/test/origin"
 
       @flavor = described_class.new()
       @flavor.repo_name = '@test_repo_path'
       @flavor.repo_uri = @test_repo_path
       @flavor.locked_version = '1.0.0'
-    end
-
-    after :each do
-      clean_up_stashed_stuffs()
     end
 
     it 'should list tags as versions' do
@@ -236,17 +226,15 @@ describe Vim::Flavor::Flavor do
   end
 
   describe '#update_locked_version' do
+    with_temporary_directory
+
     before :each do
-      @test_repo_path = "#{Vim::Flavor.dot_path}/test/origin"
+      @test_repo_path = "#{@tmp_path}/test/origin"
 
       @flavor = described_class.new()
       @flavor.repo_name = '@test_repo_path'
       @flavor.repo_uri = @test_repo_path
       @flavor.locked_version = nil
-    end
-
-    after :each do
-      clean_up_stashed_stuffs()
     end
 
     it 'should update locked_version according to version_contraint' do

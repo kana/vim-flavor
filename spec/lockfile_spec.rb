@@ -1,14 +1,13 @@
 require 'bundler/setup'
 require 'fileutils'
+require 'spec_helper'
 require 'vim-flavor'
 
 describe Vim::Flavor::LockFile do
-  before :each do
-    @lockfile_path = "#{Vim::Flavor.dot_path}/VimFlavor.lock"
-  end
+  with_temporary_directory
 
-  after :each do
-    FileUtils.rm_rf([Vim::Flavor.dot_path], :secure => true)
+  before :each do
+    @lockfile_path = "#{@tmp_path}/VimFlavor.lock"
   end
 
   it 'should be initialized with a given path and no flavor' do
