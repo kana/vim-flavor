@@ -4,11 +4,11 @@ require 'vim-flavor'
 
 describe Vim::Flavor::LockFile do
   before :each do
-    @lockfile_path = "#{Vim::Flavor::DOT_PATH}/VimFlavor.lock"
+    @lockfile_path = "#{Vim::Flavor.dot_path}/VimFlavor.lock"
   end
 
   after :each do
-    FileUtils.rm_rf([Vim::Flavor::DOT_PATH], :secure => true)
+    FileUtils.rm_rf([Vim::Flavor.dot_path], :secure => true)
   end
 
   it 'should be initialized with a given path and no flavor' do

@@ -21,7 +21,7 @@ describe Vim::Flavor::Flavor do
 
   describe '#clone' do
     before :each do
-      @test_repo_path = "#{Vim::Flavor::DOT_PATH}/test/origin"
+      @test_repo_path = "#{Vim::Flavor.dot_path}/test/origin"
 
       @flavor = described_class.new()
       @flavor.repo_name = '@test_repo_path'
@@ -46,7 +46,7 @@ describe Vim::Flavor::Flavor do
 
   describe '#fetch' do
     before :each do
-      @test_repo_path = "#{Vim::Flavor::DOT_PATH}/test/origin"
+      @test_repo_path = "#{Vim::Flavor.dot_path}/test/origin"
 
       @flavor = described_class.new()
       @flavor.repo_name = '@test_repo_path'
@@ -88,14 +88,14 @@ describe Vim::Flavor::Flavor do
 
   describe '#deploy' do
     before :each do
-      @test_repo_path = "#{Vim::Flavor::DOT_PATH}/test/origin"
+      @test_repo_path = "#{Vim::Flavor.dot_path}/test/origin"
 
       @flavor = described_class.new()
       @flavor.repo_name = '@test_repo_path'
       @flavor.repo_uri = @test_repo_path
       @flavor.locked_version = '1.0.0'
 
-      @vimfiles_path = "#{Vim::Flavor::DOT_PATH}/vimfiles"
+      @vimfiles_path = "#{Vim::Flavor.dot_path}/vimfiles"
       @deploy_path = @flavor.make_deploy_path(@vimfiles_path)
     end
 
@@ -180,14 +180,14 @@ describe Vim::Flavor::Flavor do
 
   describe '#undeploy' do
     before :each do
-      @test_repo_path = "#{Vim::Flavor::DOT_PATH}/test/origin"
+      @test_repo_path = "#{Vim::Flavor.dot_path}/test/origin"
 
       @flavor = described_class.new()
       @flavor.repo_name = '@test_repo_path'
       @flavor.repo_uri = @test_repo_path
       @flavor.locked_version = '1.0.0'
 
-      @vimfiles_path = "#{Vim::Flavor::DOT_PATH}/vimfiles"
+      @vimfiles_path = "#{Vim::Flavor.dot_path}/vimfiles"
       @deploy_path = @flavor.make_deploy_path(@vimfiles_path)
     end
 
@@ -210,7 +210,7 @@ describe Vim::Flavor::Flavor do
 
   describe '#list_versions' do
     before :each do
-      @test_repo_path = "#{Vim::Flavor::DOT_PATH}/test/origin"
+      @test_repo_path = "#{Vim::Flavor.dot_path}/test/origin"
 
       @flavor = described_class.new()
       @flavor.repo_name = '@test_repo_path'
@@ -237,7 +237,7 @@ describe Vim::Flavor::Flavor do
 
   describe '#update_locked_version' do
     before :each do
-      @test_repo_path = "#{Vim::Flavor::DOT_PATH}/test/origin"
+      @test_repo_path = "#{Vim::Flavor.dot_path}/test/origin"
 
       @flavor = described_class.new()
       @flavor.repo_name = '@test_repo_path'

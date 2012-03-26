@@ -16,7 +16,7 @@ describe Vim::Flavor::Facade do
 
   describe '#load' do
     before :each do
-      @tmp_path = "#{Vim::Flavor::DOT_PATH}/tmp"
+      @tmp_path = "#{Vim::Flavor.dot_path}/tmp"
       @facade = described_class.new()
       @facade.flavorfile_path = "#{@tmp_path}/VimFlavor"
       @facade.lockfile_path = "#{@tmp_path}/VimFlavor.lock"
@@ -59,7 +59,7 @@ describe Vim::Flavor::Facade do
     end
 
     after :each do
-      FileUtils.rm_rf([Vim::Flavor::DOT_PATH], :secure => true)
+      FileUtils.rm_rf([Vim::Flavor.dot_path], :secure => true)
     end
 
     it 'should load both files' do
@@ -186,12 +186,12 @@ describe Vim::Flavor::Facade do
   describe '#create_vim_script_for_bootstrap' do
     before :each do
       @facade = described_class.new()
-      @home_path = "#{Vim::Flavor::DOT_PATH}"
+      @home_path = "#{Vim::Flavor.dot_path}"
       @vimfiles_path = "#{@home_path}/.vim"
     end
 
     after :each do
-      FileUtils.rm_rf([Vim::Flavor::DOT_PATH], :secure => true)
+      FileUtils.rm_rf([Vim::Flavor.dot_path], :secure => true)
     end
 
     it 'should create a bootstrap script into a given vimfiles path' do
@@ -240,7 +240,7 @@ describe Vim::Flavor::Facade do
     before :each do
       @facade = described_class.new()
 
-      @test_repo_path = "#{Vim::Flavor::DOT_PATH}/test/origin"
+      @test_repo_path = "#{Vim::Flavor.dot_path}/test/origin"
 
       @flavor = Vim::Flavor::Flavor.new()
       @flavor.repo_name = '@test_repo_path'
@@ -249,12 +249,12 @@ describe Vim::Flavor::Facade do
 
       @flavors = [@flavor]
 
-      @vimfiles_path = "#{Vim::Flavor::DOT_PATH}/vimfiles"
+      @vimfiles_path = "#{Vim::Flavor.dot_path}/vimfiles"
       @bootstrap_path = "#{@vimfiles_path.to_flavors_path()}/bootstrap.vim"
     end
 
     after :each do
-      FileUtils.rm_rf([Vim::Flavor::DOT_PATH], :secure => true)
+      FileUtils.rm_rf([Vim::Flavor.dot_path], :secure => true)
     end
 
     it 'should replace a given path with given flavors' do
@@ -294,7 +294,7 @@ describe Vim::Flavor::Facade do
 
   describe '#save_lockfile' do
     before :each do
-      @tmp_path = "#{Vim::Flavor::DOT_PATH}/tmp"
+      @tmp_path = "#{Vim::Flavor.dot_path}/tmp"
       @facade = described_class.new()
       @facade.flavorfile_path = "#{@tmp_path}/VimFlavor"
       @facade.lockfile_path = "#{@tmp_path}/VimFlavor.lock"
@@ -343,8 +343,8 @@ describe Vim::Flavor::Facade do
 
   describe '#complete_locked_flavors' do
     before :each do
-      @test_repo_path = "#{Vim::Flavor::DOT_PATH}/test/origin"
-      @tmp_path = "#{Vim::Flavor::DOT_PATH}/tmp"
+      @test_repo_path = "#{Vim::Flavor.dot_path}/test/origin"
+      @tmp_path = "#{Vim::Flavor.dot_path}/tmp"
       @facade = described_class.new()
       @facade.flavorfile_path = "#{@tmp_path}/VimFlavor"
       @facade.lockfile_path = "#{@tmp_path}/VimFlavor.lock"
@@ -457,9 +457,9 @@ describe Vim::Flavor::Facade do
 
   describe '#install' do
     before :each do
-      @test_repo_path = "#{Vim::Flavor::DOT_PATH}/test/origin"
-      @tmp_path = "#{Vim::Flavor::DOT_PATH}/tmp"
-      @vimfiles_path = "#{Vim::Flavor::DOT_PATH}/vimfiles"
+      @test_repo_path = "#{Vim::Flavor.dot_path}/test/origin"
+      @tmp_path = "#{Vim::Flavor.dot_path}/tmp"
+      @vimfiles_path = "#{Vim::Flavor.dot_path}/vimfiles"
       @facade = described_class.new()
       @facade.flavorfile_path = "#{@tmp_path}/VimFlavor"
       @facade.lockfile_path = "#{@tmp_path}/VimFlavor.lock"
@@ -510,9 +510,9 @@ describe Vim::Flavor::Facade do
 
   describe '#upgrade' do
     before :each do
-      @test_repo_path = "#{Vim::Flavor::DOT_PATH}/test/origin"
-      @tmp_path = "#{Vim::Flavor::DOT_PATH}/tmp"
-      @vimfiles_path = "#{Vim::Flavor::DOT_PATH}/vimfiles"
+      @test_repo_path = "#{Vim::Flavor.dot_path}/test/origin"
+      @tmp_path = "#{Vim::Flavor.dot_path}/tmp"
+      @vimfiles_path = "#{Vim::Flavor.dot_path}/vimfiles"
       @facade = described_class.new()
       @facade.flavorfile_path = "#{@tmp_path}/VimFlavor"
       @facade.lockfile_path = "#{@tmp_path}/VimFlavor.lock"

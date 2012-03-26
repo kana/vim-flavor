@@ -36,5 +36,5 @@ def update_a_test_repo(path)
 end
 
 def clean_up_stashed_stuffs()
-  FileUtils.rm_rf([Vim::Flavor::DOT_PATH], :secure => true)
+  FileUtils.rm_rf([Vim::Flavor.dot_path], :secure => true)
 end
