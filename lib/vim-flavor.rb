@@ -61,8 +61,17 @@ module Vim
       end
     end
 
-    DOT_PATH = "#{Dir.getwd()}/.vim-flavor"
-    CACHED_REPOS_PATH = "#{DOT_PATH}/repos"
+    class << self
+      @@dot_path = "#{Dir.getwd()}/.vim-flavor"
+
+      def dot_path
+        @@dot_path
+      end
+
+      def dot_path= path
+        @@dot_path = path
+      end
+    end
 
     class Flavor
       @@properties = [
@@ -94,7 +103,7 @@ module Vim
 
       def cached_repo_path
         @cached_repo_path ||=
-          "#{CACHED_REPOS_PATH}/#{zapped_repo_dir_name}"
+          "#{Vim::Flavor.dot_path}/repos/#{zapped_repo_dir_name}"
       end
 
       def make_deploy_path(vimfiles_path)

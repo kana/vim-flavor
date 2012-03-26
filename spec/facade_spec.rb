@@ -15,8 +15,9 @@ describe Vim::Flavor::Facade do
   end
 
   describe '#load' do
+    with_temporary_directory
+
     before :each do
-      @tmp_path = "#{Vim::Flavor::DOT_PATH}/tmp"
       @facade = described_class.new()
       @facade.flavorfile_path = "#{@tmp_path}/VimFlavor"
       @facade.lockfile_path = "#{@tmp_path}/VimFlavor.lock"
@@ -38,7 +39,6 @@ describe Vim::Flavor::Facade do
       @flavor2d = @flavor2.dup()
       @flavor2d.locked_version = Gem::Version.create('4.5.6')
 
-      FileUtils.mkdir_p(@tmp_path)
       File.open(@facade.flavorfile_path, 'w') do |f|
         f.write(<<-'END')
           flavor 'kana/vim-smartinput'
@@ -56,10 +56,6 @@ describe Vim::Flavor::Facade do
               :version_contraint: >= 0
         END
       end
-    end
-
-    after :each do
-      FileUtils.rm_rf([Vim::Flavor::DOT_PATH], :secure => true)
     end
 
     it 'should load both files' do
@@ -184,14 +180,17 @@ describe Vim::Flavor::Facade do
   end
 
   describe '#create_vim_script_for_bootstrap' do
+    with_temporary_directory
+
     before :each do
       @facade = described_class.new()
-      @home_path = "#{Vim::Flavor::DOT_PATH}"
+      @home_path =
+        if File.symlink?(@tmp_path)
+          File.readlink(@tmp_path)
+        else
+          @tmp_path
+        end
       @vimfiles_path = "#{@home_path}/.vim"
-    end
-
-    after :each do
-      FileUtils.rm_rf([Vim::Flavor::DOT_PATH], :secure => true)
     end
 
     it 'should create a bootstrap script into a given vimfiles path' do
@@ -213,34 +212,40 @@ describe Vim::Flavor::Facade do
         done
         vim -u NONE -i NONE -e -s -c '
           set nocompatible verbose=1
+          let vimfiles_path = split(&runtimepath, ",")[0]
           source #{@vimfiles_path}/flavors/bootstrap.vim
-          verbose echo &runtimepath
+          for path in split(&runtimepath, ",")
+            if stridx(path, vimfiles_path) == 0
+              echo substitute(path, vimfiles_path, "!", "")
+            endif
+          endfor
           qall!
         ' 2>&1
       }
       rtps =
         _rtp.
-        gsub(/[\r\n]/, '').
-        split(/,/).
-        select {|p| p.start_with?(@home_path)}
+        split(/[\r\n]/).
+        select {|p| p != ''}
       rtps.should == [
-        "#{@home_path}/.vim",
-        "#{@home_path}/.vim/flavors/bar",
-        "#{@home_path}/.vim/flavors/baz",
-        "#{@home_path}/.vim/flavors/foo",
-        "#{@home_path}/.vim/flavors/foo/after",
-        "#{@home_path}/.vim/flavors/baz/after",
-        "#{@home_path}/.vim/flavors/bar/after",
-        "#{@home_path}/.vim/after",
+        '!',
+        '!/flavors/bar',
+        '!/flavors/baz',
+        '!/flavors/foo',
+        '!/flavors/foo/after',
+        '!/flavors/baz/after',
+        '!/flavors/bar/after',
+        '!/after',
       ]
     end
   end
 
   describe '#deploy_flavors' do
+    with_temporary_directory
+
     before :each do
       @facade = described_class.new()
 
-      @test_repo_path = "#{Vim::Flavor::DOT_PATH}/test/origin"
+      @test_repo_path = "#{@tmp_path}/test/origin"
 
       @flavor = Vim::Flavor::Flavor.new()
       @flavor.repo_name = '@test_repo_path'
@@ -249,12 +254,8 @@ describe Vim::Flavor::Facade do
 
       @flavors = [@flavor]
 
-      @vimfiles_path = "#{Vim::Flavor::DOT_PATH}/vimfiles"
+      @vimfiles_path = "#{@tmp_path}/vimfiles"
       @bootstrap_path = "#{@vimfiles_path.to_flavors_path()}/bootstrap.vim"
-    end
-
-    after :each do
-      FileUtils.rm_rf([Vim::Flavor::DOT_PATH], :secure => true)
     end
 
     it 'should replace a given path with given flavors' do
@@ -293,21 +294,17 @@ describe Vim::Flavor::Facade do
   end
 
   describe '#save_lockfile' do
+    with_temporary_directory
+
     before :each do
-      @tmp_path = "#{Vim::Flavor::DOT_PATH}/tmp"
       @facade = described_class.new()
       @facade.flavorfile_path = "#{@tmp_path}/VimFlavor"
       @facade.lockfile_path = "#{@tmp_path}/VimFlavor.lock"
 
-      FileUtils.mkdir_p(@tmp_path)
       File.open(@facade.flavorfile_path, 'w') do |f|
         f.write(<<-'END')
         END
       end
-    end
-
-    after :each do
-      clean_up_stashed_stuffs()
     end
 
     it 'should save locked flavors' do
@@ -342,24 +339,20 @@ describe Vim::Flavor::Facade do
   end
 
   describe '#complete_locked_flavors' do
+    with_temporary_directory
+
     before :each do
-      @test_repo_path = "#{Vim::Flavor::DOT_PATH}/test/origin"
-      @tmp_path = "#{Vim::Flavor::DOT_PATH}/tmp"
+      @test_repo_path = "#{@tmp_path}/test/origin"
       @facade = described_class.new()
       @facade.flavorfile_path = "#{@tmp_path}/VimFlavor"
       @facade.lockfile_path = "#{@tmp_path}/VimFlavor.lock"
 
       create_a_test_repo(@test_repo_path)
-      FileUtils.mkdir_p(@tmp_path)
       File.open(@facade.flavorfile_path, 'w') do |f|
         f.write(<<-"END")
           flavor 'file://#{@test_repo_path}', '~> 1.1.1'
         END
       end
-    end
-
-    after :each do
-      clean_up_stashed_stuffs()
     end
 
     it 'should complete flavors if they are not locked' do
@@ -456,25 +449,21 @@ describe Vim::Flavor::Facade do
   end
 
   describe '#install' do
+    with_temporary_directory
+
     before :each do
-      @test_repo_path = "#{Vim::Flavor::DOT_PATH}/test/origin"
-      @tmp_path = "#{Vim::Flavor::DOT_PATH}/tmp"
-      @vimfiles_path = "#{Vim::Flavor::DOT_PATH}/vimfiles"
+      @test_repo_path = "#{@tmp_path}/test/origin"
+      @vimfiles_path = "#{@tmp_path}/vimfiles"
       @facade = described_class.new()
       @facade.flavorfile_path = "#{@tmp_path}/VimFlavor"
       @facade.lockfile_path = "#{@tmp_path}/VimFlavor.lock"
 
       create_a_test_repo(@test_repo_path)
-      FileUtils.mkdir_p(@tmp_path)
       File.open(@facade.flavorfile_path, 'w') do |f|
         f.write(<<-"END")
           flavor 'file://#{@test_repo_path}', '~> 1.1.1'
         END
       end
-    end
-
-    after :each do
-      clean_up_stashed_stuffs()
     end
 
     it 'should install Vim plugins according to VimFlavor' do
@@ -509,25 +498,21 @@ describe Vim::Flavor::Facade do
   end
 
   describe '#upgrade' do
+    with_temporary_directory
+
     before :each do
-      @test_repo_path = "#{Vim::Flavor::DOT_PATH}/test/origin"
-      @tmp_path = "#{Vim::Flavor::DOT_PATH}/tmp"
-      @vimfiles_path = "#{Vim::Flavor::DOT_PATH}/vimfiles"
+      @test_repo_path = "#{@tmp_path}/test/origin"
+      @vimfiles_path = "#{@tmp_path}/vimfiles"
       @facade = described_class.new()
       @facade.flavorfile_path = "#{@tmp_path}/VimFlavor"
       @facade.lockfile_path = "#{@tmp_path}/VimFlavor.lock"
 
       create_a_test_repo(@test_repo_path)
-      FileUtils.mkdir_p(@tmp_path)
       File.open(@facade.flavorfile_path, 'w') do |f|
         f.write(<<-"END")
           flavor 'file://#{@test_repo_path}', '~> 1.1.1'
         END
       end
-    end
-
-    after :each do
-      clean_up_stashed_stuffs()
     end
 
     it 'should upgrade Vim plugins according to VimFlavor' do
