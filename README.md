@@ -189,7 +189,8 @@ See the LICENSE file for the details.
 
 ## Author
 
-Kana Natsuno \<http://whileimautomaton.net/\>
+* [Kana Natsuno](http://whileimautomaton.net/)
+  (also known as [@kana1](http://twitter.com/kana1))
 
 
 
