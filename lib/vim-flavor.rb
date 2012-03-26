@@ -62,7 +62,7 @@ module Vim
     end
 
     class << self
-      @@dot_path = "#{Dir.getwd()}/.vim-flavor"
+      @@dot_path = File.expand_path('~/.vim-flavor')
 
       def dot_path
         @@dot_path
