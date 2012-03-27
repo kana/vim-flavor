@@ -28,6 +28,50 @@
     gem install vim-flavor
 
 
+### Installable plugins
+
+Not all Vim plugins can be installed with vim-flavor.
+vim-flavor can install plugins which meet the following conditions:
+
+* Plugins must have dedicated Git repositories.
+  vim-flavor does not support other version control systems.
+  This is an intentional design.  Because:
+  * [vim-scripts.org](http://vim-scripts.org/) provides
+    [a comprehensive Git mirrors](https://github.com/vim-scripts) for
+    [plugins uploaded to www.vim.org](http://www.vim.org/scripts/index.php).
+  * Experimental plugins which are not uploaded to www.vim.org
+    are usually found in [GitHub](https://github.com/).
+* Plugins must follow [the versioning pocilies of
+  RubyGems](http://docs.rubygems.org/read/chapter/7#page26) and have "version"
+  tags in their repositories.  For example, if there is the version 1.2.3 of
+  a plugin, its repository must have the tag `1.2.3`, and the files of the
+  version 1.2.3 can be checked out via the tag `1.2.3`.  In other words,
+  plugins which do not have proper tags are not installabe.
+  This is an intentional design.  Because:
+  * It's not possible to determine whether two versions are compatible or not
+    without "version" tags.  Compatibility is a big problem to resolve
+    dependencies of plugins.  For example, if plugin A requires plugin X 1.2.3
+    or later while plugin B requires plugin X 2.0 or later, it's not possible
+    to use A and B at the same time.  Such problems should be detected before
+    installing plugins.
+  * Git mirrors by vim-scripts.org are tagged with version numbers.
+  * Some Git repositories might not have "version" tags.
+    Such plugins are not ready to use for everyone.
+    So that it should not be installable.
+* Plugins must have proper directory structures.
+  For example, directories such as `autoload`, `syntax` etc should exist in
+  the roots of plugins.
+  This is an intentional design.  Because:
+  * Git mirrors by vim-scripts.org have proper directory structures even if
+    the original plugins are uploaded to www.vim.org without proper directory
+    structures.  (A good example is
+    [a.vim](http://www.vim.org/scripts/script.php?script_id=31) and
+    [its mirror](https://github.com/vim-scripts/a.vim).)
+  * Other Git repositoris might not have proper directory structures.
+    Such plugins are not ready to use for everyone.
+    So that it should not be installable.
+
+
 
 
 ## Typical usage
