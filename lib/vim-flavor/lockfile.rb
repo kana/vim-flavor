@@ -1,3 +1,5 @@
+require 'yaml'
+
 module Vim
   module Flavor
     class LockFile

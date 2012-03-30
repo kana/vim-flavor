@@ -1,3 +1,5 @@
+require 'thor'
+
 module Vim
   module Flavor
     class CLI < Thor

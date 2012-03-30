@@ -1,7 +1,4 @@
 require 'bundler/setup'
-require 'fileutils'
-require 'thor'
-require 'yaml'
 
 module Vim
   module Flavor

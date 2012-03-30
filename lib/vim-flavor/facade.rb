@@ -1,3 +1,5 @@
+require 'fileutils'
+
 module Vim
   module Flavor
     class Facade
