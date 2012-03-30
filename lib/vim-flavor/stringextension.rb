@@ -5,9 +5,5 @@ module Vim
         "#{self}/flavors"
       end
     end
-
-    class ::String
-      include StringExtension
-    end
   end
 end

@@ -1,18 +1,27 @@
 require 'bundler/setup'
 require 'fileutils'
 require 'thor'
-require 'vim-flavor/cli'
-require 'vim-flavor/facade'
-require 'vim-flavor/flavor'
-require 'vim-flavor/flavorfile'
-require 'vim-flavor/lockfile'
-require 'vim-flavor/stringextension'
-require 'vim-flavor/version'
-require 'vim-flavor/versionconstraint'
 require 'yaml'
 
 module Vim
   module Flavor
+    [
+      :CLI,
+      :Facade,
+      :Flavor,
+      :FlavorFile,
+      :LockFile,
+      :StringExtension,
+      :VERSION,
+      :VersionConstraint,
+    ].each do |name|
+      autoload name, "vim-flavor/#{name.to_s().downcase()}"
+    end
+
+    class ::String
+      include StringExtension
+    end
+
     class << self
       @@dot_path = File.expand_path('~/.vim-flavor')
 
