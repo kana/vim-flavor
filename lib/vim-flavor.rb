@@ -3,55 +3,11 @@ require 'fileutils'
 require 'thor'
 require 'vim-flavor/stringextension'
 require 'vim-flavor/version'
+require 'vim-flavor/versionconstraint'
 require 'yaml'
 
 module Vim
   module Flavor
-    class VersionConstraint
-      attr_reader :base_version, :operator
-
-      def initialize(s)
-        @base_version, @operator = parse(s)
-      end
-
-      def to_s()
-        "#{@operator} #{@base_version}"
-      end
-
-      def ==(other)
-        self.base_version == other.base_version &&
-          self.operator == other.operator
-      end
-
-      def parse(s)
-        m = /^\s*(>=|~>)\s+(\S+)$/.match(s)
-        if m then
-          [Gem::Version.create(m[2]), m[1]]
-        else
-          raise "Invalid version constraint: #{s.inspect}"
-        end
-      end
-
-      def compatible?(other_version_or_s)
-        v = Gem::Version.create(other_version_or_s)
-        if @operator == '~>' then
-          self.base_version.bump() > v and v >= self.base_version
-        elsif @operator == '>=' then
-          v >= self.base_version
-        else
-          raise NotImplementedError
-        end
-      end
-
-      def find_the_best_version(versions)
-        versions.
-          select {|v| compatible?(v)}.
-          sort().
-          reverse().
-          first
-      end
-    end
-
     class << self
       @@dot_path = File.expand_path('~/.vim-flavor')
 
