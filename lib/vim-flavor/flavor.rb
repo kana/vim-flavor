@@ -66,7 +66,7 @@ module Vim
         message = %x[
           {
             cd '#{cached_repo_path}' &&
-            git checkout -f #{locked_version.inspect} &&
+            git checkout -f '#{locked_version}' &&
             git checkout-index -a -f --prefix='#{deploy_path}/' &&
             {
               vim -u NONE -i NONE -n -N -e -s -c '

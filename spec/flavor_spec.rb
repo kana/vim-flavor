@@ -28,7 +28,7 @@ describe Vim::Flavor::Flavor do
       @flavor = described_class.new()
       @flavor.repo_name = '@test_repo_path'
       @flavor.repo_uri = @test_repo_path
-      @flavor.locked_version = '1.0.0'
+      @flavor.locked_version = Gem::Version.create('1.0.0')
     end
 
     it 'should clone the repository into a given path' do
@@ -51,7 +51,7 @@ describe Vim::Flavor::Flavor do
       @flavor = described_class.new()
       @flavor.repo_name = '@test_repo_path'
       @flavor.repo_uri = @test_repo_path
-      @flavor.locked_version = '1.0.0'
+      @flavor.locked_version = Gem::Version.create('1.0.0')
     end
 
     it 'should fail if the repository is not cloned yet' do
@@ -91,7 +91,7 @@ describe Vim::Flavor::Flavor do
       @flavor = described_class.new()
       @flavor.repo_name = '@test_repo_path'
       @flavor.repo_uri = @test_repo_path
-      @flavor.locked_version = '1.0.0'
+      @flavor.locked_version = Gem::Version.create('1.0.0')
 
       @vimfiles_path = "#{@tmp_path}/vimfiles"
       @deploy_path = @flavor.make_deploy_path(@vimfiles_path)
@@ -117,7 +117,7 @@ describe Vim::Flavor::Flavor do
       $?.should == 0
       tag_id = %x{
         cd #{@flavor.cached_repo_path.inspect} &&
-        git rev-list -n1 #{@flavor.locked_version.inspect}
+        git rev-list -n1 '#{@flavor.locked_version}'
       }
       $?.should == 0
       head_id.should == tag_id
@@ -181,7 +181,7 @@ describe Vim::Flavor::Flavor do
       @flavor = described_class.new()
       @flavor.repo_name = '@test_repo_path'
       @flavor.repo_uri = @test_repo_path
-      @flavor.locked_version = '1.0.0'
+      @flavor.locked_version = Gem::Version.create('1.0.0')
 
       @vimfiles_path = "#{@tmp_path}/vimfiles"
       @deploy_path = @flavor.make_deploy_path(@vimfiles_path)
@@ -209,7 +209,7 @@ describe Vim::Flavor::Flavor do
       @flavor = described_class.new()
       @flavor.repo_name = '@test_repo_path'
       @flavor.repo_uri = @test_repo_path
-      @flavor.locked_version = '1.0.0'
+      @flavor.locked_version = Gem::Version.create('1.0.0')
     end
 
     it 'should list tags as versions' do
