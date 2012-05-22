@@ -106,7 +106,7 @@ module Vim
 
         tags.
           split(/[\r\n]/).
-          select {|t| t != ''}.
+          select {|t| t != '' && Gem::Version.correct?(t)}.
           map {|t| Gem::Version.create(t)}
       end
 

@@ -20,6 +20,10 @@ def create_a_test_repo(path)
         git commit -am 'Update foo'
         git tag -a -m "Version $version" "$version"
       done
+      for non_version in 'foo' 'bar' 'baz'
+      do
+        git tag -a -m "Non-version $non_version" "$non_version"
+      done
     } >/dev/null
   END
 end
