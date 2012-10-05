@@ -39,7 +39,7 @@ module Vim
           nf.locked_version =
             if (not lf) or
               cf.version_contraint != lf.version_contraint or
-              mode == :update then
+              mode == :update
               cf.locked_version
             else
               lf.locked_version
@@ -88,8 +88,7 @@ module Vim
       def deploy_flavors(flavor_list, vimfiles_path)
         FileUtils.rm_rf(
           ["#{vimfiles_path.to_flavors_path()}"],
-          :secure => true
-        )
+          secure: true)
 
         create_vim_script_for_bootstrap(vimfiles_path)
         flavor_list.each do |f|
@@ -110,13 +109,11 @@ module Vim
 
           trace("Using #{nf.repo_name} ... ")
           begin
-            if not File.exists?(nf.cached_repo_path)
-              nf.clone()
-            end
+            nf.clone() unless File.exists?(nf.cached_repo_path)
 
             if mode == :upgrade_all or
               (not lf) or
-              nf.version_contraint != lf.version_contraint then
+              nf.version_contraint != lf.version_contraint
               nf.fetch()
               nf.update_locked_version()
             else
