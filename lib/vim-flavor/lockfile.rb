@@ -13,8 +13,8 @@ module Vim
       end
 
       def load()
-        h = File.open(@path, 'rb') do |f|
-          YAML.load(f.read())
+        h = File.open(@path, 'rb') do |io|
+          YAML.load(io.read())
         end
 
         @flavors = self.class.flavors_from_poro(h[:flavors])
@@ -25,8 +25,8 @@ module Vim
 
         h[:flavors] = self.class.poro_from_flavors(@flavors)
 
-        File.open(@path, 'wb') do |f|
-          YAML.dump(h, f)
+        File.open(@path, 'wb') do |io|
+          YAML.dump(h, io)
         end
       end
 
@@ -36,10 +36,10 @@ module Vim
             [
               f.repo_uri,
               {
-                :groups => f.groups,
-                :locked_version => f.locked_version.to_s(),
-                :repo_name => f.repo_name,
-                :version_contraint => f.version_contraint.to_s(),
+                groups: f.groups,
+                locked_version: f.locked_version.to_s(),
+                repo_name: f.repo_name,
+                version_contraint: f.version_contraint.to_s(),
               }
             ]
           }

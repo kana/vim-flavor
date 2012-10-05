@@ -22,13 +22,13 @@ module Vim
       end
 
       def repo_uri_from_repo_name(repo_name)
-        if /^([^\/]+)$/.match(repo_name) then
+        if /^([^\/]+)$/.match(repo_name)
           m = Regexp.last_match
           "git://github.com/vim-scripts/#{m[1]}.git"
-        elsif /^([A-Za-z0-9_-]+)\/(.*)$/.match(repo_name) then
+        elsif /^([A-Za-z0-9_-]+)\/(.*)$/.match(repo_name)
           m = Regexp.last_match
           "git://github.com/#{m[1]}/#{m[2]}.git"
-        elsif /^[a-z]+:\/\/.*$/.match(repo_name) then
+        elsif /^[a-z]+:\/\/.*$/.match(repo_name)
           repo_name
         else
           raise "repo_name is written in invalid format: #{repo_name.inspect}"
