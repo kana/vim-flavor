@@ -37,7 +37,7 @@ vim-flavor can install plugins which meet the following conditions:
   vim-flavor does not support other version control systems.
   This is an intentional design.  Because:
   * [vim-scripts.org](http://vim-scripts.org/) provides
-    [a comprehensive Git mirrors](https://github.com/vim-scripts) for
+    [comprehensive Git mirrors](https://github.com/vim-scripts) for
     [plugins uploaded to www.vim.org](http://www.vim.org/scripts/index.php).
   * Experimental plugins which are not uploaded to www.vim.org
     are usually found in [GitHub](https://github.com/).
@@ -46,7 +46,7 @@ vim-flavor can install plugins which meet the following conditions:
   tags in their repositories.  For example, if there is the version 1.2.3 of
   a plugin, its repository must have the tag `1.2.3`, and the files of the
   version 1.2.3 can be checked out via the tag `1.2.3`.  In other words,
-  plugins which do not have proper tags are not installabe.
+  plugins which do not have proper tags are not installable.
   This is an intentional design.  Because:
   * It's not possible to determine whether two versions are compatible or not
     without "version" tags.  Compatibility is a big problem to resolve
@@ -67,7 +67,7 @@ vim-flavor can install plugins which meet the following conditions:
     structures.  (A good example is
     [a.vim](http://www.vim.org/scripts/script.php?script_id=31) and
     [its mirror](https://github.com/vim-scripts/a.vim).)
-  * Other Git repositoris might not have proper directory structures.
+  * Other Git repositories might not have proper directory structures.
     Such plugins are not ready to use for everyone.
     So that it should not be installable.
 
@@ -184,7 +184,7 @@ vim-flavor can install plugins which meet the following conditions:
 
 I know that there are several implementations for the same purpose and many
 users love them, but all of them do not meet my taste.  That's why I wrote
-vim-flavor.  The philosofy on vim-flavor is as follows:
+vim-flavor.  The philosophy on vim-flavor is as follows:
 
 Whole configuration including *versions of plugins* should be under a version
 control system.  All of existing implementations do not manage versions of
@@ -204,14 +204,14 @@ versions.  This means that vim-flavor installs plugins and their dependencies
 automatically (unfortunately this feature is not implemented yet, but it'll be
 available soon).
 
-Any software should have enough and reproducable test cases.
+Any software should have enough and reproducible test cases.
 But existing implementations such as
 [vundle](https://github.com/gmarik/vundle) and
 [neobundle](https://github.com/Shougo/neobundle.vim) are not developed so.
 It's horrible for me.
 
-Installation steps should be small, be reproducable, and not affect existing
-envinronment as less as possible.  Most of existing implementations require to
+Installation steps should be small, be reproducible, and not affect existing
+environment as less as possible.  Most of existing implementations require to
 manually tweak `~/.vim` etc.  It's painful to set up such stuffs manually
 because a vimfiles path is varied on each platform.
 
