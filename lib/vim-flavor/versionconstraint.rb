@@ -39,9 +39,7 @@ module Vim
       def find_the_best_version(versions)
         versions.
           select {|v| compatible?(v)}.
-          sort().
-          reverse().
-          first
+          max()
       end
     end
   end
