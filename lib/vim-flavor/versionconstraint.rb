@@ -18,7 +18,7 @@ module Vim
 
       def parse(s)
         m = /^\s*(>=|~>)\s+(\S+)$/.match(s)
-        if m then
+        if m
           [Gem::Version.create(m[2]), m[1]]
         else
           raise "Invalid version constraint: #{s.inspect}"
@@ -27,9 +27,9 @@ module Vim
 
       def compatible?(other_version_or_s)
         v = Gem::Version.create(other_version_or_s)
-        if @operator == '~>' then
+        if @operator == '~>'
           self.base_version.bump() > v and v >= self.base_version
-        elsif @operator == '>=' then
+        elsif @operator == '>='
           v >= self.base_version
         else
           raise NotImplementedError

@@ -43,7 +43,7 @@ module Vim
             git clone '#{@repo_uri}' '#{cached_repo_path}'
           } 2>&1
         ]
-        if $? != 0 then
+        if $? != 0
           raise RuntimeError, message
         end
         true
@@ -56,7 +56,7 @@ module Vim
             git fetch origin
           } 2>&1
         ]
-        if $? != 0 then
+        if $? != 0
           raise RuntimeError, message
         end
       end
@@ -76,7 +76,7 @@ module Vim
             }
           } 2>&1
         ]
-        if $? != 0 then
+        if $? != 0
           raise RuntimeError, message
         end
       end
@@ -88,7 +88,7 @@ module Vim
             rm -fr '#{deploy_path}'
           } 2>&1
         ]
-        if $? != 0 then
+        if $? != 0
           raise RuntimeError, message
         end
       end
@@ -100,7 +100,7 @@ module Vim
             git tag
           } 2>&1
         ]
-        if $? != 0 then
+        if $? != 0
           raise RuntimeError, message
         end
 
