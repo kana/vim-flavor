@@ -17,5 +17,6 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency('thor', '~> 0.14.6')
 
+  gem.add_development_dependency('cucumber', '~> 1.2')
   gem.add_development_dependency('rspec', '~> 2.8')
 end
