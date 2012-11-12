@@ -35,6 +35,7 @@ Given /^a repository '(.+)' with versions '(.+)'$/ do |basename, versions|
 end
 
 Given 'flavorfile' do |content|
+  create_file '$tmp/VimFlavor', content
 end
 
 Given 'lockfile' do |content|
