@@ -68,4 +68,8 @@ Then /^I get a bootstrap script in '(.+)'$/ do |virtual_path|
 end
 
 Then /^I get flavor '(.+)' with '(.+)' in '(.+)'$/ do |basename, version, virtual_path|
+  repo_name = expand("file://$tmp/repos/#{basename}")
+  flavor_path = expand("#{virtual_path.to_vimfiles_path.to_flavors_path}/#{repo_name.zap}")
+  File.open("#{flavor_path}/doc/#{basename}.txt", 'r').read().should ==
+    "*#{basename}* #{version}\n"
 end
