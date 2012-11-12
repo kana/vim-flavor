@@ -39,6 +39,7 @@ Given 'flavorfile' do |content|
 end
 
 Given 'lockfile' do |content|
+  create_file '$tmp/VimFlavor.lock', content
 end
 
 When /^I run vim-flavor with '(.+)'$/ do |args|
