@@ -1,4 +1,12 @@
+require 'fileutils'
+require 'tmpdir'
+
 Given /^a temporary directory called '(.+)'$/ do |name|
+  path = Dir.mktmpdir
+  at_exit do
+    FileUtils.remove_entry_secure path
+  end
+  directory_table[name] = path
 end
 
 Given /^a home directory called '(.+)' in '(.+)'$/ do |name, virtual_path|
