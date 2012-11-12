@@ -59,6 +59,12 @@ Then 'I get lockfile' do |content|
 end
 
 Then /^I get a bootstrap script in '(.+)'$/ do |virtual_path|
+  File.should exist(
+    expand(virtual_path).
+    to_vimfiles_path.
+    to_flavors_path.
+    to_bootstrap_path
+  )
 end
 
 Then /^I get flavor '(.+)' with '(.+)' in '(.+)'$/ do |basename, version, virtual_path|
