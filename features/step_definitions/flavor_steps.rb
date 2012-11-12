@@ -16,6 +16,22 @@ Given /^a home directory called '(.+)' in '(.+)'$/ do |name, virtual_path|
 end
 
 Given /^a repository '(.+)' with versions '(.+)'$/ do |basename, versions|
+  repository_path = expand("$tmp/repos/#{basename}")
+  system <<-"END"
+    {
+      mkdir -p '#{repository_path}' &&
+      cd '#{repository_path}' &&
+      git init &&
+      mkdir doc &&
+      for v in #{versions}
+      do
+        echo "*#{basename}* $v" >'doc/#{basename}.txt'
+        git add doc
+        git commit -m "Version $v"
+        git tag -m "Version $v" "$v"
+      done
+    } >/dev/null
+  END
 end
 
 Given 'flavorfile' do |content|
