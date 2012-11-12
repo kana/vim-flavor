@@ -43,6 +43,15 @@ Given 'lockfile' do |content|
 end
 
 When /^I run vim-flavor with '(.+)'$/ do |args|
+  begin
+    original_home = ENV['HOME']
+    ENV['HOME'] = expand('$home')
+    Dir.chdir(expand('$tmp')) do
+      Vim::Flavor::CLI.start(args.split(/\s+/).map {|a| expand(a)})
+    end
+  ensure
+    ENV['HOME'] = original_home
+  end
 end
 
 Then 'I get lockfile' do |content|
