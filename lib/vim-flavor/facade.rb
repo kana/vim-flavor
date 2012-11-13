@@ -26,7 +26,7 @@ module Vim
       end
 
       def create_vim_script_for_bootstrap(vimfiles_path)
-        bootstrap_path = "#{vimfiles_path.to_flavors_path}/bootstrap.vim"
+        bootstrap_path = vimfiles_path.to_flavors_path.to_bootstrap_path
         FileUtils.mkdir_p(File.dirname(bootstrap_path))
         File.open(bootstrap_path, 'w') do |f|
           f.write(<<-'END')
