@@ -4,6 +4,7 @@ module Vim
   module Flavor
     [
       :CLI,
+      :Facade,
       :VERSION,
     ].each do |name|
       autoload name, "vim-flavor/#{name.to_s().downcase()}"
