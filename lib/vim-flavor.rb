@@ -6,6 +6,7 @@ module Vim
       :CLI,
       :Facade,
       :FlavorFile,
+      :LockFile,
       :StringExtension,
       :VERSION,
     ].each do |name|
