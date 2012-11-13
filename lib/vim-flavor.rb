@@ -5,6 +5,7 @@ module Vim
     [
       :CLI,
       :Facade,
+      :Flavor,
       :FlavorFile,
       :LockFile,
       :StringExtension,
