@@ -22,8 +22,18 @@ module Vim
         # TODO: Implement.
       end
 
+      def self.serialize_lock_status(flavor)
+        ["#{flavor.repo_name} (#{flavor.locked_version})"]
+      end
+
       def save()
-        # TODO: Implement.
+        File.open(@path, 'w') do |io|
+          lines = flavors.flat_map {|f| self.class.serialize_lock_status(f)}
+          lines.each do |line|
+            io.write(line)
+            io.write("\n")
+          end
+        end
       end
     end
   end
