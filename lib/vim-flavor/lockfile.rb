@@ -10,6 +10,10 @@ module Vim
         @flavor_table ||= {}
       end
 
+      def flavors
+        flavor_table.values.sort_by {|f| f.repo_name}
+      end
+
       def update(completed_flavor_table)
         # TODO: Implement.
       end
