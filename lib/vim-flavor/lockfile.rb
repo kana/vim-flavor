@@ -5,6 +5,10 @@ module Vim
         # TODO: Implement.
         new()
       end
+
+      def flavor_table
+        @flavor_table ||= {}
+      end
     end
   end
 end
