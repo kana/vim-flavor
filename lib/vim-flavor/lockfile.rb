@@ -3,7 +3,11 @@ module Vim
     class LockFile
       def self.load_or_new(lockfile_path)
         # TODO: Implement.
-        new()
+        new(lockfile_path)
+      end
+
+      def initialize(path)
+        @path = path
       end
 
       def flavor_table
