@@ -38,6 +38,13 @@ module Vim
 
         completed_flavor_table
       end
+
+      def flavor(repo_name, version_constraint='>= 0')
+        f = Flavor.new()
+        f.repo_name = repo_name
+        f.version_constraint = VersionConstraint.new(version_constraint)
+        flavor_table[f.repo_name] = f
+      end
     end
   end
 end
