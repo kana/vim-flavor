@@ -5,6 +5,12 @@ module Vim
         @flavor_table
       end
 
+      def self.load(flavorfile_path)
+        ff = new()
+        ff.load(flavorfile_path)
+        ff
+      end
+
       def load(flavorfile_path)
         # TODO: Load flavorfile_path.
         @flavor_table = {}
