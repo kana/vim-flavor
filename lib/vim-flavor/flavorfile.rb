@@ -1,8 +1,9 @@
 module Vim
   module Flavor
     class FlavorFile
+      # repo_name -> flavor
       def flavor_table
-        @flavor_table
+        @flavor_table ||= {}
       end
 
       def self.load(flavorfile_path)
@@ -13,7 +14,6 @@ module Vim
 
       def load(flavorfile_path)
         # TODO: Load flavorfile_path.
-        @flavor_table = {}
       end
 
       def complete(locked_flavor_table)
