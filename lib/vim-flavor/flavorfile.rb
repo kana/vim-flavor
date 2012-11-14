@@ -1,6 +1,10 @@
 module Vim
   module Flavor
     class FlavorFile
+      def flavor_table
+        @flavor_table
+      end
+
       def load(flavorfile_path)
         # TODO: Load flavorfile_path.
         @flavor_table = {}
