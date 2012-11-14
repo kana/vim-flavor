@@ -10,6 +10,7 @@ module Vim
       :LockFile,
       :StringExtension,
       :VERSION,
+      :VersionConstraint,
     ].each do |name|
       autoload name, "vim-flavor/#{name.to_s().downcase()}"
     end
