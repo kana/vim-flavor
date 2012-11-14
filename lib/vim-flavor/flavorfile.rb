@@ -1,6 +1,11 @@
 module Vim
   module Flavor
     class FlavorFile
+      def load(flavorfile_path)
+        # TODO: Load flavorfile_path.
+        @flavor_table = {}
+      end
+
       def complete(locked_flavor_table)
         completed_flavor_table = {}
 
