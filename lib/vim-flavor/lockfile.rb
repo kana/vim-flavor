@@ -9,6 +9,10 @@ module Vim
       def flavor_table
         @flavor_table ||= {}
       end
+
+      def update(completed_flavor_table)
+        # TODO: Implement.
+      end
     end
   end
 end
