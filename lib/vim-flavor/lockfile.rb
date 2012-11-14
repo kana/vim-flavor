@@ -13,6 +13,10 @@ module Vim
       def update(completed_flavor_table)
         # TODO: Implement.
       end
+
+      def save()
+        # TODO: Implement.
+      end
     end
   end
 end
