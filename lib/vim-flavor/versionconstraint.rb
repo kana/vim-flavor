@@ -13,6 +13,11 @@ module Vim
       def to_s()
         "#{qualifier} #{base_version}"
       end
+
+      def ==(other)
+        self.base_version == other.base_version &&
+          self.qualifier == other.qualifier
+      end
     end
   end
 end
