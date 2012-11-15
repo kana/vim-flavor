@@ -18,6 +18,12 @@ module Vim
         flavor_table.values.sort_by {|f| f.repo_name}
       end
 
+      def load()
+        s = File.open(@path, 'r') {|io| io.read()}
+        @flavor_table =
+          Hash[LockFileParser.parse(s).map {|f| [f.repo_name, f]}]
+      end
+
       def update(completed_flavor_table)
         @flavor_table = completed_flavor_table
       end
