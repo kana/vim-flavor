@@ -27,17 +27,14 @@ module Vim
       end
 
       def list_versions()
-        maybe_tags = %x[
+        tags = sh %Q[
           {
             cd '#{cached_repo_path}' &&
             git tag
           } 2>&1
         ]
-        if $? != 0
-          raise RuntimeError, maybe_tags
-        end
 
-        maybe_tags.
+        tags.
           split(/[\r\n]/).
           select {|t| t != '' && Gem::Version.correct?(t)}.
           map {|t| Gem::Version.create(t)}
