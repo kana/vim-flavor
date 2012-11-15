@@ -20,6 +20,11 @@ module Vim
         @cached_repo_path ||=
           "#{ENV['HOME'].to_vimfiles_path}/repos/#{@repo_name.zap}"
       end
+
+      def use_appropriate_version()
+        @locked_version =
+          version_constraint.find_the_best_version(list_versions)
+      end
     end
   end
 end
