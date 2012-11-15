@@ -7,14 +7,14 @@ class FakeUserEnvironment
     end
   end
 
-  def directory_table
-    @directory_table ||= Hash.new
-  end
-
   def expand(virtual_path)
     virtual_path.gsub(/\$([a-z]+)/) {
-      directory_table[$1]
+      variable_table[$1]
     }
+  end
+
+  def variable_table
+    @variable_table ||= Hash.new
   end
 end
 

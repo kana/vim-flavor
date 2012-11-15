@@ -6,13 +6,13 @@ Given /^a temporary directory called '(.+)'$/ do |name|
   at_exit do
     FileUtils.remove_entry_secure path
   end
-  directory_table[name] = path
+  variable_table[name] = path
 end
 
 Given /^a home directory called '(.+)' in '(.+)'$/ do |name, virtual_path|
   actual_path = expand(virtual_path)
   Dir.mkdir actual_path, 0700
-  directory_table[name] = actual_path
+  variable_table[name] = actual_path
 end
 
 Given /^a repository '(.+)' with versions '(.+)'$/ do |basename, versions|
