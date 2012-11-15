@@ -40,6 +40,17 @@ module Vim
           it {should_not be_compatible '1.2'}
         end
       end
+
+      describe '#find_the_best_version' do
+        it 'returns the best version from given versions' do
+          VersionConstraint.new('>= 1.2.3').
+            find_the_best_version(['1.2.2', '1.2.3', '1.2.4', '1.3.3', '2.0']).
+            should == '2.0'
+          VersionConstraint.new('~> 1.2.3').
+            find_the_best_version(['1.2.2', '1.2.3', '1.2.4', '1.3.3', '2.0']).
+            should == '1.2.4'
+        end
+      end
     end
   end
 end
