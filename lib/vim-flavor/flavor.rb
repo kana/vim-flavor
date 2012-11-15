@@ -45,6 +45,24 @@ module Vim
         true
       end
 
+      def deploy(vimfiles_path)
+        deployment_path = "#{vimfiles_path.to_flavors_path}/#{repo_name.zap}"
+        sh %Q[
+          {
+            cd '#{cached_repo_path}' &&
+            git checkout -f '#{locked_version}' &&
+            git checkout-index -a -f --prefix='#{deployment_path}/' &&
+            {
+              vim -u NONE -i NONE -n -N -e -s -c '
+                silent! helptags #{deployment_path}/doc
+                qall!
+              ' || true
+            }
+          } 2>&1
+        ]
+        true
+      end
+
       def use_appropriate_version()
         @locked_version =
           version_constraint.find_the_best_version(list_versions)
