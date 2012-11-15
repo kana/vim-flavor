@@ -19,7 +19,7 @@ module Vim
       end
 
       def update(completed_flavor_table)
-        # TODO: Implement.
+        @flavor_table = completed_flavor_table
       end
 
       def self.serialize_lock_status(flavor)
