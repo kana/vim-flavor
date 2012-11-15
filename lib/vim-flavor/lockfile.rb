@@ -2,8 +2,9 @@ module Vim
   module Flavor
     class LockFile
       def self.load_or_new(lockfile_path)
-        # TODO: Implement.
-        new(lockfile_path)
+        l = new(lockfile_path)
+        l.load() if File.exists?(lockfile_path)
+        l
       end
 
       def initialize(path)
