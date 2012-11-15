@@ -21,6 +21,21 @@ module Vim
           "#{ENV['HOME'].to_vimfiles_path}/repos/#{@repo_name.zap}"
       end
 
+      def repo_uri
+        @repo_uri ||=
+          if /^([^\/]+)$/.match(repo_name)
+            m = Regexp.last_match
+            "git://github.com/vim-scripts/#{m[1]}.git"
+          elsif /^([A-Za-z0-9_-]+)\/(.*)$/.match(repo_name)
+            m = Regexp.last_match
+            "git://github.com/#{m[1]}/#{m[2]}.git"
+          elsif /^[a-z]+:\/\/.*$/.match(repo_name)
+            repo_name
+          else
+            raise "Invalid repo_name: #{repo_name.inspect}"
+          end
+      end
+
       def clone()
         sh %Q[
           {
