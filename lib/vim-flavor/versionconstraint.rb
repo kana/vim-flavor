@@ -27,6 +27,17 @@ module Vim
           raise "Invalid version constraint: #{s.inspect}"
         end
       end
+
+      def compatible?(other_version_or_s)
+        v = Gem::Version.create(other_version_or_s)
+        if qualifier == '~>'
+          self.base_version.bump() > v and v >= self.base_version
+        elsif qualifier == '>='
+          v >= self.base_version
+        else
+          raise NotImplementedError
+        end
+      end
     end
   end
 end
