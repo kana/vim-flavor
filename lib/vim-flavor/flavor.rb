@@ -10,6 +10,11 @@ module Vim
 
       # A version of a plugin to be installed.
       attr_accessor :locked_version
+
+      def cached_repo_path
+        @cached_repo_path ||=
+          "#{ENV['HOME'].to_vimfiles_path}/repos/#{@repo_name.zap}"
+      end
     end
   end
 end
