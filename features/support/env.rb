@@ -8,7 +8,7 @@ class FakeUserEnvironment
   end
 
   def expand(virtual_path)
-    virtual_path.gsub(/\$([a-z]+)/) {
+    virtual_path.gsub(/\$([a-z_]+)/) {
       variable_table[$1]
     }
   end
