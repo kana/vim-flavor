@@ -11,6 +11,11 @@ module Vim
       # A version of a plugin to be installed.
       attr_accessor :locked_version
 
+      # Return true if this flavor's repository is already cloned.
+      def cached?
+        Dir.exists?(cached_repo_path)
+      end
+
       def cached_repo_path
         @cached_repo_path ||=
           "#{ENV['HOME'].to_vimfiles_path}/repos/#{@repo_name.zap}"
