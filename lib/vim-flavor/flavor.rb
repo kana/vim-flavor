@@ -25,6 +25,23 @@ module Vim
         @locked_version =
           version_constraint.find_the_best_version(list_versions)
       end
+
+      def list_versions()
+        maybe_tags = %x[
+          {
+            cd '#{cached_repo_path}' &&
+            git tag
+          } 2>&1
+        ]
+        if $? != 0
+          raise RuntimeError, maybe_tags
+        end
+
+        maybe_tags.
+          split(/[\r\n]/).
+          select {|t| t != '' && Gem::Version.correct?(t)}.
+          map {|t| Gem::Version.create(t)}
+      end
     end
   end
 end
