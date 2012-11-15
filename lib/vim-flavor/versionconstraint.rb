@@ -38,6 +38,12 @@ module Vim
           raise NotImplementedError
         end
       end
+
+      def find_the_best_version(versions)
+        versions.
+          select {|v| compatible?(v)}.
+          max()
+      end
     end
   end
 end
