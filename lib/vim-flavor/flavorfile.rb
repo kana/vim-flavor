@@ -13,7 +13,10 @@ module Vim
       end
 
       def load(flavorfile_path)
-        # TODO: Load flavorfile_path.
+        instance_eval(
+          File.open(flavorfile_path, 'r').read(),
+          flavorfile_path
+        )
       end
 
       def complete(locked_flavor_table)
