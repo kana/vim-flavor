@@ -7,7 +7,7 @@ module Vim
       attr_reader :qualifier
 
       def initialize(s)
-        # FIXME
+        @base_version, @qualifier = self.class.parse(s)
       end
 
       def to_s()
