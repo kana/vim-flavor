@@ -56,7 +56,8 @@ When /^I run vim-flavor with '(.+)'$/ do |args|
 end
 
 Then 'I get lockfile' do |content|
-  File.open(expand('$tmp/VimFlavor.lock'), 'r').read().should == content
+  File.open(expand('$tmp/VimFlavor.lock'), 'r').read().should ==
+    expand(content)
 end
 
 Then /^I get a bootstrap script in '(.+)'$/ do |virtual_path|
