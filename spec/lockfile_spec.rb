@@ -59,6 +59,25 @@ module Vim
           l.flavor_table['baz'].locked_version.should == '3.4.5'
         end
       end
+
+      describe '::load_or_new' do
+        it 'creates a new instance then loads a lockfile' do
+          File.open(@tmp_path.to_lockfile_path, 'w') do |io|
+            io.write(<<-'END')
+              foo (1.2.3)
+            END
+          end
+
+          l = LockFile.load_or_new(@tmp_path.to_lockfile_path)
+          l.flavor_table['foo'].repo_name.should == 'foo'
+          l.flavor_table['foo'].locked_version.should == '1.2.3'
+        end
+
+        it 'only creates a new instance if a given path does not exist' do
+          l = LockFile.load_or_new(@tmp_path.to_lockfile_path)
+          l.flavor_table.should be_empty
+        end
+      end
     end
   end
 end
