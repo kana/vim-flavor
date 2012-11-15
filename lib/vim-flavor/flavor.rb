@@ -42,6 +42,15 @@ module Vim
           select {|t| t != '' && Gem::Version.correct?(t)}.
           map {|t| Gem::Version.create(t)}
       end
+
+      def sh script
+        output = send(:`, script)
+        if $? == 0
+          output
+        else
+          raise RuntimeError, output
+        end
+      end
     end
   end
 end
