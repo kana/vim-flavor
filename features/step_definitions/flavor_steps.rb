@@ -17,6 +17,7 @@ end
 
 Given /^a repository '(.+)' with versions '(.+)'$/ do |basename, versions|
   repository_path = expand("$tmp/repos/#{basename}")
+  variable_table["#{basename}_uri"] = "file://#{repository_path}"
   system <<-"END"
     {
       mkdir -p '#{repository_path}' &&
@@ -35,11 +36,11 @@ Given /^a repository '(.+)' with versions '(.+)'$/ do |basename, versions|
 end
 
 Given 'flavorfile' do |content|
-  create_file '$tmp/VimFlavor', content
+  create_file '$tmp/VimFlavor', expand(content)
 end
 
 Given 'lockfile' do |content|
-  create_file '$tmp/VimFlavor.lock', content
+  create_file '$tmp/VimFlavor.lock', expand(content)
 end
 
 When /^I run vim-flavor with '(.+)'$/ do |args|
