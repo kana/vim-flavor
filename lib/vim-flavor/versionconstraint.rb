@@ -9,6 +9,10 @@ module Vim
       def initialize(s)
         # FIXME
       end
+
+      def to_s()
+        "#{qualifier} #{base_version}"
+      end
     end
   end
 end
