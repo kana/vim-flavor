@@ -8,7 +8,6 @@ Feature: Install Vim plugins
     And a home directory called 'home' in '$tmp/home'
     And a repository 'foo' with versions '1.0.0 1.0.1 1.0.2'
 
-  @wip
   Scenario: Install from scratch
     Given flavorfile
       """

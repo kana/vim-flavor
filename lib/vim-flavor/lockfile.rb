@@ -2,8 +2,9 @@ module Vim
   module Flavor
     class LockFile
       def self.load_or_new(lockfile_path)
-        # TODO: Implement.
-        new(lockfile_path)
+        l = new(lockfile_path)
+        l.load() if File.exists?(lockfile_path)
+        l
       end
 
       def initialize(path)
@@ -16,6 +17,12 @@ module Vim
 
       def flavors
         flavor_table.values.sort_by {|f| f.repo_name}
+      end
+
+      def load()
+        s = File.open(@path, 'r') {|io| io.read()}
+        @flavor_table =
+          Hash[LockFileParser.parse(s).map {|f| [f.repo_name, f]}]
       end
 
       def update(completed_flavor_table)

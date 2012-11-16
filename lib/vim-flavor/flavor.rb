@@ -68,6 +68,10 @@ module Vim
           version_constraint.find_the_best_version(list_versions)
       end
 
+      def use_specific_version(locked_version)
+        @locked_version = locked_version
+      end
+
       def list_versions()
         tags = sh %Q[
           {
@@ -89,6 +93,11 @@ module Vim
         else
           raise RuntimeError, output
         end
+      end
+
+      def satisfied_with?(locked_flavor)
+        repo_name == locked_flavor.repo_name &&
+          version_constraint.compatible?(locked_flavor.locked_version)
       end
     end
   end
