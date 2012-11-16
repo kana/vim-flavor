@@ -13,6 +13,16 @@ module Vim
         )
       end
 
+      desc 'upgrade', 'Upgrade Vim plugins according to VimFlavor file.'
+      method_option :vimfiles_path,
+        :desc => 'Where to install Vim plugins.',
+        :banner => 'DIR'
+      def upgrade
+        Facade.new().upgrade(
+          options[:vimfiles_path] || default_vimfiles_path
+        )
+      end
+
       no_tasks do
         def default_vimfiles_path
           ENV['HOME'].to_vimfiles_path
