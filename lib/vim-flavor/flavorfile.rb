@@ -19,7 +19,7 @@ module Vim
         )
       end
 
-      def complete(locked_flavor_table)
+      def complete(locked_flavor_table, mode = :install)
         completed_flavor_table = {}
 
         flavor_table.each do |repo_name, cf|
@@ -29,7 +29,7 @@ module Vim
           already_cached = nf.cached?
           nf.clone() unless already_cached
 
-          if lf and nf.satisfied_with?(lf)
+          if mode == :install and lf and nf.satisfied_with?(lf)
             nf.use_specific_version(lf.locked_version)
           else
             nf.fetch() if already_cached
