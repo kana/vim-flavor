@@ -1,3 +1,4 @@
+require 'fileutils'
 require 'vim-flavor'
 
 class FakeUserEnvironment
@@ -5,6 +6,10 @@ class FakeUserEnvironment
     File.open(expand(virtual_path), 'w') do |f|
       f.write(content)
     end
+  end
+
+  def delete_path path
+    FileUtils.remove_entry_secure(path)
   end
 
   def expand(virtual_path)
