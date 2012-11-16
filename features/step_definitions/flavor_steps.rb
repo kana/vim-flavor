@@ -84,13 +84,13 @@ end
 
 Then /^I get flavor '(.+)' with '(.+)' in '(.+)'$/ do |basename, version, virtual_path|
   repo_name = make_repo_uri(basename)
-  flavor_path = expand("#{virtual_path.to_flavors_path}/#{repo_name.zap}")
+  flavor_path = make_flavor_path(virtual_path, repo_name)
   File.open("#{flavor_path}/doc/#{basename}.txt", 'r').read().should ==
     "*#{basename}* #{version}\n"
 end
 
 Then /^I don't have flavor '(.+)' in '(.+)'$/ do |basename, virtual_path|
   repo_name = make_repo_uri(basename)
-  flavor_path = expand("#{virtual_path.to_flavors_path}/#{repo_name.zap}")
+  flavor_path = make_flavor_path(virtual_path, repo_name)
   Dir.should_not exist(flavor_path)
 end
