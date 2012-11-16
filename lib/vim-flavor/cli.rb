@@ -12,6 +12,12 @@ module Vim
           options[:vimfiles_path] || ENV['HOME'].to_vimfiles_path
         )
       end
+
+      no_tasks do
+        def default_vimfiles_path
+          ENV['HOME'].to_vimfiles_path
+        end
+      end
     end
   end
 end
