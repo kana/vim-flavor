@@ -17,6 +17,10 @@ module Vim
         "#{self}/VimFlavor.lock"
       end
 
+      def to_stash_path
+        "#{self}/.vim-flavor"
+      end
+
       def to_vimfiles_path
         "#{self}/.vim"
       end

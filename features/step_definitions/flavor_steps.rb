@@ -16,8 +16,8 @@ Given /^a home directory called '(.+)' in '(.+)'$/ do |name, virtual_path|
 end
 
 Given /^a repository '(.+)' with versions '(.+)'$/ do |basename, versions|
-  repository_path = expand("$tmp/repos/#{basename}")
-  variable_table["#{basename}_uri"] = "file://#{repository_path}"
+  repository_path = make_repo_path(basename)
+  variable_table["#{basename}_uri"] = make_repo_uri(basename)
   system <<-"END"
     {
       mkdir -p '#{repository_path}' &&
@@ -47,6 +47,18 @@ Given /^I don't have a directory called '(.+)'$/ do |path|
   Dir.should_not exist(path)
 end
 
+Given /^I disable network to the original repository of '(.+)'$/ do |basename|
+  FileUtils.remove_entry_secure make_repo_path(basename)
+end
+
+Given /^I delete '(.+)'$/ do |path|
+  FileUtils.remove_entry_secure expand(path)
+end
+
+Given /^I delete lockfile$/ do
+  FileUtils.remove_entry_secure expand('$tmp').to_lockfile_path
+end
+
 When /^I run vim-flavor with '(.+)'(?: again)?$/ do |args|
   begin
     original_home = ENV['HOME']
@@ -56,6 +68,16 @@ When /^I run vim-flavor with '(.+)'(?: again)?$/ do |args|
     end
   ensure
     ENV['HOME'] = original_home
+  end
+end
+
+When /^I run vim-flavor with '(.+)', though I know it will fail$/ do |args|
+  begin
+    steps %Q{
+      When I run vim-flavor with '#{args}'
+    }
+  rescue RuntimeError => e
+    @last_error = e
   end
 end
 
@@ -83,14 +105,18 @@ Then /^I get a bootstrap script in '(.+)'$/ do |virtual_path|
 end
 
 Then /^I get flavor '(.+)' with '(.+)' in '(.+)'$/ do |basename, version, virtual_path|
-  repo_name = expand("file://$tmp/repos/#{basename}")
-  flavor_path = expand("#{virtual_path.to_flavors_path}/#{repo_name.zap}")
+  repo_name = make_repo_uri(basename)
+  flavor_path = make_flavor_path(virtual_path, repo_name)
   File.open("#{flavor_path}/doc/#{basename}.txt", 'r').read().should ==
     "*#{basename}* #{version}\n"
 end
 
 Then /^I don't have flavor '(.+)' in '(.+)'$/ do |basename, virtual_path|
-  repo_name = expand("file://$tmp/repos/#{basename}")
-  flavor_path = expand("#{virtual_path.to_flavors_path}/#{repo_name.zap}")
+  repo_name = make_repo_uri(basename)
+  flavor_path = make_flavor_path(virtual_path, repo_name)
   Dir.should_not exist(flavor_path)
+end
+
+Then /^I see error message like '(.+)'$/ do |pattern|
+  @last_error.message.should match Regexp.new(pattern)
 end
