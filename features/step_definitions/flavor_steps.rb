@@ -71,6 +71,16 @@ When /^I run vim-flavor with '(.+)'(?: again)?$/ do |args|
   end
 end
 
+When /^I run vim-flavor with '(.+)', though I know it will fail$/ do |args|
+  begin
+    steps %Q{
+      When I run vim-flavor with '#{args}'
+    }
+  rescue RuntimeError => e
+    @last_error = e
+  end
+end
+
 When 'I edit flavorfile as' do |content|
   steps %Q{
     Given flavorfile
