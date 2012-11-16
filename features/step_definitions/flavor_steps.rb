@@ -16,7 +16,7 @@ Given /^a home directory called '(.+)' in '(.+)'$/ do |name, virtual_path|
 end
 
 Given /^a repository '(.+)' with versions '(.+)'$/ do |basename, versions|
-  repository_path = expand("$tmp/repos/#{basename}")
+  repository_path = make_repo_path(basename)
   variable_table["#{basename}_uri"] = "file://#{repository_path}"
   system <<-"END"
     {
