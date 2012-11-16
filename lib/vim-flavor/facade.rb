@@ -7,7 +7,7 @@ module Vim
         flavorfile = FlavorFile.load(Dir.getwd().to_flavorfile_path)
         lockfile = LockFile.load_or_new(Dir.getwd().to_lockfile_path)
 
-        lockfile.update(flavorfile.complete(lockfile.flavor_table))
+        lockfile.update(flavorfile.complete(lockfile.flavor_table, :install))
         lockfile.save()
 
         deploy_flavors(lockfile.flavors, vimfiles_path)
