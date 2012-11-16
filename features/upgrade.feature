@@ -22,5 +22,5 @@ Feature: Upgrade Vim plugins
       """
       $foo_uri (1.0.2)
       """
-    And I get a bootstrap script in '$home'
-    And I get flavor 'foo' with '1.0.2' in '$home'
+    And I get a bootstrap script in '$home/.vim'
+    And I get flavor 'foo' with '1.0.2' in '$home/.vim'
