@@ -34,10 +34,6 @@ Given /^a repository '(.+)' with versions '(.+)'$/ do |basename, versions|
   END
 end
 
-Given 'flavorfile' do |content|
-  create_file '$tmp/VimFlavor', expand(content)
-end
-
 Given /^I don't have a directory called '(.+)'$/ do |path|
   Dir.should_not exist(path)
 end
@@ -70,15 +66,6 @@ When /^I run vim-flavor with '(.+)', though I know it will fail$/ do |args|
   rescue RuntimeError => e
     @last_error = e
   end
-end
-
-When 'I edit flavorfile as' do |content|
-  steps %Q{
-    Given flavorfile
-    """
-    #{content}
-    """
-  }
 end
 
 Then /^I get a bootstrap script in '(.+)'$/ do |virtual_path|
