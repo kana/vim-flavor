@@ -47,7 +47,7 @@ Given /^I don't have a directory called '(.+)'$/ do |path|
   Dir.should_not exist(path)
 end
 
-When /^I run vim-flavor with '(.+)'$/ do |args|
+When /^I run vim-flavor with '(.+)'(?: again)?$/ do |args|
   begin
     original_home = ENV['HOME']
     ENV['HOME'] = expand('$home')
