@@ -38,7 +38,6 @@ Feature: Install Vim plugins
     And I get a bootstrap script in '$home/.vim'
     And I get flavor 'foo' with '1.0.0' in '$home/.vim'
 
-  @wip
   Scenario: Install to specified vimfiles path which does not exist
     Given flavorfile
       """
