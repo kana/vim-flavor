@@ -17,6 +17,10 @@ module Vim
         refresh_flavors(:install, vimfiles_path)
       end
 
+      def upgrade(vimfiles_path)
+        refresh_flavors(:upgrade, vimfiles_path)
+      end
+
       def deploy_flavors(flavors, vimfiles_path)
         FileUtils.rm_rf(
           ["#{vimfiles_path.to_flavors_path}"],
