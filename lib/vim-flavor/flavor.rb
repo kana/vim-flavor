@@ -68,6 +68,10 @@ module Vim
           version_constraint.find_the_best_version(list_versions)
       end
 
+      def use_specific_version(locked_version)
+        @locked_version = locked_version
+      end
+
       def list_versions()
         tags = sh %Q[
           {
