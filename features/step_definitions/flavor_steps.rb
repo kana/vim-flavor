@@ -1,10 +1,9 @@
-require 'fileutils'
 require 'tmpdir'
 
 Given /^a temporary directory called '(.+)'$/ do |name|
   path = Dir.mktmpdir
   at_exit do
-    FileUtils.remove_entry_secure path
+    delete_path path
   end
   variable_table[name] = path
 end
@@ -48,15 +47,15 @@ Given /^I don't have a directory called '(.+)'$/ do |path|
 end
 
 Given /^I disable network to the original repository of '(.+)'$/ do |basename|
-  FileUtils.remove_entry_secure make_repo_path(basename)
+  delete_path make_repo_path(basename)
 end
 
 Given /^I delete '(.+)'$/ do |path|
-  FileUtils.remove_entry_secure expand(path)
+  delete_path expand(path)
 end
 
 Given /^I delete lockfile$/ do
-  FileUtils.remove_entry_secure expand('$tmp').to_lockfile_path
+  delete_path expand('$tmp').to_lockfile_path
 end
 
 When /^I run vim-flavor with '(.+)'(?: again)?$/ do |args|
