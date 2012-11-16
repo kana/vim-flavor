@@ -3,6 +3,16 @@ require 'fileutils'
 module Vim
   module Flavor
     class Facade
+      def refresh_flavors(mode, vimfiles_path)
+        flavorfile = FlavorFile.load(Dir.getwd().to_flavorfile_path)
+        lockfile = LockFile.load_or_new(Dir.getwd().to_lockfile_path)
+
+        lockfile.update(flavorfile.complete(lockfile.flavor_table, mode))
+        lockfile.save()
+
+        deploy_flavors(lockfile.flavors, vimfiles_path)
+      end
+
       def install(vimfiles_path)
         flavorfile = FlavorFile.load(Dir.getwd().to_flavorfile_path)
         lockfile = LockFile.load_or_new(Dir.getwd().to_lockfile_path)
