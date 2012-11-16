@@ -55,6 +55,10 @@ Given /^I delete '(.+)'$/ do |path|
   FileUtils.remove_entry_secure expand(path)
 end
 
+Given /^I delete lockfile$/ do
+  FileUtils.remove_entry_secure expand('$tmp').to_lockfile_path
+end
+
 When /^I run vim-flavor with '(.+)'(?: again)?$/ do |args|
   begin
     original_home = ENV['HOME']
