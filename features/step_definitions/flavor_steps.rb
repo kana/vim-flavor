@@ -59,6 +59,15 @@ When /^I run vim-flavor with '(.+)'$/ do |args|
   end
 end
 
+When 'I edit flavorfile as' do |content|
+  steps %Q{
+    Given flavorfile
+    """
+    #{content}
+    """
+  }
+end
+
 Then 'I get lockfile' do |content|
   # For some reason, Cucumber drops the last newline from every docstring...
   File.open(expand('$tmp/VimFlavor.lock'), 'r').read().should ==
