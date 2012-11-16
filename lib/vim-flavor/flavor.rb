@@ -90,6 +90,11 @@ module Vim
           raise RuntimeError, output
         end
       end
+
+      def satisfied_with?(locked_flavor)
+        repo_name == locked_flavor.repo_name &&
+          version_constraint.compatible?(locked_flavor.locked_version)
+      end
     end
   end
 end
