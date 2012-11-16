@@ -9,7 +9,7 @@ module Vim
         :banner => 'DIR'
       def install
         Facade.new().install(
-          options[:vimfiles_path] || ENV['HOME'].to_vimfiles_path
+          options[:vimfiles_path] || default_vimfiles_path
         )
       end
 
