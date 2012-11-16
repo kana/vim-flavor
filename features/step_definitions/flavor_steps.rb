@@ -43,6 +43,10 @@ Given 'lockfile' do |content|
   create_file '$tmp/VimFlavor.lock', expand(content)
 end
 
+Given /^I don't have a directory called '(.+)'$/ do |path|
+  Dir.should_not exist(path)
+end
+
 When /^I run vim-flavor with '(.+)'$/ do |args|
   begin
     original_home = ENV['HOME']
