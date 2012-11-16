@@ -18,7 +18,7 @@ module Vim
 
       def cached_repo_path
         @cached_repo_path ||=
-          "#{ENV['HOME'].to_vimfiles_path}/repos/#{@repo_name.zap}"
+          "#{ENV['HOME'].to_stash_path}/repos/#{@repo_name.zap}"
       end
 
       def repo_uri
