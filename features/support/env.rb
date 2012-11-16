@@ -13,6 +13,10 @@ class FakeUserEnvironment
     }
   end
 
+  def make_flavor_path(vimfiles_path, repo_name)
+    expand("#{vimfiles_path.to_flavors_path}/#{repo_name.zap}")
+  end
+
   def make_repo_path(basename)
     expand("$tmp/repos/#{basename}")
   end
