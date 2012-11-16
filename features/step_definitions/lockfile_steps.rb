@@ -1,5 +1,5 @@
 Given 'lockfile' do |content|
-  create_file '$tmp/VimFlavor.lock', expand(content)
+  create_file '$tmp'.to_lockfile_path, expand(content)
 end
 
 Given /^I delete lockfile$/ do
@@ -8,6 +8,6 @@ end
 
 Then 'I get lockfile' do |content|
   # For some reason, Cucumber drops the last newline from every docstring...
-  File.open(expand('$tmp/VimFlavor.lock'), 'r').read().should ==
+  File.open(expand('$tmp').to_lockfile_path, 'r').read().should ==
     expand(content) + "\n"
 end
