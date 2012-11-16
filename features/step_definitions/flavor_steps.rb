@@ -46,28 +46,6 @@ Given /^I delete '(.+)'$/ do |path|
   delete_path expand(path)
 end
 
-When /^I run vim-flavor with '(.+)'(?: again)?$/ do |args|
-  begin
-    original_home = ENV['HOME']
-    ENV['HOME'] = expand('$home')
-    Dir.chdir(expand('$tmp')) do
-      Vim::Flavor::CLI.start(args.split(/\s+/).map {|a| expand(a)})
-    end
-  ensure
-    ENV['HOME'] = original_home
-  end
-end
-
-When /^I run vim-flavor with '(.+)', though I know it will fail$/ do |args|
-  begin
-    steps %Q{
-      When I run vim-flavor with '#{args}'
-    }
-  rescue RuntimeError => e
-    @last_error = e
-  end
-end
-
 Then /^I get a bootstrap script in '(.+)'$/ do |virtual_path|
   File.should exist(
     expand(virtual_path).
@@ -87,8 +65,4 @@ Then /^I don't have flavor '(.+)' in '(.+)'$/ do |basename, virtual_path|
   repo_name = make_repo_uri(basename)
   flavor_path = make_flavor_path(virtual_path, repo_name)
   Dir.should_not exist(flavor_path)
-end
-
-Then /^I see error message like '(.+)'$/ do |pattern|
-  @last_error.message.should match Regexp.new(pattern)
 end
