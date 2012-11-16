@@ -51,6 +51,10 @@ Given /^I disable network to the original repository of '(.+)'$/ do |basename|
   FileUtils.remove_entry_secure make_repo_path(basename)
 end
 
+Given /^I delete '(.+)'$/ do |path|
+  FileUtils.remove_entry_secure expand(path)
+end
+
 When /^I run vim-flavor with '(.+)'(?: again)?$/ do |args|
   begin
     original_home = ENV['HOME']
