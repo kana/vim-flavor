@@ -29,7 +29,7 @@ module Vim
           already_cached = nf.cached?
           nf.clone() unless already_cached
 
-          if lf and nf.satisfies?(lf)
+          if lf and nf.satisfied_with?(lf)
             nf.use_specific_version(lf.locked_version)
           else
             nf.fetch() if already_cached
