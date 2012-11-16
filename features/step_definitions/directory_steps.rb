@@ -14,10 +14,10 @@ Given /^a home directory called '(.+)' in '(.+)'$/ do |name, virtual_path|
   variable_table[name] = actual_path
 end
 
-Given /^I don't have a directory called '(.+)'$/ do |path|
-  Dir.should_not exist(expand(path))
+Given /^I don't have a directory called '(.+)'$/ do |virtual_path|
+  Dir.should_not exist(expand(virtual_path))
 end
 
-Given /^I delete '(.+)'$/ do |path|
-  delete_path expand(path)
+Given /^I delete '(.+)'$/ do |virtual_path|
+  delete_path expand(virtual_path)
 end
