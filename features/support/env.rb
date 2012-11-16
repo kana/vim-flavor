@@ -13,6 +13,10 @@ class FakeUserEnvironment
     }
   end
 
+  def make_repo_path(basename)
+    expand("$tmp/repos/#{basename}")
+  end
+
   def variable_table
     @variable_table ||= Hash.new
   end
