@@ -47,6 +47,10 @@ Given /^I don't have a directory called '(.+)'$/ do |path|
   Dir.should_not exist(path)
 end
 
+Given /^I disable network to the original repository of '(.+)'$/ do |basename|
+  FileUtils.remove_entry_secure make_repo_path(basename)
+end
+
 When /^I run vim-flavor with '(.+)'(?: again)?$/ do |args|
   begin
     original_home = ENV['HOME']
