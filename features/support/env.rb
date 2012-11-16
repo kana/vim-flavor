@@ -23,7 +23,7 @@ class FakeUserEnvironment
   end
 
   def make_repo_path(basename)
-    expand("$tmp/repos/#{basename}")
+    "#{expand("$tmp")}/repos/#{basename}"
   end
 
   def make_repo_uri(basename)
