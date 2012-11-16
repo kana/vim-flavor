@@ -45,6 +45,15 @@ module Vim
         true
       end
 
+      def fetch()
+        sh %Q{
+          {
+            cd '#{cached_repo_path}' &&
+            git fetch --tags
+          } 2>&1
+        }
+      end
+
       def deploy(vimfiles_path)
         deployment_path = "#{vimfiles_path.to_flavors_path}/#{repo_name.zap}"
         sh %Q[
