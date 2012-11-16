@@ -17,7 +17,7 @@ end
 
 Given /^a repository '(.+)' with versions '(.+)'$/ do |basename, versions|
   repository_path = make_repo_path(basename)
-  variable_table["#{basename}_uri"] = "file://#{repository_path}"
+  variable_table["#{basename}_uri"] = make_repo_uri(basename)
   system <<-"END"
     {
       mkdir -p '#{repository_path}' &&
@@ -83,14 +83,14 @@ Then /^I get a bootstrap script in '(.+)'$/ do |virtual_path|
 end
 
 Then /^I get flavor '(.+)' with '(.+)' in '(.+)'$/ do |basename, version, virtual_path|
-  repo_name = expand("file://$tmp/repos/#{basename}")
+  repo_name = make_repo_uri(basename)
   flavor_path = expand("#{virtual_path.to_flavors_path}/#{repo_name.zap}")
   File.open("#{flavor_path}/doc/#{basename}.txt", 'r').read().should ==
     "*#{basename}* #{version}\n"
 end
 
 Then /^I don't have flavor '(.+)' in '(.+)'$/ do |basename, virtual_path|
-  repo_name = expand("file://$tmp/repos/#{basename}")
+  repo_name = make_repo_uri(basename)
   flavor_path = expand("#{virtual_path.to_flavors_path}/#{repo_name.zap}")
   Dir.should_not exist(flavor_path)
 end
