@@ -106,3 +106,7 @@ Then /^I don't have flavor '(.+)' in '(.+)'$/ do |basename, virtual_path|
   flavor_path = make_flavor_path(virtual_path, repo_name)
   Dir.should_not exist(flavor_path)
 end
+
+Then /^I see error message like '(.+)'$/ do |pattern|
+  @last_error.message.should match Regexp.new(pattern)
+end
