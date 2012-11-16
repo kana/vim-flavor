@@ -19,7 +19,7 @@ module Vim
         )
       end
 
-      def complete(locked_flavor_table, mode = :install)
+      def complete(locked_flavor_table, mode)
         completed_flavor_table = {}
 
         flavor_table.each do |repo_name, cf|
