@@ -15,7 +15,7 @@ Given /^a home directory called '(.+)' in '(.+)'$/ do |name, virtual_path|
 end
 
 Given /^I don't have a directory called '(.+)'$/ do |path|
-  Dir.should_not exist(path)
+  Dir.should_not exist(expand(path))
 end
 
 Given /^I delete '(.+)'$/ do |path|
