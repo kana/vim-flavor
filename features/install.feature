@@ -21,7 +21,6 @@ Feature: Install Vim plugins
     And I get a bootstrap script in '$home'
     And I get flavor 'foo' with '1.0.2' in '$home'
 
-  @wip
   Scenario: Install with lockfile
     Given flavorfile
       """
