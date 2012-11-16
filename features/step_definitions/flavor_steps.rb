@@ -38,10 +38,6 @@ Given 'flavorfile' do |content|
   create_file '$tmp/VimFlavor', expand(content)
 end
 
-Given 'lockfile' do |content|
-  create_file '$tmp/VimFlavor.lock', expand(content)
-end
-
 Given /^I don't have a directory called '(.+)'$/ do |path|
   Dir.should_not exist(path)
 end
@@ -52,10 +48,6 @@ end
 
 Given /^I delete '(.+)'$/ do |path|
   delete_path expand(path)
-end
-
-Given /^I delete lockfile$/ do
-  delete_path expand('$tmp').to_lockfile_path
 end
 
 When /^I run vim-flavor with '(.+)'(?: again)?$/ do |args|
@@ -87,12 +79,6 @@ When 'I edit flavorfile as' do |content|
     #{content}
     """
   }
-end
-
-Then 'I get lockfile' do |content|
-  # For some reason, Cucumber drops the last newline from every docstring...
-  File.open(expand('$tmp/VimFlavor.lock'), 'r').read().should ==
-    expand(content) + "\n"
 end
 
 Then /^I get a bootstrap script in '(.+)'$/ do |virtual_path|
