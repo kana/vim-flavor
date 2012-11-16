@@ -22,14 +22,6 @@ Given /^I disable network to the original repository of '(.+)'$/ do |basename|
   delete_path make_repo_path(basename)
 end
 
-Then /^I get a bootstrap script in '(.+)'$/ do |virtual_path|
-  File.should exist(
-    expand(virtual_path).
-    to_flavors_path.
-    to_bootstrap_path
-  )
-end
-
 Then /^I get flavor '(.+)' with '(.+)' in '(.+)'$/ do |basename, version, virtual_path|
   repo_name = make_repo_uri(basename)
   flavor_path = make_flavor_path(virtual_path, repo_name)
