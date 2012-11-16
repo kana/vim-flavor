@@ -18,8 +18,8 @@ Feature: Install Vim plugins
       """
       $foo_uri (1.0.2)
       """
-    And I get a bootstrap script in '$home'
-    And I get flavor 'foo' with '1.0.2' in '$home'
+    And I get a bootstrap script in '$home/.vim'
+    And I get flavor 'foo' with '1.0.2' in '$home/.vim'
 
   Scenario: Install with lockfile
     Given flavorfile
@@ -35,8 +35,8 @@ Feature: Install Vim plugins
       """
       $foo_uri (1.0.0)
       """
-    And I get a bootstrap script in '$home'
-    And I get flavor 'foo' with '1.0.0' in '$home'
+    And I get a bootstrap script in '$home/.vim'
+    And I get flavor 'foo' with '1.0.0' in '$home/.vim'
 
   @wip
   Scenario: Install to specified vimfiles path which does not exist
