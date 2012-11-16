@@ -1,5 +1,5 @@
 Given 'lockfile' do |content|
-  create_file '$tmp'.to_lockfile_path, expand(content)
+  create_file expand('$tmp').to_lockfile_path, expand(content)
 end
 
 Given /^I delete lockfile$/ do

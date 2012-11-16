@@ -2,8 +2,8 @@ require 'fileutils'
 require 'vim-flavor'
 
 class FakeUserEnvironment
-  def create_file virtual_path, content
-    File.open(expand(virtual_path), 'w') do |f|
+  def create_file path, content
+    File.open(path, 'w') do |f|
       f.write(content)
     end
   end
