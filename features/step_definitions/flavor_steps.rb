@@ -47,7 +47,7 @@ Given /^I don't have a directory called '(.+)'$/ do |path|
   Dir.should_not exist(path)
 end
 
-When /^I run vim-flavor with '(.+)'$/ do |args|
+When /^I run vim-flavor with '(.+)'(?: again)?$/ do |args|
   begin
     original_home = ENV['HOME']
     ENV['HOME'] = expand('$home')
@@ -57,6 +57,15 @@ When /^I run vim-flavor with '(.+)'$/ do |args|
   ensure
     ENV['HOME'] = original_home
   end
+end
+
+When 'I edit flavorfile as' do |content|
+  steps %Q{
+    Given flavorfile
+    """
+    #{content}
+    """
+  }
 end
 
 Then 'I get lockfile' do |content|
@@ -78,4 +87,10 @@ Then /^I get flavor '(.+)' with '(.+)' in '(.+)'$/ do |basename, version, virtua
   flavor_path = expand("#{virtual_path.to_flavors_path}/#{repo_name.zap}")
   File.open("#{flavor_path}/doc/#{basename}.txt", 'r').read().should ==
     "*#{basename}* #{version}\n"
+end
+
+Then /^I don't have flavor '(.+)' in '(.+)'$/ do |basename, virtual_path|
+  repo_name = expand("file://$tmp/repos/#{basename}")
+  flavor_path = expand("#{virtual_path.to_flavors_path}/#{repo_name.zap}")
+  Dir.should_not exist(flavor_path)
 end
