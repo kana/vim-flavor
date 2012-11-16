@@ -52,7 +52,6 @@ Feature: Install Vim plugins
     And I get a bootstrap script in '$tmp/my-vimfiles'
     And I get flavor 'foo' with '1.0.2' in '$tmp/my-vimfiles'
 
-  @wip
   Scenario: Install after deleting some flavors in flavorfile
     Given a repository 'bar' with versions '2.0.0 2.0.1 2.0.2'
     And flavorfile
