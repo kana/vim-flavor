@@ -29,13 +29,13 @@ Feature: Caching
       flavor '$foo_uri', '~> 2.0'
       """
     When I run `vim-flavor install`
-    Then I see error message like 'fatal: \S+ does not appear to be a git repository'
+    Then it fails with messages like 'fatal: \S+ does not appear to be a git repository'
 
   Scenario: Install plugins - not locked
     Given I delete lockfile
     When I run `vim-flavor install`
-    Then I see error message like 'fatal: \S+ does not appear to be a git repository'
+    Then it fails with messages like 'fatal: \S+ does not appear to be a git repository'
 
   Scenario: Upgrading plugins
     When I run `vim-flavor upgrade`
-    Then I see error message like 'fatal: \S+ does not appear to be a git repository'
+    Then it fails with messages like 'fatal: \S+ does not appear to be a git repository'
