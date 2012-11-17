@@ -24,17 +24,3 @@ Feature: Install Vim plugins
       """
     And I get a bootstrap script in '$home/.vim'
     And I get flavor 'foo' with '1.0.0' in '$home/.vim'
-
-  Scenario: Install to specified vimfiles path which does not exist
-    Given flavorfile
-      """
-      flavor '$foo_uri'
-      """
-    And I don't have a directory called '$tmp/my-vimfiles'
-    When I run vim-flavor with 'install --vimfiles-path=$tmp/my-vimfiles'
-    Then I get lockfile
-      """
-      $foo_uri (1.0.2)
-      """
-    And I get a bootstrap script in '$tmp/my-vimfiles'
-    And I get flavor 'foo' with '1.0.2' in '$tmp/my-vimfiles'
