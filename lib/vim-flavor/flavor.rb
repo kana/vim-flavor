@@ -21,6 +21,10 @@ module Vim
           "#{ENV['HOME'].to_stash_path}/repos/#{@repo_name.zap}"
       end
 
+      def self.github_repo_uri(user, repo)
+        "git://github.com/#{user}/#{repo}.git"
+      end
+
       def repo_uri
         @repo_uri ||=
           if /^([^\/]+)$/.match(repo_name)
