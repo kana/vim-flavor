@@ -1,5 +1,5 @@
 @typical_usage
-Feature: Delete Vim plugins
+Feature: Uninstall Vim plugins
   In order to automate boring steps,
   as a lazy Vim user,
   I want to use a declarative way to delete Vim plugins from my configuration.

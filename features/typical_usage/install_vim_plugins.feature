@@ -1,5 +1,5 @@
 @typical_usage
-Feature: Add Vim plugins
+Feature: Install Vim plugins
   In order to automate boring steps,
   as a lazy Vim user,
   I want to use a declarative way to start using new Vim plugins.
