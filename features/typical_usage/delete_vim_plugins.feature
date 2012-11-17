@@ -16,12 +16,12 @@ Feature: Delete Vim plugins
       flavor '$foo_uri'
       flavor '$bar_uri'
       """
-    When I run vim-flavor with 'install'
+    When I run `vim-flavor install`
     And I edit flavorfile as
       """
       flavor '$bar_uri'
       """
-    And I run vim-flavor with 'install' again
+    And I run `vim-flavor install` again
     Then I get lockfile
       """
       $bar_uri (2.0.2)

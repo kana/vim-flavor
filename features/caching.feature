@@ -11,12 +11,12 @@ Feature: Caching
       """
       flavor '$foo_uri', '~> 1.0'
       """
-    And I run vim-flavor with 'install'
+    And I run `vim-flavor install`
     And I disable network to the original repository of 'foo'
 
   Scenario: Install plugins - locked and compatible with new flavorfile
     Given I delete '$home/.vim'
-    When I run vim-flavor with 'install' again
+    When I run `vim-flavor install` again
     Then I get lockfile
       """
       $foo_uri (1.0.2)
@@ -28,14 +28,14 @@ Feature: Caching
       """
       flavor '$foo_uri', '~> 2.0'
       """
-    When I run vim-flavor with 'install', though I know it will fail
+    When I run `vim-flavor install`, though I know it will fail
     Then I see error message like 'fatal: \S+ does not appear to be a git repository'
 
   Scenario: Install plugins - not locked
     Given I delete lockfile
-    When I run vim-flavor with 'install', though I know it will fail
+    When I run `vim-flavor install`, though I know it will fail
     Then I see error message like 'fatal: \S+ does not appear to be a git repository'
 
   Scenario: Upgrading plugins
-    When I run vim-flavor with 'upgrade', though I know it will fail
+    When I run `vim-flavor upgrade`, though I know it will fail
     Then I see error message like 'fatal: \S+ does not appear to be a git repository'

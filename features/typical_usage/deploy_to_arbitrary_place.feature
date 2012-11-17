@@ -15,7 +15,7 @@ Feature: Deploy Vim plugins to a non-standard directory
       flavor '$foo_uri'
       """
     And I don't have a directory called '$tmp/my-vimfiles'
-    When I run vim-flavor with 'install --vimfiles-path=$tmp/my-vimfiles'
+    When I run `vim-flavor install --vimfiles-path=$tmp/my-vimfiles`
     Then I get lockfile
       """
       $foo_uri (1.0.2)

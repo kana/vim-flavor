@@ -18,7 +18,7 @@ Feature: Keep versions of Vim plugins
       """
       $foo_uri (1.0.0)
       """
-    When I run vim-flavor with 'install'
+    When I run `vim-flavor install`
     Then I get lockfile
       """
       $foo_uri (1.0.0)
