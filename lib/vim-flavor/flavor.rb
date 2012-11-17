@@ -29,10 +29,10 @@ module Vim
         @repo_uri ||=
           if /^([^\/]+)$/.match(repo_name)
             m = Regexp.last_match
-            "git://github.com/vim-scripts/#{m[1]}.git"
+            self.class.github_repo_uri('vim-scripts', m[1])
           elsif /^([A-Za-z0-9_-]+)\/(.*)$/.match(repo_name)
             m = Regexp.last_match
-            "git://github.com/#{m[1]}/#{m[2]}.git"
+            self.class.github_repo_uri(m[1], m[2])
           elsif /^[a-z]+:\/\/.*$/.match(repo_name)
             repo_name
           else
