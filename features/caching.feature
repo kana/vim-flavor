@@ -8,7 +8,7 @@ Feature: Caching
     And a home directory called 'home' in '$tmp/home'
     And a repository 'foo' with versions '1.0.0 1.0.1 1.0.2'
     And flavorfile
-      """
+      """ruby
       flavor '$foo_uri', '~> 1.0'
       """
     And I run `vim-flavor install`
@@ -25,7 +25,7 @@ Feature: Caching
 
   Scenario: Install plugins - locked but incompatible with new flavorfile
     Given I edit flavorfile as
-      """
+      """ruby
       flavor '$foo_uri', '~> 2.0'
       """
     When I run `vim-flavor install`

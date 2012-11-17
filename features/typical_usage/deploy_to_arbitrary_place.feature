@@ -11,7 +11,7 @@ Feature: Deploy Vim plugins to a non-standard directory
 
   Scenario: Install to specified vimfiles path which does not exist
     Given flavorfile
-      """
+      """ruby
       flavor '$foo_uri'
       """
     And I don't have a directory called '$tmp/my-vimfiles'

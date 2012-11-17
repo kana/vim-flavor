@@ -12,13 +12,13 @@ Feature: Delete Vim plugins
   Scenario: Install after deleting some flavors in flavorfile
     Given a repository 'bar' with versions '2.0.0 2.0.1 2.0.2'
     And flavorfile
-      """
+      """ruby
       flavor '$foo_uri'
       flavor '$bar_uri'
       """
     When I run `vim-flavor install`
     And I edit flavorfile as
-      """
+      """ruby
       flavor '$bar_uri'
       """
     And I run `vim-flavor install` again

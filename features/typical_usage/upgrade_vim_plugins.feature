@@ -11,7 +11,7 @@ Feature: Upgrade Vim plugins
 
   Scenario: Upgrade with lockfile
     Given flavorfile
-      """
+      """ruby
       flavor '$foo_uri'
       """
     And lockfile

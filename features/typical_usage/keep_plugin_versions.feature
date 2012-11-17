@@ -11,7 +11,7 @@ Feature: Keep versions of Vim plugins
 
   Scenario: Install with lockfile
     Given flavorfile
-      """
+      """ruby
       flavor '$foo_uri'
       """
     And lockfile
