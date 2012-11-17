@@ -1,7 +1,8 @@
+@typical_usage
 Feature: Upgrade Vim plugins
-  As a lazy Vim user
-  I want to upgrade Vim plugins
-  without pain
+  In order to automate boring steps,
+  as a lazy Vim user,
+  I want to use a declarative way to upgrade my favorite Vim plugins.
 
   Background:
     Given a temporary directory called 'tmp'

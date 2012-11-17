@@ -1,7 +1,7 @@
 Feature: Caching
-  As a lazy Vim user
-  I want to cache repositories of plugins which are installed before
-  So that next installation will be finished very fast
+  In order to finish deployment as fast as possible,
+  as a lazy Vim user,
+  I want to cache repositories of plugins which are installed before.
 
   Background:
     Given a temporary directory called 'tmp'

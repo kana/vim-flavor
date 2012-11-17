@@ -1,7 +1,7 @@
 Feature: Resolve dependencies of Vim plugins
-  As a lazy Vim user
-  I want to resolve dependencies of Vim plugins automatically
-  So that I can install Vim plugins without pain
+  In order to hide details of dependencies,
+  as a lazy Vim user,
+  I want to resolve and install dependencies of Vim plugins automatically.
 
   # TODO
   Scenario: Resolve 2-level dependencies
