@@ -1,5 +1,6 @@
 Given /^a repository '(.+)' with versions '(.+)'$/ do |basename, versions|
   repository_path = make_repo_path(basename)
+  doc_name = basename.split('/').last.sub(/^vim-/, '')
   variable_table["#{basename}_uri"] = make_repo_uri(basename)
   system <<-"END"
     {
@@ -9,7 +10,7 @@ Given /^a repository '(.+)' with versions '(.+)'$/ do |basename, versions|
       mkdir doc &&
       for v in #{versions}
       do
-        echo "*#{basename}* $v" >'doc/#{basename}.txt'
+        echo "*#{doc_name}* $v" >'doc/#{doc_name}.txt'
         git add doc
         git commit -m "Version $v"
         git tag -m "Version $v" "$v"
