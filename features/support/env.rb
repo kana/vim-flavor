@@ -2,6 +2,15 @@ require 'fileutils'
 require 'vim-flavor'
 
 class FakeUserEnvironment
+  def initialize()
+    env = self
+    Vim::Flavor::Flavor.instance_eval do
+      @github_repo_uri = lambda {|user, repo|
+        "file://#{env.expand('$tmp')}/repos/#{user}/#{repo}"
+      }
+    end
+  end
+
   def create_file path, content
     File.open(path, 'w') do |f|
       f.write(content)
