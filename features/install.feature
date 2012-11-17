@@ -8,19 +8,6 @@ Feature: Install Vim plugins
     And a home directory called 'home' in '$tmp/home'
     And a repository 'foo' with versions '1.0.0 1.0.1 1.0.2'
 
-  Scenario: Install from scratch
-    Given flavorfile
-      """
-      flavor '$foo_uri'
-      """
-    When I run vim-flavor with 'install'
-    Then I get lockfile
-      """
-      $foo_uri (1.0.2)
-      """
-    And I get a bootstrap script in '$home/.vim'
-    And I get flavor 'foo' with '1.0.2' in '$home/.vim'
-
   Scenario: Install with lockfile
     Given flavorfile
       """
