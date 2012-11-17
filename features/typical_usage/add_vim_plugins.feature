@@ -17,7 +17,7 @@ Feature: Add Vim plugins
       """ruby
       flavor '$foo_uri'
       """
-    And I run vim-flavor with 'install'
+    And I run `vim-flavor install`
     Then I get lockfile
       """
       $foo_uri (1.0.2)

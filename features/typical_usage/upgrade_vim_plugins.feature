@@ -11,14 +11,14 @@ Feature: Upgrade Vim plugins
 
   Scenario: Upgrade with lockfile
     Given flavorfile
-      """
+      """ruby
       flavor '$foo_uri'
       """
     And lockfile
       """
       $foo_uri (1.0.0)
       """
-    When I run vim-flavor with 'upgrade'
+    When I run `vim-flavor upgrade`
     Then I get lockfile
       """
       $foo_uri (1.0.2)
