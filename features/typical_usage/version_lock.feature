@@ -1,5 +1,4 @@
-@typical_usage
-Feature: Keep versions of Vim plugins
+Feature: Version lock
   In order to use the same configuration on every machine,
   as a lazy Vim user,
   I want to keep versions of Vim plugins which I installed before.
