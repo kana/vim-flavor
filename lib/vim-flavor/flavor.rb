@@ -22,7 +22,10 @@ module Vim
       end
 
       def self.github_repo_uri(user, repo)
-        "git://github.com/#{user}/#{repo}.git"
+        @github_repo_uri ||= lambda {|user, repo|
+          "git://github.com/#{user}/#{repo}.git"
+        }
+        @github_repo_uri.call(user, repo)
       end
 
       def repo_uri
