@@ -1,7 +1,8 @@
-Feature: Install Vim plugins
-  As a lazy Vim user
-  I want to install Vim plugins
-  without pain
+@typical_usage
+Feature: Keep versions of Vim plugins
+  In order to use the same configuration on every machine,
+  as a lazy Vim user,
+  I want to keep versions of Vim plugins which I installed before.
 
   Background:
     Given a temporary directory called 'tmp'
