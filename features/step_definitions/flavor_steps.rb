@@ -28,6 +28,7 @@ Then /^I get flavor '(.+)' with '(.+)' in '(.+)'$/ do |v_repo_name, version, vir
   basename = expand(v_repo_name).split('/').last.sub(/^vim-/, '')
   File.open("#{flavor_path}/doc/#{basename}.txt", 'r').read().should ==
     "*#{basename}* #{version}\n"
+  File.should exist("#{flavor_path}/doc/tags")
 end
 
 Then /^I don't have flavor '(.+)' in '(.+)'$/ do |v_repo_name, virtual_path|
