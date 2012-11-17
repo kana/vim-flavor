@@ -6,6 +6,7 @@
   - upgrade_vim_plugins.feature
   - uninstall_vim_plugins.feature
   - deploy_to_arbitrary_place.feature
+- flavorfile:
 - version_lock.feature
 - caching.feature
 - resolve_dependencies.feature
