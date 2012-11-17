@@ -21,14 +21,21 @@ module Vim
           "#{ENV['HOME'].to_stash_path}/repos/#{@repo_name.zap}"
       end
 
+      def self.github_repo_uri(user, repo)
+        @github_repo_uri ||= lambda {|user, repo|
+          "git://github.com/#{user}/#{repo}.git"
+        }
+        @github_repo_uri.call(user, repo)
+      end
+
       def repo_uri
         @repo_uri ||=
           if /^([^\/]+)$/.match(repo_name)
             m = Regexp.last_match
-            "git://github.com/vim-scripts/#{m[1]}.git"
+            self.class.github_repo_uri('vim-scripts', m[1])
           elsif /^([A-Za-z0-9_-]+)\/(.*)$/.match(repo_name)
             m = Regexp.last_match
-            "git://github.com/#{m[1]}/#{m[2]}.git"
+            self.class.github_repo_uri(m[1], m[2])
           elsif /^[a-z]+:\/\/.*$/.match(repo_name)
             repo_name
           else

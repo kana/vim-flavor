@@ -9,5 +9,5 @@ end
 Then 'I get lockfile' do |content|
   # For some reason, Cucumber drops the last newline from every docstring...
   File.open(expand('$tmp').to_lockfile_path, 'r').read().should ==
-    expand(content) + "\n"
+    (content == '' ? '' : expand(content) + "\n")
 end
