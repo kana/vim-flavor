@@ -1,0 +1,3 @@
+#!/usr/bin/env ruby
+require 'vim-flavor'
+Vim::Flavor::CLI.start()
