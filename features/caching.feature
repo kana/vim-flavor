@@ -28,7 +28,7 @@ Feature: Caching
       """ruby
       flavor '$foo_uri', '~> 2.0'
       """
-    When I run `vim-flavor install`
+    When I run `vim-flavor install` but
     Then it fails with messages like
       """
       fatal: \S+ does not appear to be a git repository
@@ -36,14 +36,14 @@ Feature: Caching
 
   Scenario: Install plugins - not locked
     Given I delete lockfile
-    When I run `vim-flavor install`
+    When I run `vim-flavor install` but
     Then it fails with messages like
       """
       fatal: \S+ does not appear to be a git repository
       """
 
   Scenario: Upgrading plugins
-    When I run `vim-flavor upgrade`
+    When I run `vim-flavor upgrade` but
     Then it fails with messages like
       """
       fatal: \S+ does not appear to be a git repository

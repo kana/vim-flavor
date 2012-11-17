@@ -1,5 +1,4 @@
-When /^I run `vim-flavor(.*)`(?: again)?$/ do |args|
-  raise @last_error if @last_error
+When /^I run `vim-flavor(.*)`(?: again)?(?:,? (but))?$/ do |args, mode|
   begin
     original_home = ENV['HOME']
     ENV['HOME'] = expand('$home')
@@ -8,6 +7,11 @@ When /^I run `vim-flavor(.*)`(?: again)?$/ do |args|
         Vim::Flavor::CLI.start(args.strip().split(/\s+/).map {|a| expand(a)})
       rescue RuntimeError => e
         @last_error = e
+      end
+      if mode == 'but'
+        raise RuntimeError, 'Command succeeded unexpectedly' if not @last_error
+      else
+        raise @last_error if @last_error
       end
     end
   ensure
