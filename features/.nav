@@ -1,0 +1,11 @@
+- philosophy.md
+- install_vim_flavor.md (Install vim-flavor)
+- uninstall_vim_flavor.md (Uninstall vim-flavor)
+- typical_usage:
+  - add_vim_plugins.feature
+  - keep_plugin_versions.feature
+  - upgrade_vim_plugins.feature
+  - delete_vim_plugins.feature
+  - deploy_to_arbitrary_place.feature
+- caching.feature
+- resolve_dependencies.feature
