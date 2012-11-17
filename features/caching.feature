@@ -21,7 +21,7 @@ Feature: Caching
       """
       $foo_uri (1.0.2)
       """
-    And I get flavor 'foo' with '1.0.2' in '$home/.vim'
+    And I get flavor '$foo_uri' with '1.0.2' in '$home/.vim'
 
   Scenario: Install plugins - locked but incompatible with new flavorfile
     Given I edit flavorfile as

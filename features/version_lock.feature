@@ -23,4 +23,4 @@ Feature: Version lock
       $foo_uri (1.0.0)
       """
     And I get a bootstrap script in '$home/.vim'
-    And I get flavor 'foo' with '1.0.0' in '$home/.vim'
+    And I get flavor '$foo_uri' with '1.0.0' in '$home/.vim'

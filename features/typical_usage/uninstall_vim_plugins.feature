@@ -27,5 +27,5 @@ Feature: Uninstall Vim plugins
       $bar_uri (2.0.2)
       """
     And I get a bootstrap script in '$home/.vim'
-    And I get flavor 'bar' with '2.0.2' in '$home/.vim'
-    But I don't have flavor 'foo' in '$home/.vim'
+    And I get flavor '$bar_uri' with '2.0.2' in '$home/.vim'
+    But I don't have flavor '$foo_uri' in '$home/.vim'
