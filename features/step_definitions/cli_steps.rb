@@ -15,7 +15,7 @@ When /^I run `vim-flavor(.*)`(?: again)?$/ do |args|
   end
 end
 
-Then /^it fails with messages like '(.+)'$/ do |pattern|
+Then /^it fails with messages like$/ do |pattern|
   @last_error.should_not be_nil
-  @last_error.message.should match Regexp.new(pattern)
+  @last_error.message.should match Regexp.new(pattern.strip().gsub(/\s+/, '\s+'))
 end
