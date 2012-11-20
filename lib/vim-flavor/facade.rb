@@ -38,12 +38,13 @@ module Vim
 
         trace "Checking versions...\n"
 
-        current_flavor_table.each do |repo_name, cf|
+        cfs = current_flavor_table.values.sort_by {|f| f.repo_name}
+        cfs.each do |cf|
           begin
-            trace "  Use #{repo_name} ..."
+            trace "  Use #{cf.repo_name} ..."
 
             nf = cf.dup()
-            lf = locked_flavor_table[repo_name]
+            lf = locked_flavor_table[nf.repo_name]
 
             already_cached = nf.cached?
             nf.clone() unless already_cached
@@ -55,7 +56,7 @@ module Vim
               nf.use_appropriate_version()
             end
 
-            completed_flavor_table[repo_name] = nf
+            completed_flavor_table[nf.repo_name] = nf
 
             trace " #{nf.locked_version}\n"
           rescue
