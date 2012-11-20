@@ -7,7 +7,13 @@ module Vim
         flavorfile = FlavorFile.load(Dir.getwd().to_flavorfile_path)
         lockfile = LockFile.load_or_new(Dir.getwd().to_lockfile_path)
 
-        lockfile.update(flavorfile.complete(lockfile.flavor_table, mode))
+        lockfile.update(
+          complete(
+            flavorfile.flavor_table,
+            lockfile.flavor_table,
+            mode
+          )
+        )
         lockfile.save()
 
         deploy_flavors(lockfile.flavors, vimfiles_path)
@@ -19,6 +25,29 @@ module Vim
 
       def upgrade(vimfiles_path)
         refresh_flavors(:upgrade, vimfiles_path)
+      end
+
+      def complete(current_flavor_table, locked_flavor_table, mode)
+        completed_flavor_table = {}
+
+        current_flavor_table.each do |repo_name, cf|
+          nf = cf.dup()
+          lf = locked_flavor_table[repo_name]
+
+          already_cached = nf.cached?
+          nf.clone() unless already_cached
+
+          if mode == :install and lf and nf.satisfied_with?(lf)
+            nf.use_specific_version(lf.locked_version)
+          else
+            nf.fetch() if already_cached
+            nf.use_appropriate_version()
+          end
+
+          completed_flavor_table[repo_name] = nf
+        end
+
+        completed_flavor_table
       end
 
       def deploy_flavors(flavors, vimfiles_path)
