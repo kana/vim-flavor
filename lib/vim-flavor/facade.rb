@@ -38,31 +38,24 @@ module Vim
 
         trace "Checking versions...\n"
 
-        cfs = current_flavor_table.values.sort_by {|f| f.repo_name}
-        cfs.each do |cf|
-          begin
-            trace "  Use #{cf.repo_name} ..."
+        current_flavor_table.values.map(&:dup).sort_by(&:repo_name).
+        before_each {|nf| trace "  Use #{nf.repo_name} ..."}.
+        after_each {|nf| trace " #{nf.locked_version}\n"}.
+        on_failure {trace " failed\n"}.
+        each do |nf|
+          lf = locked_flavor_table[nf.repo_name]
 
-            nf = cf.dup()
-            lf = locked_flavor_table[nf.repo_name]
+          already_cached = nf.cached?
+          nf.clone() unless already_cached
 
-            already_cached = nf.cached?
-            nf.clone() unless already_cached
-
-            if mode == :install and lf and nf.satisfied_with?(lf)
-              nf.use_specific_version(lf.locked_version)
-            else
-              nf.fetch() if already_cached
-              nf.use_appropriate_version()
-            end
-
-            completed_flavor_table[nf.repo_name] = nf
-
-            trace " #{nf.locked_version}\n"
-          rescue
-            trace " failed\n"
-            raise
+          if mode == :install and lf and nf.satisfied_with?(lf)
+            nf.use_specific_version(lf.locked_version)
+          else
+            nf.fetch() if already_cached
+            nf.use_appropriate_version()
           end
+
+          completed_flavor_table[nf.repo_name] = nf
         end
 
         completed_flavor_table
@@ -78,15 +71,12 @@ module Vim
 
         create_vim_script_for_bootstrap(vimfiles_path)
 
-        flavors.each do |f|
-          begin
-            trace "  #{f.repo_name} #{f.locked_version} ..."
-            f.deploy(vimfiles_path)
-            trace " done\n"
-          rescue
-            trace " failed\n"
-            raise
-          end
+        flavors.
+        before_each {|f| trace "  #{f.repo_name} #{f.locked_version} ..."}.
+        after_each {|f| trace " done\n"}.
+        on_failure {trace " failed\n"}.
+        each do |f|
+          f.deploy(vimfiles_path)
         end
       end
 
