@@ -1,4 +1,5 @@
 require 'bundler/setup'
+require 'vim-flavor/enumerableextension'
 
 module Vim
   module Flavor
