@@ -3,6 +3,10 @@ require 'fileutils'
 module Vim
   module Flavor
     class Facade
+      def trace message
+        print message
+      end
+
       def refresh_flavors(mode, vimfiles_path)
         flavorfile = FlavorFile.load(Dir.getwd().to_flavorfile_path)
         lockfile = LockFile.load_or_new(Dir.getwd().to_lockfile_path)
