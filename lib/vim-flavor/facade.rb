@@ -21,6 +21,8 @@ module Vim
         lockfile.save()
 
         deploy_flavors(lockfile.flavors, vimfiles_path)
+
+        trace "Completed.\n"
       end
 
       def install(vimfiles_path)
@@ -34,35 +36,56 @@ module Vim
       def complete(current_flavor_table, locked_flavor_table, mode)
         completed_flavor_table = {}
 
+        trace "Checking versions...\n"
+
         current_flavor_table.each do |repo_name, cf|
-          nf = cf.dup()
-          lf = locked_flavor_table[repo_name]
+          begin
+            trace "  Use #{repo_name} ..."
 
-          already_cached = nf.cached?
-          nf.clone() unless already_cached
+            nf = cf.dup()
+            lf = locked_flavor_table[repo_name]
 
-          if mode == :install and lf and nf.satisfied_with?(lf)
-            nf.use_specific_version(lf.locked_version)
-          else
-            nf.fetch() if already_cached
-            nf.use_appropriate_version()
+            already_cached = nf.cached?
+            nf.clone() unless already_cached
+
+            if mode == :install and lf and nf.satisfied_with?(lf)
+              nf.use_specific_version(lf.locked_version)
+            else
+              nf.fetch() if already_cached
+              nf.use_appropriate_version()
+            end
+
+            completed_flavor_table[repo_name] = nf
+
+            trace " #{nf.locked_version}\n"
+          rescue
+            trace " failed\n"
+            raise
           end
-
-          completed_flavor_table[repo_name] = nf
         end
 
         completed_flavor_table
       end
 
       def deploy_flavors(flavors, vimfiles_path)
+        trace "Deploying plugins...\n"
+
         FileUtils.rm_rf(
           ["#{vimfiles_path.to_flavors_path}"],
           :secure => true
         )
 
         create_vim_script_for_bootstrap(vimfiles_path)
+
         flavors.each do |f|
-          f.deploy(vimfiles_path)
+          begin
+            trace "  #{f.repo_name} #{f.locked_version} ..."
+            f.deploy(vimfiles_path)
+            trace " done\n"
+          rescue
+            trace " failed\n"
+            raise
+          end
         end
       end
 
