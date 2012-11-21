@@ -24,6 +24,25 @@ module Vim
           end
         end
       end
+
+      def on_failure(&block)
+        vs = each
+        Enumerator.new do |y|
+          v = nil
+          begin
+            loop do
+              v = vs.next
+              y << v
+              v = nil
+            end
+          rescue StopIteration
+            raise
+          rescue
+            block.call(v)
+            raise
+          end
+        end
+      end
     end
   end
 end
