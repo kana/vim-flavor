@@ -1,63 +1,46 @@
-require 'yaml'
-
 module Vim
   module Flavor
     class LockFile
-      # TODO: Resolve dependencies recursively.
-
-      attr_reader :flavors, :path
+      def self.load_or_new(lockfile_path)
+        l = new(lockfile_path)
+        l.load() if File.exists?(lockfile_path)
+        l
+      end
 
       def initialize(path)
-        @flavors = {}  # repo_uri => flavor
         @path = path
       end
 
-      def load()
-        h = File.open(@path, 'rb') do |f|
-          YAML.load(f.read())
-        end
+      def flavor_table
+        @flavor_table ||= {}
+      end
 
-        @flavors = self.class.flavors_from_poro(h[:flavors])
+      def flavors
+        flavor_table.values.sort_by {|f| f.repo_name}
+      end
+
+      def load()
+        s = File.open(@path, 'r') {|io| io.read()}
+        @flavor_table =
+          Hash[LockFileParser.parse(s).map {|f| [f.repo_name, f]}]
+      end
+
+      def update(completed_flavor_table)
+        @flavor_table = completed_flavor_table
+      end
+
+      def self.serialize_lock_status(flavor)
+        ["#{flavor.repo_name} (#{flavor.locked_version})"]
       end
 
       def save()
-        h = {}
-
-        h[:flavors] = self.class.poro_from_flavors(@flavors)
-
-        File.open(@path, 'wb') do |f|
-          YAML.dump(h, f)
+        File.open(@path, 'w') do |io|
+          lines = flavors.flat_map {|f| self.class.serialize_lock_status(f)}
+          lines.each do |line|
+            io.write(line)
+            io.write("\n")
+          end
         end
-      end
-
-      def self.poro_from_flavors(flavors)
-        Hash[
-          flavors.values.map {|f|
-            [
-              f.repo_uri,
-              {
-                :groups => f.groups,
-                :locked_version => f.locked_version.to_s(),
-                :repo_name => f.repo_name,
-                :version_contraint => f.version_contraint.to_s(),
-              }
-            ]
-          }
-        ]
-      end
-
-      def self.flavors_from_poro(poro)
-        Hash[
-          poro.to_a().map {|repo_uri, h|
-            f = Flavor.new()
-            f.groups = h[:groups]
-            f.locked_version = Gem::Version.create(h[:locked_version])
-            f.repo_name = h[:repo_name]
-            f.repo_uri = repo_uri
-            f.version_contraint = VersionConstraint.new(h[:version_contraint])
-            [f.repo_uri, f]
-          }
-        ]
       end
     end
   end

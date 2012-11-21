@@ -3,56 +3,85 @@ require 'fileutils'
 module Vim
   module Flavor
     class Facade
-      attr_reader :flavorfile
-      attr_accessor :flavorfile_path
-      attr_reader :lockfile
-      attr_accessor :lockfile_path
-      attr_accessor :traced
-
-      def initialize()
-        @flavorfile = nil  # FlavorFile
-        @flavorfile_path = "#{Dir.getwd()}/VimFlavor"
-        @lockfile = nil  # LockFile
-        @lockfile_path = "#{Dir.getwd()}/VimFlavor.lock"
-        @traced = false
+      def trace message
+        print message
       end
 
-      def trace(message)
-        print(message) if @traced
+      def refresh_flavors(mode, vimfiles_path)
+        flavorfile = FlavorFile.load(Dir.getwd().to_flavorfile_path)
+        lockfile = LockFile.load_or_new(Dir.getwd().to_lockfile_path)
+
+        lockfile.update(
+          complete(
+            flavorfile.flavor_table,
+            lockfile.flavor_table,
+            mode
+          )
+        )
+        lockfile.save()
+
+        deploy_flavors(lockfile.flavors, vimfiles_path)
+
+        trace "Completed.\n"
       end
 
-      def load()
-        @flavorfile = FlavorFile.new()
-        @flavorfile.eval_flavorfile(@flavorfile_path)
-
-        @lockfile = LockFile.new(@lockfile_path)
-        @lockfile.load() if File.exists?(@lockfile_path)
+      def install(vimfiles_path)
+        refresh_flavors(:install, vimfiles_path)
       end
 
-      def make_new_flavors(current_flavors, locked_flavors, mode)
-        new_flavors = {}
+      def upgrade(vimfiles_path)
+        refresh_flavors(:upgrade, vimfiles_path)
+      end
 
-        current_flavors.each do |repo_uri, cf|
-          lf = locked_flavors[repo_uri]
-          nf = cf.dup()
+      def complete(current_flavor_table, locked_flavor_table, mode)
+        completed_flavor_table = {}
 
-          nf.locked_version =
-            if (not lf) or
-              cf.version_contraint != lf.version_contraint or
-              mode == :update then
-              cf.locked_version
-            else
-              lf.locked_version
-            end
+        trace "Checking versions...\n"
 
-          new_flavors[repo_uri] = nf
+        current_flavor_table.values.map(&:dup).sort_by(&:repo_name).
+        before_each {|nf| trace "  Use #{nf.repo_name} ..."}.
+        after_each {|nf| trace " #{nf.locked_version}\n"}.
+        on_failure {trace " failed\n"}.
+        each do |nf|
+          lf = locked_flavor_table[nf.repo_name]
+
+          already_cached = nf.cached?
+          nf.clone() unless already_cached
+
+          if mode == :install and lf and nf.satisfied_with?(lf)
+            nf.use_specific_version(lf.locked_version)
+          else
+            nf.fetch() if already_cached
+            nf.use_appropriate_version()
+          end
+
+          completed_flavor_table[nf.repo_name] = nf
         end
 
-        new_flavors
+        completed_flavor_table
+      end
+
+      def deploy_flavors(flavors, vimfiles_path)
+        trace "Deploying plugins...\n"
+
+        FileUtils.rm_rf(
+          ["#{vimfiles_path.to_flavors_path}"],
+          :secure => true
+        )
+
+        create_vim_script_for_bootstrap(vimfiles_path)
+
+        flavors.
+        before_each {|f| trace "  #{f.repo_name} #{f.locked_version} ..."}.
+        after_each {|f| trace " done\n"}.
+        on_failure {trace " failed\n"}.
+        each do |f|
+          f.deploy(vimfiles_path)
+        end
       end
 
       def create_vim_script_for_bootstrap(vimfiles_path)
-        bootstrap_path = "#{vimfiles_path.to_flavors_path()}/bootstrap.vim"
+        bootstrap_path = vimfiles_path.to_flavors_path.to_bootstrap_path
         FileUtils.mkdir_p(File.dirname(bootstrap_path))
         File.open(bootstrap_path, 'w') do |f|
           f.write(<<-'END')
@@ -84,73 +113,7 @@ module Vim
           END
         end
       end
-
-      def deploy_flavors(flavor_list, vimfiles_path)
-        FileUtils.rm_rf(
-          ["#{vimfiles_path.to_flavors_path()}"],
-          :secure => true
-        )
-
-        create_vim_script_for_bootstrap(vimfiles_path)
-        flavor_list.each do |f|
-          trace("Deploying #{f.repo_name} (#{f.locked_version})\n")
-          f.deploy(vimfiles_path)
-        end
-      end
-
-      def save_lockfile()
-        @lockfile.save()
-      end
-
-      def complete_locked_flavors(mode)
-        nfs = {}
-        @flavorfile.flavors.each do |repo_uri, cf|
-          nf = cf.dup()
-          lf = @lockfile.flavors[repo_uri]
-
-          trace("Using #{nf.repo_name} ... ")
-          begin
-            if not File.exists?(nf.cached_repo_path)
-              nf.clone()
-            end
-
-            if mode == :upgrade_all or
-              (not lf) or
-              nf.version_contraint != lf.version_contraint then
-              nf.fetch()
-              nf.update_locked_version()
-            else
-              nf.locked_version = lf.locked_version
-            end
-          end
-          trace("(#{nf.locked_version})\n")
-
-          nfs[repo_uri] = nf
-        end
-
-        @lockfile.instance_eval do
-          @flavors = nfs
-        end
-      end
-
-      def get_default_vimfiles_path()
-        # FIXME: Compute more appropriate value.
-        "#{ENV['HOME']}/.vim"
-      end
-
-      def install(vimfiles_path)
-        load()
-        complete_locked_flavors(:upgrade_if_necessary)
-        save_lockfile()
-        deploy_flavors(lockfile.flavors.values, vimfiles_path)
-      end
-
-      def upgrade(vimfiles_path)
-        load()
-        complete_locked_flavors(:upgrade_all)
-        save_lockfile()
-        deploy_flavors(lockfile.flavors.values, vimfiles_path)
-      end
     end
   end
 end
+

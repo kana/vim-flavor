@@ -1,11 +1,15 @@
-require 'bundler/setup'
 require 'spec_helper'
-require 'vim-flavor'
 
-describe Vim::Flavor::StringExtension do
-  describe '#to_flavors_path' do
-    it 'should return a flavors path from a vimfiles path' do
-      '~/.vim'.to_flavors_path().should == '~/.vim/flavors'
+module Vim
+  module Flavor
+    describe StringExtension do
+      describe '#zap' do
+        it 'replace unsafe characters with "_"' do
+          'fakeclip'.zap.should == 'fakeclip'
+          'kana/vim-altr'.zap.should == 'kana_vim-altr'
+          'git://example.com/foo.git'.zap.should == 'git___example.com_foo.git'
+        end
+      end
     end
   end
 end

@@ -1,93 +1,83 @@
-require 'bundler/setup'
-require 'fileutils'
 require 'spec_helper'
-require 'vim-flavor'
+require 'tmpdir'
 
-describe Vim::Flavor::LockFile do
-  with_temporary_directory
+module Vim
+  module Flavor
+    describe LockFile do
+      around :each do |example|
+        Dir.mktmpdir do |tmp_path|
+          @tmp_path = tmp_path
+          example.run
+        end
+      end
 
-  before :each do
-    @lockfile_path = "#{@tmp_path}/VimFlavor.lock"
-  end
+      def flavor(repo_name, locked_version)
+        f = Flavor.new()
+        f.repo_name = repo_name
+        f.locked_version = locked_version
+        f
+      end
 
-  it 'should be initialized with a given path and no flavor' do
-    lf = described_class.new(@lockfile_path)
+      it 'has flavors sorted by repo_name' do
+        l = LockFile.new(@tmp_path.to_lockfile_path)
+        foo = flavor('foo', '1.2.3')
+        bar = flavor('bar', '2.3.4')
+        baz = flavor('baz', '3.4.5')
+        [foo, bar, baz].each do |f|
+          l.flavor_table[f.repo_name] = f
+        end
 
-    lf.path.should == @lockfile_path
-    lf.flavors.should be_empty
-  end
+        l.flavors.should == [bar, baz, foo]
+      end
 
-  it 'should be able to persist its content' do
-    @flavor1 = Vim::Flavor::Flavor.new()
-    @flavor1.groups = [:default]
-    @flavor1.locked_version = Gem::Version.create('1.2.3')
-    @flavor1.repo_name = 'kana/vim-smartinput'
-    @flavor1.repo_uri = 'git://github.com/kana/vim-smartinput.git'
-    @flavor1.version_contraint = Vim::Flavor::VersionConstraint.new('>= 0')
+      describe '::serialize_lock_status' do
+        it 'converts a flavor into an array of lines' do
+          LockFile.serialize_lock_status(flavor('foo', '1.2.3')).should ==
+            ['foo (1.2.3)']
+        end
+      end
 
-    FileUtils.mkdir_p(File.dirname(@lockfile_path))
-    lf = described_class.new("#{@lockfile_path}.1")
+      describe '#load' do
+        it 'loads locked information from a lockfile' do
+          File.open(@tmp_path.to_lockfile_path, 'w') do |io|
+            io.write(<<-'END')
+              foo (1.2.3)
+              bar (2.3.4)
+              baz (3.4.5)
+            END
+          end
 
-    lf.flavors.should be_empty
+          l = LockFile.new(@tmp_path.to_lockfile_path)
+          l.flavor_table.should be_empty
 
-    File.exists?(lf.path).should be_false
+          l.load()
+          l.flavor_table['foo'].repo_name.should == 'foo'
+          l.flavor_table['foo'].locked_version.should == '1.2.3'
+          l.flavor_table['bar'].repo_name.should == 'bar'
+          l.flavor_table['bar'].locked_version.should == '2.3.4'
+          l.flavor_table['baz'].repo_name.should == 'baz'
+          l.flavor_table['baz'].locked_version.should == '3.4.5'
+        end
+      end
 
-    lf.save()
+      describe '::load_or_new' do
+        it 'creates a new instance then loads a lockfile' do
+          File.open(@tmp_path.to_lockfile_path, 'w') do |io|
+            io.write(<<-'END')
+              foo (1.2.3)
+            END
+          end
 
-    File.exists?(lf.path).should be_true
+          l = LockFile.load_or_new(@tmp_path.to_lockfile_path)
+          l.flavor_table['foo'].repo_name.should == 'foo'
+          l.flavor_table['foo'].locked_version.should == '1.2.3'
+        end
 
-    lf.flavors[@flavor1.repo_uri] = @flavor1
-    lf.load()
-
-    lf.flavors.should be_empty
-
-    lf.flavors[@flavor1.repo_uri] = @flavor1
-    lf.save()
-    lf.load()
-
-    lf.flavors.should == {@flavor1.repo_uri => @flavor1}
-  end
-
-  describe '::poro_from_flavors and ::flavors_from_poro' do
-    before :each do
-      @flavor1 = Vim::Flavor::Flavor.new()
-      @flavor1.groups = [:default]
-      @flavor1.locked_version = Gem::Version.create('1.2.3')
-      @flavor1.repo_name = 'kana/vim-smartinput'
-      @flavor1.repo_uri = 'git://github.com/kana/vim-smartinput.git'
-      @flavor1.version_contraint = Vim::Flavor::VersionConstraint.new('>= 0')
-      @flavor2 = Vim::Flavor::Flavor.new()
-      @flavor2.groups = [:default]
-      @flavor2.locked_version = Gem::Version.create('4.5.6')
-      @flavor2.repo_name = 'kana/vim-smarttill'
-      @flavor2.repo_uri = 'git://github.com/kana/vim-smarttill.git'
-      @flavor2.version_contraint = Vim::Flavor::VersionConstraint.new('>= 0')
-      @flavors = {
-        @flavor1.repo_uri => @flavor1,
-        @flavor2.repo_uri => @flavor2,
-      }
-      @flavors_in_poro = {
-        @flavor1.repo_uri => {
-          :groups => @flavor1.groups,
-          :locked_version => @flavor1.locked_version.to_s(),
-          :repo_name => @flavor1.repo_name,
-          :version_contraint => @flavor1.version_contraint.to_s(),
-        },
-        @flavor2.repo_uri => {
-          :groups => @flavor2.groups,
-          :locked_version => @flavor2.locked_version.to_s(),
-          :repo_name => @flavor2.repo_name,
-          :version_contraint => @flavor2.version_contraint.to_s(),
-        },
-      }
-    end
-
-    it 'should create PORO from flavors' do
-      described_class.poro_from_flavors(@flavors).should == @flavors_in_poro
-    end
-
-    it 'should create flavors from PORO' do
-      described_class.flavors_from_poro(@flavors_in_poro).should == @flavors
+        it 'only creates a new instance if a given path does not exist' do
+          l = LockFile.load_or_new(@tmp_path.to_lockfile_path)
+          l.flavor_table.should be_empty
+        end
+      end
     end
   end
 end

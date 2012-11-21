@@ -1,22 +1,25 @@
 module Vim
   module Flavor
     class VersionConstraint
-      attr_reader :base_version, :operator
+      attr_reader :base_version
+
+      # Specifies how to choose a suitable version according to base_version.
+      attr_reader :qualifier
 
       def initialize(s)
-        @base_version, @operator = parse(s)
+        @base_version, @qualifier = self.class.parse(s)
       end
 
       def to_s()
-        "#{@operator} #{@base_version}"
+        "#{qualifier} #{base_version}"
       end
 
       def ==(other)
         self.base_version == other.base_version &&
-          self.operator == other.operator
+          self.qualifier == other.qualifier
       end
 
-      def parse(s)
+      def self.parse(s)
         m = /^\s*(>=|~>)\s+(\S+)$/.match(s)
         if m
           [Gem::Version.create(m[2]), m[1]]
@@ -27,9 +30,9 @@ module Vim
 
       def compatible?(other_version_or_s)
         v = Gem::Version.create(other_version_or_s)
-        if @operator == '~>'
+        if qualifier == '~>'
           self.base_version.bump() > v and v >= self.base_version
-        elsif @operator == '>='
+        elsif qualifier == '>='
           v >= self.base_version
         else
           raise NotImplementedError

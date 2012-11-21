@@ -1,4 +1,5 @@
 require 'bundler/setup'
+require 'vim-flavor/enumerableextension'
 
 module Vim
   module Flavor
@@ -8,6 +9,7 @@ module Vim
       :Flavor,
       :FlavorFile,
       :LockFile,
+      :LockFileParser,
       :StringExtension,
       :VERSION,
       :VersionConstraint,
@@ -17,18 +19,6 @@ module Vim
 
     class ::String
       include StringExtension
-    end
-
-    class << self
-      @@dot_path = File.expand_path('~/.vim-flavor')
-
-      def dot_path
-        @@dot_path
-      end
-
-      def dot_path= path
-        @@dot_path = path
-      end
     end
   end
 end
