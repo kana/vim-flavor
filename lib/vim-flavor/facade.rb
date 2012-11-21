@@ -3,14 +3,26 @@ require 'fileutils'
 module Vim
   module Flavor
     class Facade
+      def trace message
+        print message
+      end
+
       def refresh_flavors(mode, vimfiles_path)
         flavorfile = FlavorFile.load(Dir.getwd().to_flavorfile_path)
         lockfile = LockFile.load_or_new(Dir.getwd().to_lockfile_path)
 
-        lockfile.update(flavorfile.complete(lockfile.flavor_table, mode))
+        lockfile.update(
+          complete(
+            flavorfile.flavor_table,
+            lockfile.flavor_table,
+            mode
+          )
+        )
         lockfile.save()
 
         deploy_flavors(lockfile.flavors, vimfiles_path)
+
+        trace "Completed.\n"
       end
 
       def install(vimfiles_path)
@@ -21,14 +33,49 @@ module Vim
         refresh_flavors(:upgrade, vimfiles_path)
       end
 
+      def complete(current_flavor_table, locked_flavor_table, mode)
+        completed_flavor_table = {}
+
+        trace "Checking versions...\n"
+
+        current_flavor_table.values.map(&:dup).sort_by(&:repo_name).
+        before_each {|nf| trace "  Use #{nf.repo_name} ..."}.
+        after_each {|nf| trace " #{nf.locked_version}\n"}.
+        on_failure {trace " failed\n"}.
+        each do |nf|
+          lf = locked_flavor_table[nf.repo_name]
+
+          already_cached = nf.cached?
+          nf.clone() unless already_cached
+
+          if mode == :install and lf and nf.satisfied_with?(lf)
+            nf.use_specific_version(lf.locked_version)
+          else
+            nf.fetch() if already_cached
+            nf.use_appropriate_version()
+          end
+
+          completed_flavor_table[nf.repo_name] = nf
+        end
+
+        completed_flavor_table
+      end
+
       def deploy_flavors(flavors, vimfiles_path)
+        trace "Deploying plugins...\n"
+
         FileUtils.rm_rf(
           ["#{vimfiles_path.to_flavors_path}"],
           :secure => true
         )
 
         create_vim_script_for_bootstrap(vimfiles_path)
-        flavors.each do |f|
+
+        flavors.
+        before_each {|f| trace "  #{f.repo_name} #{f.locked_version} ..."}.
+        after_each {|f| trace " done\n"}.
+        on_failure {trace " failed\n"}.
+        each do |f|
           f.deploy(vimfiles_path)
         end
       end

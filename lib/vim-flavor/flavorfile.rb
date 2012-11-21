@@ -19,29 +19,6 @@ module Vim
         )
       end
 
-      def complete(locked_flavor_table, mode)
-        completed_flavor_table = {}
-
-        flavor_table.each do |repo_name, cf|
-          nf = cf.dup()
-          lf = locked_flavor_table[repo_name]
-
-          already_cached = nf.cached?
-          nf.clone() unless already_cached
-
-          if mode == :install and lf and nf.satisfied_with?(lf)
-            nf.use_specific_version(lf.locked_version)
-          else
-            nf.fetch() if already_cached
-            nf.use_appropriate_version()
-          end
-
-          completed_flavor_table[repo_name] = nf
-        end
-
-        completed_flavor_table
-      end
-
       def flavor(repo_name, version_constraint='>= 0')
         f = Flavor.new()
         f.repo_name = repo_name
