@@ -98,10 +98,14 @@ module Vim
         output.split(/[\r\n]/)
       end
 
-      def list_versions()
-        list_tags().
+      def versions_from_tags(tags)
+        tags.
           select {|t| t != '' && Gem::Version.correct?(t)}.
           map {|t| Gem::Version.create(t)}
+      end
+
+      def list_versions()
+        versions_from_tags(list_tags())
       end
 
       def sh script
