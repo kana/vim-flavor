@@ -88,16 +88,18 @@ module Vim
         @locked_version = locked_version
       end
 
-      def list_versions()
-        tags = sh %Q[
+      def list_tags()
+        output = sh %Q[
           {
             cd '#{cached_repo_path}' &&
             git tag
           } 2>&1
         ]
+        output.split(/[\r\n]/)
+      end
 
-        tags.
-          split(/[\r\n]/).
+      def list_versions()
+        list_tags().
           select {|t| t != '' && Gem::Version.correct?(t)}.
           map {|t| Gem::Version.create(t)}
       end
