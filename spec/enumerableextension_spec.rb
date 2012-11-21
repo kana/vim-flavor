@@ -42,6 +42,59 @@ module Vim
           ]
         end
       end
+
+      describe '#on_failure' do
+        it 'runs a given block if a core block raises an exception' do
+          xs = []
+
+          expect {
+            [1, 2, 3].
+            on_failure {|n| xs << "on_failure #{n}"}.
+            each do |n|
+              xs << "each enter #{n}"
+              raise RuntimeError, "bang! #{n}" if 2 < n
+              xs << "each leave #{n}"
+            end
+          }.to raise_error(RuntimeError, 'bang! 3')
+
+          xs.should == [
+            "each enter 1",
+            "each leave 1",
+            "each enter 2",
+            "each leave 2",
+            "each enter 3",
+            "on_failure 3",
+          ]
+        end
+
+        it 'runs a given block with null if a yielder raises an exception' do
+          xs = []
+          e = Object.new()
+          def e.each
+            yield 1
+            yield 2
+            raise RuntimeError, 'bang!'
+            yield 3
+          end
+
+          expect {
+            e.to_enum.
+            on_failure {|n| xs << "on_failure #{n.class}"}.
+            each do |n|
+              xs << "each enter #{n}"
+              xs << "each leave #{n}"
+            end
+          }.to raise_error(RuntimeError, 'bang!')
+
+          xs.should == [
+            "each enter 1",
+            "each leave 1",
+            "each enter 2",
+            "each leave 2",
+            "on_failure #{nil.class}",
+          ]
+        end
+      end
     end
   end
 end
