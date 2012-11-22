@@ -47,3 +47,5 @@ end
 World do
   FakeUserEnvironment.new
 end
+
+ENV['THOR_DEBUG'] = '1'  # To raise an exception as is.

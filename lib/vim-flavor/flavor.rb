@@ -8,6 +8,9 @@ module Vim
       # A constraint to choose a proper version.
       attr_accessor :version_constraint
 
+      # A group which this flavor belongs to.
+      attr_accessor :group
+
       # A version of a plugin to be installed.
       attr_accessor :locked_version
 
