@@ -44,7 +44,7 @@ and `vim-flavor` does it.
 The file is called a flavorfile.  A flavorfile contains zero or more
 declarations about Vim plugins and which versions of Vim plugins to use.
 
-See also [Flavorfile details](../flavorfile).
+See also [more details about flavorfile](flavorfile).
 
 
 
