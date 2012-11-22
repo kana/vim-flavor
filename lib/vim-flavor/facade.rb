@@ -113,6 +113,18 @@ module Vim
           END
         end
       end
+
+      def make_may_deploy(with_groups, without_groups)
+        if with_groups and without_groups
+          raise RuntimeError, '--with and --without are exclusive.'
+        end
+
+        lambda {|f|
+          return with_groups.include?(f.group) if with_groups
+          return !without_groups.include?(f.group) if without_groups
+          return true
+        }
+      end
     end
   end
 end
