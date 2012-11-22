@@ -21,6 +21,28 @@ module Vim
             f.version_constraint.should == VersionConstraint.new('>= 0')
           end
         end
+
+        context 'group option' do
+          it 'supports a group option with a version constraint' do
+            ff.flavor 'kana/vim-vspec', '~> 1.0', :group => :development
+            f = ff.flavor_table['kana/vim-vspec']
+            f.version_constraint.should == VersionConstraint.new('~> 1.0')
+            f.group.should == :development
+          end
+
+          it 'supports a group option without version constraint' do
+            ff.flavor 'kana/vim-vspec', :group => :development
+            f = ff.flavor_table['kana/vim-vspec']
+            f.version_constraint.should == VersionConstraint.new('>= 0')
+            f.group.should == :development
+          end
+
+          it 'uses :default as the default group' do
+            ff.flavor 'kana/vim-vspec'
+            f = ff.flavor_table['kana/vim-vspec']
+            f.group.should == :default
+          end
+        end
       end
 
       describe '.load' do
