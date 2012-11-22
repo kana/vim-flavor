@@ -7,7 +7,8 @@ module Vim
         print message
       end
 
-      def refresh_flavors(mode, vimfiles_path)
+      def refresh_flavors(mode, vimfiles_path, with_groups)
+        may_deploy = make_may_deploy(with_groups, nil)
         flavorfile = FlavorFile.load(Dir.getwd().to_flavorfile_path)
         lockfile = LockFile.load_or_new(Dir.getwd().to_lockfile_path)
 
@@ -20,17 +21,17 @@ module Vim
         )
         lockfile.save()
 
-        deploy_flavors(lockfile.flavors, vimfiles_path)
+        deploy_flavors(lockfile.flavors, vimfiles_path, may_deploy)
 
         trace "Completed.\n"
       end
 
-      def install(vimfiles_path)
-        refresh_flavors(:install, vimfiles_path)
+      def install(vimfiles_path, with_groups)
+        refresh_flavors(:install, vimfiles_path, with_groups)
       end
 
-      def upgrade(vimfiles_path)
-        refresh_flavors(:upgrade, vimfiles_path)
+      def upgrade(vimfiles_path, with_groups)
+        refresh_flavors(:upgrade, vimfiles_path, with_groups)
       end
 
       def complete(current_flavor_table, locked_flavor_table, mode)
@@ -61,7 +62,7 @@ module Vim
         completed_flavor_table
       end
 
-      def deploy_flavors(flavors, vimfiles_path)
+      def deploy_flavors(flavors, vimfiles_path, may_deploy)
         trace "Deploying plugins...\n"
 
         FileUtils.rm_rf(
@@ -72,6 +73,7 @@ module Vim
         create_vim_script_for_bootstrap(vimfiles_path)
 
         flavors.
+        select(&may_deploy).
         before_each {|f| trace "  #{f.repo_name} #{f.locked_version} ..."}.
         after_each {|f| trace " done\n"}.
         on_failure {trace " failed\n"}.
