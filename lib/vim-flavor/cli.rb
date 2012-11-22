@@ -10,6 +10,9 @@ module Vim
         method_option :with,
           :desc => 'Deploy flavors only in comma-separated GROUPS.',
           :banner => 'GROUPS'
+        method_option :without,
+          :desc => 'Deploy flavors not in comma-separated GROUPS.',
+          :banner => 'GROUPS'
       end
 
       desc 'install', 'Install Vim plugins according to VimFlavor file.'
@@ -17,7 +20,8 @@ module Vim
       def install
         Facade.new().install(
           options[:vimfiles_path] || default_vimfiles_path,
-          normalize_groups(options[:with])
+          normalize_groups(options[:with]),
+          normalize_groups(options[:without]),
         )
       end
 
@@ -26,7 +30,8 @@ module Vim
       def upgrade
         Facade.new().upgrade(
           options[:vimfiles_path] || default_vimfiles_path,
-          normalize_groups(options[:with])
+          normalize_groups(options[:with]),
+          normalize_groups(options[:without])
         )
       end
 
