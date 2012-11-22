@@ -45,6 +45,13 @@ module Vim
         f.group = options[:group] || default_group
         flavor_table[f.repo_name] = f
       end
+
+      def group(group, &block)
+        default_groups.push(group)
+        instance_eval &block
+      ensure
+        default_groups.pop()
+      end
     end
   end
 end
