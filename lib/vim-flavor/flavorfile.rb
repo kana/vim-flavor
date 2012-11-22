@@ -10,6 +10,10 @@ module Vim
         @default_groups ||= [:default]
       end
 
+      def default_group
+        default_groups.last
+      end
+
       def self.load(flavorfile_path)
         ff = new()
         ff.load(flavorfile_path)
