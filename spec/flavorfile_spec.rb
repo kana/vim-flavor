@@ -4,9 +4,10 @@ module Vim
   module Flavor
     describe FlavorFile do
       describe '#flavor' do
+        let(:ff) {FlavorFile.new()}
+
         context 'basics' do
           it 'registers a flavor' do
-            ff = FlavorFile.new()
             ff.flavor 'kana/vim-altr', '>= 1.2.3'
             f = ff.flavor_table['kana/vim-altr']
             f.repo_name.should == 'kana/vim-altr'
@@ -14,7 +15,6 @@ module Vim
           end
 
           it 'completes version constraint if it is not given' do
-            ff = FlavorFile.new()
             ff.flavor 'kana/vim-altr'
             f = ff.flavor_table['kana/vim-altr']
             f.repo_name.should == 'kana/vim-altr'
