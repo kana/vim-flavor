@@ -43,6 +43,48 @@ module Vim
             f.group.should == :default
           end
         end
+
+        context 'group block' do
+          it 'changes the default group for flavors in a given block' do
+            ff.flavor 'a'
+            ff.group :outer do
+              flavor 'b'
+              group :inner do
+                flavor 'c'
+              end
+              flavor 'd'
+            end
+            ff.flavor 'e'
+
+            ff.flavor_table['a'].group.should == :default
+            ff.flavor_table['b'].group.should == :outer
+            ff.flavor_table['c'].group.should == :inner
+            ff.flavor_table['d'].group.should == :outer
+            ff.flavor_table['e'].group.should == :default
+          end
+
+          it 'restores the default group even if an exception is raised' do
+            ff.flavor 'a'
+            ff.group :outer do
+              begin
+                flavor 'b'
+                group :inner do
+                  raise RuntimeError
+                  flavor 'c'
+                end
+              rescue
+              end
+              flavor 'd'
+            end
+            ff.flavor 'e'
+
+            ff.flavor_table['a'].group.should == :default
+            ff.flavor_table['b'].group.should == :outer
+            ff.flavor_table['c'].should be_nil
+            ff.flavor_table['d'].group.should == :outer
+            ff.flavor_table['e'].group.should == :default
+          end
+        end
       end
 
       describe '.load' do
