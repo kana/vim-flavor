@@ -34,6 +34,7 @@ module Vim
         f = Flavor.new()
         f.repo_name = repo_name
         f.version_constraint = VersionConstraint.new(version_constraint)
+        f.group = options[:group] || :default
         flavor_table[f.repo_name] = f
       end
     end
