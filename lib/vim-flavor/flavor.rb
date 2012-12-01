@@ -1,6 +1,8 @@
 module Vim
   module Flavor
     class Flavor
+      include ShellUtility
+
       # A short name of a repository.
       # Possible formats are "$user/$repo", "$repo" and "$repo_uri".
       attr_accessor :repo_name
@@ -109,15 +111,6 @@ module Vim
 
       def list_versions()
         versions_from_tags(list_tags())
-      end
-
-      def sh script
-        output = send(:`, script)
-        if $? == 0
-          output
-        else
-          raise RuntimeError, output
-        end
       end
 
       def satisfied_with?(locked_flavor)
