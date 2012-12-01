@@ -21,7 +21,11 @@ module Vim
         )
         lockfile.save()
 
-        deploy_flavors(lockfile.flavors, vimfiles_path, may_deploy)
+        deploy_flavors(
+          lockfile.flavors,
+          vimfiles_path.to_flavors_path,
+          may_deploy
+        )
 
         trace "Completed.\n"
       end
@@ -62,15 +66,15 @@ module Vim
         completed_flavor_table
       end
 
-      def deploy_flavors(flavors, vimfiles_path, may_deploy)
+      def deploy_flavors(flavors, flavors_path, may_deploy)
         trace "Deploying plugins...\n"
 
         FileUtils.rm_rf(
-          ["#{vimfiles_path.to_flavors_path}"],
+          [flavors_path],
           :secure => true
         )
 
-        create_vim_script_for_bootstrap(vimfiles_path)
+        create_vim_script_for_bootstrap(flavors_path)
 
         flavors.
         select(&may_deploy).
@@ -78,12 +82,12 @@ module Vim
         after_each {|f| trace " done\n"}.
         on_failure {trace " failed\n"}.
         each do |f|
-          f.deploy(vimfiles_path)
+          f.deploy(flavors_path)
         end
       end
 
-      def create_vim_script_for_bootstrap(vimfiles_path)
-        bootstrap_path = vimfiles_path.to_flavors_path.to_bootstrap_path
+      def create_vim_script_for_bootstrap(flavors_path)
+        bootstrap_path = flavors_path.to_bootstrap_path
         FileUtils.mkdir_p(File.dirname(bootstrap_path))
         File.open(bootstrap_path, 'w') do |f|
           f.write(<<-'END')
