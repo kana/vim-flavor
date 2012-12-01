@@ -133,6 +133,46 @@ module Vim
           return true
         }
       end
+
+      def test()
+        trace "-------- Preparing dependencies\n"
+
+        flavorfile = FlavorFile.load_or_new(Dir.getwd().to_flavorfile_path)
+        flavorfile.flavor 'kana/vim-vspec', '~> 1.0', :group => :test unless
+          flavorfile.flavor_table.has_key?('kana/vim-vspec')
+        lockfile = LockFile.load_or_new(Dir.getwd().to_lockfile_path)
+
+        lockfile.update(
+          complete(
+            flavorfile.flavor_table,
+            lockfile.flavor_table,
+            :install
+          )
+        )
+        lockfile.save()
+
+        # FIXME: It's somewhat wasteful to refresh flavors every time.
+        deploy_flavors(
+          lockfile.flavors,
+          Dir.getwd().to_stash_path.to_deps_path,
+          lambda {|f| true}  # FIXME: Verbose.
+        )
+
+        trace "-------- Testing a Vim plugin\n"
+
+        prove_options = '--comments --failure --directives'
+        deps_path = Dir.getwd().to_stash_path.to_deps_path
+        vspec = "#{deps_path}/#{'kana/vim-vspec'.zap}/bin/vspec"
+        plugin_paths = lockfile.flavors.map {|f|
+          "#{deps_path}/#{f.repo_name.zap}"
+        }
+        # FIXME: Testing messages are not outputted in real time.
+        print sh %Q{
+          prove --ext '.t' #{prove_options} &&
+          prove --ext '.vim' #{prove_options} \
+            --exec '#{vspec} #{Dir.getwd()} #{plugin_paths.join(' ')}'
+        }
+      end
     end
   end
 end
