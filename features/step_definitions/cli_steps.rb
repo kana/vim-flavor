@@ -3,15 +3,18 @@ When /^I run `vim-flavor(.*)`(?: again)?(?:,? (but))?$/ do |args, mode|
     original_home = ENV['HOME']
     ENV['HOME'] = expand('$home')
     Dir.chdir(expand('$tmp')) do
-      original_stdout = $stdout
-      begin
-        $stdout = @output = StringIO.new()
-        Vim::Flavor::CLI.start(args.strip().split(/\s+/).map {|a| expand(a)})
-      rescue RuntimeError => e
-        @last_error = e
-      ensure
-        $stdout = original_stdout
+      original_stdout = STDOUT.dup()
+      File.open('stdout', 'w') do |new_stdout|
+        begin
+          STDOUT.reopen(new_stdout)
+          Vim::Flavor::CLI.start(args.strip().split(/\s+/).map {|a| expand(a)})
+        rescue RuntimeError => e
+          @last_error = e
+        ensure
+          STDOUT.reopen(original_stdout)
+        end
       end
+      @output = File.open('stdout') {|new_stdout| new_stdout.read()}
       if mode == 'but'
         raise RuntimeError, 'Command succeeded unexpectedly' if not @last_error
       else
@@ -34,10 +37,10 @@ end
 
 Then 'it outputs progress as follows' do |text|
   # For some reason, Cucumber drops the last newline from every docstring...
-  @output.string.should include expand(text + "\n")
+  @output.should include expand(text + "\n")
 end
 
 Then 'it outputs progress like' do |pattern|
   # For some reason, Cucumber drops the last newline from every docstring...
-  @output.string.should match Regexp.new(expand(pattern + "\n"))
+  @output.should match Regexp.new(expand(pattern + "\n"))
 end
