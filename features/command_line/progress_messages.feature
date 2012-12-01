@@ -16,7 +16,7 @@ Feature: Progress messages
       flavor '$bar_uri'
       """
     When I run `vim-flavor install`
-    Then it outputs progress like
+    Then it outputs progress as follows
       """
       Checking versions...
         Use $bar_uri ... 2.0.2
@@ -37,7 +37,7 @@ Feature: Progress messages
       """
       fatal: '\S+' does not appear to be a git repository
       """
-    And it outputs progress like
+    And it outputs progress as follows
       """
       Checking versions...
         Use no-such-plugin ... failed
