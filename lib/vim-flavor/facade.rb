@@ -3,6 +3,8 @@ require 'fileutils'
 module Vim
   module Flavor
     class Facade
+      include ShellUtility
+
       def trace message
         print message
       end
