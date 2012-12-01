@@ -2,7 +2,7 @@ Given /^a repository '(.+)' with versions '(.+)'$/ do |basename, versions|
   repository_path = make_repo_path(basename)
   doc_name = basename.split('/').last.sub(/^vim-/, '')
   variable_table["#{basename}_uri"] = make_repo_uri(basename)
-  system <<-"END"
+  sh <<-"END"
     {
       mkdir -p '#{repository_path}' &&
       cd '#{repository_path}' &&
@@ -21,7 +21,7 @@ end
 
 Given /^a repository '(.+)' from offline cache$/ do |repo_name|
   repository_path = make_repo_path(repo_name)
-  system <<-"END"
+  sh <<-"END"
     {
       git clone 'vendor/#{repo_name}' '#{repository_path}'
     } >/dev/null
