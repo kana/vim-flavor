@@ -23,6 +23,10 @@ When /^I run `vim-flavor(.*)`(?: again)?(?:,? (but))?$/ do |args, mode|
   end
 end
 
+Then /^it succeeds$/ do
+  @last_error.should be_nil
+end
+
 Then /^it fails with messages like$/ do |pattern|
   @last_error.should_not be_nil
   @last_error.message.should match Regexp.new(pattern.strip().gsub(/\s+/, '\s+'))
