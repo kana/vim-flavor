@@ -12,6 +12,7 @@ class FakeUserEnvironment
   end
 
   def create_file path, content
+    FileUtils.mkdir_p(File.dirname(path))
     File.open(path, 'w') do |f|
       f.write(content)
     end
