@@ -1,0 +1,3 @@
+[submodule "vendor/kana/vim-vspec"]
+	path = vendor/kana/vim-vspec
+	url = git://github.com/kana/vim-vspec
