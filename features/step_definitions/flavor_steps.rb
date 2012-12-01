@@ -19,6 +19,15 @@ Given /^a repository '(.+)' with versions '(.+)'$/ do |basename, versions|
   END
 end
 
+Given /^a repository '(.+)' from offline cache$/ do |repo_name|
+  repository_path = make_repo_path(repo_name)
+  system <<-"END"
+    {
+      git clone 'vendor/#{repo_name}' '#{repository_path}'
+    } >/dev/null
+  END
+end
+
 Given /^I disable network to the original repository of '(.+)'$/ do |basename|
   delete_path make_repo_path(basename)
 end
