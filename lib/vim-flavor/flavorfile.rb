@@ -14,6 +14,12 @@ module Vim
         default_groups.last
       end
 
+      def self.load_or_new(flavorfile_path)
+        ff = new()
+        ff.load(flavorfile_path) if File.exists?(flavorfile_path)
+        ff
+      end
+
       def self.load(flavorfile_path)
         ff = new()
         ff.load(flavorfile_path)
