@@ -36,3 +36,8 @@ Then 'it outputs progress as follows' do |text|
   # For some reason, Cucumber drops the last newline from every docstring...
   @output.string.should include expand(text + "\n")
 end
+
+Then 'it outputs progress like' do |pattern|
+  # For some reason, Cucumber drops the last newline from every docstring...
+  @output.string.should match Regexp.new(expand(pattern + "\n"))
+end
