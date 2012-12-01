@@ -2,6 +2,8 @@ require 'fileutils'
 require 'vim-flavor'
 
 class FakeUserEnvironment
+  include Vim::Flavor::ShellUtility
+
   def initialize()
     env = self
     Vim::Flavor::Flavor.instance_eval do
