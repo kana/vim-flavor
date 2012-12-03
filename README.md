@@ -3,6 +3,11 @@
 [![Build Status](https://travis-ci.org/kana/vim-flavor.png)](https://travis-ci.org/kana/vim-flavor)
 [![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/kana/vim-flavor)
 
+
+
+
+## Getting started
+
     cd $YOUR_REPOSITORY_FOR_DOTFILES
 
     cat >VimFlavor <<'END'
