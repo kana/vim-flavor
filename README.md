@@ -1,5 +1,7 @@
 # vim-flavor, a tool to manage your favorite Vim plugins
 
+[![Build Status](https://travis-ci.org/kana/vim-flavor.png)](https://travis-ci.org/kana/vim-flavor)
+
     cd $YOUR_REPOSITORY_FOR_DOTFILES
 
     cat >VimFlavor <<'END'
