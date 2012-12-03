@@ -14,15 +14,15 @@ module Vim
         end
 
         it 'creates a bootstrap script to configure runtimepath for flavors' do
-          vimfiles_path = @tmp_path.to_vimfiles_path
-          Facade.new().create_vim_script_for_bootstrap(vimfiles_path)
+          flavors_path = @tmp_path.to_vimfiles_path.to_flavors_path
+          Facade.new().create_vim_script_for_bootstrap(flavors_path)
 
-          File.should exist(vimfiles_path.to_flavors_path.to_bootstrap_path)
+          File.should exist(flavors_path.to_bootstrap_path)
 
           _rtp = %x{
             for plugin_name in 'foo' 'bar' 'baz'
             do
-              mkdir -p "#{vimfiles_path.to_flavors_path}/$plugin_name"
+              mkdir -p "#{flavors_path}/$plugin_name"
             done
             HOME='#{@tmp_path}' vim -u NONE -i NONE -n -N -e -s -c '
               set verbose=1

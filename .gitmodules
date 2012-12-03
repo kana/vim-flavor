@@ -1,0 +1,6 @@
+[submodule "vendor/kana/vim-vspec"]
+	path = vendor/kana/vim-vspec
+	url = git://github.com/kana/vim-vspec
+[submodule "vendor/kana/vim-textobj-user"]
+	path = vendor/kana/vim-textobj-user
+	url = git://github.com/kana/vim-textobj-user

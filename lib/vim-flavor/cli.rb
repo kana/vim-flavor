@@ -35,6 +35,11 @@ module Vim
         )
       end
 
+      desc 'test', 'Test a Vim plugin in the current working directory.'
+      def test
+        Facade.new().test()
+      end
+
       no_tasks do
         def default_vimfiles_path
           ENV['HOME'].to_vimfiles_path
