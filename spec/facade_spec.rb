@@ -52,36 +52,6 @@ module Vim
           ]
         end
       end
-
-      describe '#make_may_deploy' do
-        let(:f) {Facade.new()}
-        let(:a) {f = Flavor.new(); f.group = :a; f}
-        let(:b) {f = Flavor.new(); f.group = :b; f}
-
-        it 'always returns true if nothing is specified' do
-          m = f.make_may_deploy(nil, nil)
-          m.call(a).should be_true
-          m.call(b).should be_true
-        end
-
-        it 'returns true only for name in with_groups' do
-          m = f.make_may_deploy([:a], nil)
-          m.call(a).should be_true
-          m.call(b).should be_false
-        end
-
-        it 'returns false only for name in without_groups' do
-          m = f.make_may_deploy(nil, [:b])
-          m.call(a).should be_true
-          m.call(b).should be_false
-        end
-
-        it 'fails if with_groups and without_groups are given at once' do
-          expect {
-            f.make_may_deploy([:a], [:b])
-          }.to raise_error
-        end
-      end
     end
   end
 end

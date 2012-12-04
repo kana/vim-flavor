@@ -9,8 +9,7 @@ module Vim
         print message
       end
 
-      def refresh_flavors(mode, vimfiles_path, with_groups, without_groups)
-        may_deploy = make_may_deploy(with_groups, without_groups)
+      def refresh_flavors(mode, vimfiles_path)
         flavorfile = FlavorFile.load(Dir.getwd().to_flavorfile_path)
         lockfile = LockFile.load_or_new(Dir.getwd().to_lockfile_path)
 
@@ -25,19 +24,18 @@ module Vim
 
         deploy_flavors(
           lockfile.flavors,
-          vimfiles_path.to_flavors_path,
-          may_deploy
+          vimfiles_path.to_flavors_path
         )
 
         trace "Completed.\n"
       end
 
-      def install(vimfiles_path, with_groups, without_groups)
-        refresh_flavors(:install, vimfiles_path, with_groups, without_groups)
+      def install(vimfiles_path)
+        refresh_flavors(:install, vimfiles_path)
       end
 
-      def upgrade(vimfiles_path, with_groups, without_groups)
-        refresh_flavors(:upgrade, vimfiles_path, with_groups, without_groups)
+      def upgrade(vimfiles_path)
+        refresh_flavors(:upgrade, vimfiles_path)
       end
 
       def complete(current_flavor_table, locked_flavor_table, mode)
@@ -68,7 +66,7 @@ module Vim
         completed_flavor_table
       end
 
-      def deploy_flavors(flavors, flavors_path, may_deploy)
+      def deploy_flavors(flavors, flavors_path)
         trace "Deploying plugins...\n"
 
         FileUtils.rm_rf(
@@ -79,7 +77,6 @@ module Vim
         create_vim_script_for_bootstrap(flavors_path)
 
         flavors.
-        select(&may_deploy).
         before_each {|f| trace "  #{f.repo_name} #{f.locked_version} ..."}.
         after_each {|f| trace " done\n"}.
         on_failure {trace " failed\n"}.
@@ -122,18 +119,6 @@ module Vim
         end
       end
 
-      def make_may_deploy(with_groups, without_groups)
-        if with_groups and without_groups
-          raise RuntimeError, '--with and --without are exclusive.'
-        end
-
-        lambda {|f|
-          return with_groups.include?(f.group) if with_groups
-          return !without_groups.include?(f.group) if without_groups
-          return true
-        }
-      end
-
       def test()
         trace "-------- Preparing dependencies\n"
 
@@ -154,8 +139,7 @@ module Vim
         # FIXME: It's somewhat wasteful to refresh flavors every time.
         deploy_flavors(
           lockfile.flavors,
-          Dir.getwd().to_stash_path.to_deps_path,
-          lambda {|f| true}  # FIXME: Verbose.
+          Dir.getwd().to_stash_path.to_deps_path
         )
 
         trace "-------- Testing a Vim plugin\n"
