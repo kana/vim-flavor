@@ -23,7 +23,7 @@ module Vim
         lockfile.save()
 
         deploy_flavors(
-          lockfile.flavors,
+          lockfile.flavors.select {|f| f.group == :runtime},
           vimfiles_path.to_flavors_path
         )
 
