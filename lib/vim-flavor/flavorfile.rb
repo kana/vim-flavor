@@ -7,7 +7,7 @@ module Vim
       end
 
       def default_groups
-        @default_groups ||= [:default]
+        @default_groups ||= [:runtime]
       end
 
       def default_group

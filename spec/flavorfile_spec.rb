@@ -40,7 +40,7 @@ module Vim
           it 'uses :default as the default group' do
             ff.flavor 'kana/vim-vspec'
             f = ff.flavor_table['kana/vim-vspec']
-            f.group.should == :default
+            f.group.should == :runtime
           end
         end
 
@@ -56,11 +56,11 @@ module Vim
             end
             ff.flavor 'e'
 
-            ff.flavor_table['a'].group.should == :default
+            ff.flavor_table['a'].group.should == :runtime
             ff.flavor_table['b'].group.should == :outer
             ff.flavor_table['c'].group.should == :inner
             ff.flavor_table['d'].group.should == :outer
-            ff.flavor_table['e'].group.should == :default
+            ff.flavor_table['e'].group.should == :runtime
           end
 
           it 'restores the default group even if an exception is raised' do
@@ -78,11 +78,11 @@ module Vim
             end
             ff.flavor 'e'
 
-            ff.flavor_table['a'].group.should == :default
+            ff.flavor_table['a'].group.should == :runtime
             ff.flavor_table['b'].group.should == :outer
             ff.flavor_table['c'].should be_nil
             ff.flavor_table['d'].group.should == :outer
-            ff.flavor_table['e'].group.should == :default
+            ff.flavor_table['e'].group.should == :runtime
           end
         end
       end
