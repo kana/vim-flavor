@@ -28,8 +28,10 @@ Given /^a repository '(.+)' from offline cache$/ do |repo_name|
   END
 end
 
-Given /^I disable network to the original repository of '(.+)'$/ do |basename|
-  delete_path make_repo_path(basename)
+Given /^I disable network to the original repository of "(.+)"$/ do |basename|
+  steps %Q{
+    Given I remove the directory "#{make_repo_path(basename)}"
+  }
 end
 
 Then /^a flavor "(.+)" version "(.+)" is deployed to "(.+)"$/ do |v_repo_name, version, v_vimfiles_path|
