@@ -1,5 +1,10 @@
-Given 'lockfile' do |content|
-  create_file expand('$tmp').to_lockfile_path, expand(content)
+Given 'a lockfile with:' do |content|
+  steps %Q{
+    Given a file named "#{'.'.to_lockfile_path}" with:
+      """
+      #{expand(content)}
+      """
+  }
 end
 
 Given /^I delete lockfile$/ do
