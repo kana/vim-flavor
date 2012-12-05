@@ -49,6 +49,15 @@ class FakeUserEnvironment
   end
 end
 
+Before do
+  variable_table['tmp'] = File.absolute_path(current_dir)
+
+  steps %Q{
+    Given a directory named "home"
+  }
+  variable_table['home'] = File.absolute_path(File.join([current_dir, 'home']))
+end
+
 World do
   FakeUserEnvironment.new
 end
