@@ -1,4 +1,4 @@
-Given /^a repository '(.+)' with versions '(.+)'$/ do |basename, versions|
+Given /^a repository "(.+)" with versions "(.+)"$/ do |basename, versions|
   repository_path = make_repo_path(basename)
   doc_name = basename.split('/').last.sub(/^vim-/, '')
   variable_table["#{basename}_uri"] = make_repo_uri(basename)
