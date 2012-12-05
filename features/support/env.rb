@@ -1,3 +1,5 @@
+require 'aruba/api'
+require 'aruba/cucumber'
 require 'fileutils'
 require 'vim-flavor'
 
