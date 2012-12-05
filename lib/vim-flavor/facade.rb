@@ -24,7 +24,7 @@ module Vim
 
         deploy_flavors(
           lockfile.flavors.select {|f| f.group == :runtime},
-          vimfiles_path.to_flavors_path
+          File.absolute_path(vimfiles_path).to_flavors_path
         )
 
         trace "Completed.\n"
@@ -69,19 +69,21 @@ module Vim
       def deploy_flavors(flavors, flavors_path)
         trace "Deploying plugins...\n"
 
+        a_flavors_path = File.absolute_path(flavors_path)
+
         FileUtils.rm_rf(
-          [flavors_path],
+          [a_flavors_path],
           :secure => true
         )
 
-        create_vim_script_for_bootstrap(flavors_path)
+        create_vim_script_for_bootstrap(a_flavors_path)
 
         flavors.
         before_each {|f| trace "  #{f.repo_name} #{f.locked_version} ..."}.
         after_each {|f| trace " done\n"}.
         on_failure {trace " failed\n"}.
         each do |f|
-          f.deploy(flavors_path)
+          f.deploy(a_flavors_path)
         end
       end
 
