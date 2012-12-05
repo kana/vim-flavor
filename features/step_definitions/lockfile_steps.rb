@@ -7,8 +7,10 @@ Given 'a lockfile with:' do |content|
   }
 end
 
-Given /^I delete lockfile$/ do
-  delete_path expand('$tmp').to_lockfile_path
+Given 'I delete the lockfile' do
+  steps %Q{
+    Given I remove the file "#{'.'.to_lockfile_path}"
+  }
 end
 
 Then /^(?:a|the) lockfile is (?:created|updated) with:$/ do |content|
