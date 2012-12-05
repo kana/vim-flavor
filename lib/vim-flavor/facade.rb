@@ -150,12 +150,12 @@ module Vim
         plugin_paths = lockfile.flavors.map {|f|
           "#{deps_path}/#{f.repo_name.zap}"
         }
-        # FIXME: Testing messages are not outputted in real time.
-        print sh %Q{
+        succeeded = system %Q{
           prove --ext '.t' #{prove_options} &&
           prove --ext '.vim' #{prove_options} \
             --exec '#{vspec} #{Dir.getwd()} #{plugin_paths.join(' ')}'
         }
+        raise RuntimeError unless succeeded
       end
     end
   end
