@@ -44,7 +44,9 @@ Then /^a flavor "(.+)" version "(.+)" is deployed to "(.+)"$/ do |v_repo_name, v
   }
 end
 
-Then /^I don't have flavor '(.+)' in '(.+)'$/ do |v_repo_name, virtual_path|
-  flavor_path = make_flavor_path(expand(virtual_path), expand(v_repo_name))
-  Dir.should_not exist(flavor_path)
+Then /^a flavor "(.+)" is not deployed to "(.+)"$/ do |v_repo_name, v_vimfiles_path|
+  flavor_path = make_flavor_path(expand(v_vimfiles_path), expand(v_repo_name))
+  steps %Q{
+    Then a directory named "#{flavor_path}" should not exist
+  }
 end
