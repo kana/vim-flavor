@@ -26,6 +26,14 @@ When /^I run `vim-flavor(.*)`(?: again)?(?:,? (but))?$/ do |args, mode|
   end
 end
 
+Then 'it should pass' do
+  steps %Q{
+    Then it should pass with:
+      """
+      """
+  }
+end
+
 Then /^it succeeds$/ do
   @last_error.should be_nil
 end
