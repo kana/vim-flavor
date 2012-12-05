@@ -7,11 +7,11 @@ Given 'a flavorfile with:' do |content|
   }
 end
 
-When 'I edit flavorfile as' do |content|
+When 'I edit the flavorfile as:' do |content|
   steps %Q{
-    Given flavorfile
-    """
-    #{content}
-    """
+    Given a flavorfile with:
+      """
+      #{content}
+      """
   }
 end
