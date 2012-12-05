@@ -58,6 +58,12 @@ Before do
   variable_table['home'] = File.absolute_path(File.join([current_dir, 'home']))
 end
 
+Aruba.configure do |config|
+  config.before_cmd do |cmd|
+    set_env 'HOME', variable_table['home']
+  end
+end
+
 World do
   FakeUserEnvironment.new
 end
