@@ -32,12 +32,16 @@ Given /^I disable network to the original repository of '(.+)'$/ do |basename|
   delete_path make_repo_path(basename)
 end
 
-Then /^I get flavor '(.+)' with '(.+)' in '(.+)'$/ do |v_repo_name, version, virtual_path|
-  flavor_path = make_flavor_path(expand(virtual_path), expand(v_repo_name))
+Then /^a flavor "(.+)" version "(.+)" is deployed to "(.+)"$/ do |v_repo_name, version, v_vimfiles_path|
+  flavor_path = make_flavor_path(expand(v_vimfiles_path), expand(v_repo_name))
   basename = expand(v_repo_name).split('/').last.sub(/^vim-/, '')
-  File.open("#{flavor_path}/doc/#{basename}.txt", 'r').read().should ==
-    "*#{basename}* #{version}\n"
-  File.should exist("#{flavor_path}/doc/tags")
+  steps %Q{
+    Then the file "#{flavor_path}/doc/#{basename}.txt" should contain:
+      """
+      *#{basename}* #{version}
+      """
+    Then a file named "#{flavor_path}/doc/tags" should exist
+  }
 end
 
 Then /^I don't have flavor '(.+)' in '(.+)'$/ do |v_repo_name, virtual_path|
