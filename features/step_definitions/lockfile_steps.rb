@@ -6,8 +6,12 @@ Given /^I delete lockfile$/ do
   delete_path expand('$tmp').to_lockfile_path
 end
 
-Then 'I get lockfile' do |content|
+Then 'a lockfile is created with:' do |content|
   # For some reason, Cucumber drops the last newline from every docstring...
-  File.open(expand('$tmp').to_lockfile_path, 'r').read().should ==
-    (content == '' ? '' : expand(content) + "\n")
+  steps %Q{
+    Then the file "#{'.'.to_lockfile_path}" should contain exactly:
+      """
+      #{content == '' ? '' : expand(content) + "\n"}
+      """
+  }
 end
