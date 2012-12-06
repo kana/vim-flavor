@@ -1,3 +1,5 @@
-Then /^it stores a dependency '(.*)' in '(.*)'$/ do |repo_name, vdir|
-  Dir.should exist expand("#{vdir}/#{repo_name.zap}")
+Then /^a dependency "(.*)" is stored in "(.*)"$/ do |repo_name, deps_path|
+  steps %Q{
+    Then a directory named "#{deps_path}/#{repo_name.zap}" should exist
+  }
 end
