@@ -34,16 +34,6 @@ module Vim
         def default_vimfiles_path
           ENV['HOME'].to_vimfiles_path
         end
-
-        def normalize_groups(s)
-          groups =
-            (s || '').
-            split(/,/).
-            map(&:strip).
-            reject(&:empty?).
-            map(&:to_sym)
-          0 < groups.length ? groups : nil
-        end
       end
     end
   end
