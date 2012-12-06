@@ -35,6 +35,10 @@ module Vim
           ENV['HOME'].to_vimfiles_path
         end
       end
+
+      def self.exit_on_failure?
+        true
+      end
     end
   end
 end
