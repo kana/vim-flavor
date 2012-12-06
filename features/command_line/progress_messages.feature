@@ -3,20 +3,16 @@ Feature: Progress messages
   as a lazy Vim user,
   I want to see messages about the current progress.
 
-  Background:
-    Given a temporary directory called 'tmp'
-    And a home directory called 'home' in '$tmp/home'
-
   Scenario: Install Vim plugins successfully
-    Given a repository 'foo' with versions '1.0.0 1.0.1 1.0.2'
-    And a repository 'bar' with versions '2.0.0 2.0.1 2.0.2'
-    And flavorfile
+    Given a repository "foo" with versions "1.0.0 1.0.1 1.0.2"
+    And a repository "bar" with versions "2.0.0 2.0.1 2.0.2"
+    And a flavorfile with:
       """ruby
       flavor '$foo_uri', '~> 1.0'
       flavor '$bar_uri'
       """
     When I run `vim-flavor install`
-    Then it outputs progress as follows
+    Then it should pass with template:
       """
       Checking versions...
         Use $bar_uri ... 2.0.2
@@ -28,17 +24,17 @@ Feature: Progress messages
       """
 
   Scenario: Install Vim plugins which are not existing
-    Given flavorfile
+    Given a flavorfile with:
       """ruby
-      flavor 'no-such-plugin'
+      flavor 'file://$tmp/no-such-plugin'
       """
-    When I run `vim-flavor install` but
-    Then it fails with messages like
-      """
-      fatal: '\S+' does not appear to be a git repository
-      """
-    And it outputs progress as follows
+    When I run `vim-flavor install`
+    Then it should fail with template:
       """
       Checking versions...
-        Use no-such-plugin ... failed
+        Use file://$tmp/no-such-plugin ... failed
+      """
+    And it should fail with regexp:
+      """
+      fatal: '\S+' does not appear to be a git repository
       """
