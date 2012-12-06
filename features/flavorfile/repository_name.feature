@@ -3,51 +3,50 @@ Feature: Repository name
   as a lazy Vim user,
   I also want to use shorthands for frequently used repositories.
 
-  Background:
-    Given a temporary directory called 'tmp'
-    And a home directory called 'home' in '$tmp/home'
-
   Scenario: Declare using a Vim plugin from www.vim.org
-    Given a repository 'vim-scripts/vspec' with versions '0.0.4 1.2.0'
-    And flavorfile
+    Given a GitHub repository "vim-scripts/vspec" with versions "0.0.4 1.2.0"
+    And a flavorfile with:
       """ruby
       # Fetch the plugin from git://github.com/vim-scripts/vspec.git
       flavor 'vspec', '~> 0.0'
       """
     When I run `vim-flavor install`
-    Then I get lockfile
+    Then it should pass
+    And a lockfile is created with:
       """
       vspec (0.0.4)
       """
-    And I get a bootstrap script in '$home/.vim'
-    And I get flavor 'vspec' with '0.0.4' in '$home/.vim'
+    And a bootstrap script is created in "$home/.vim"
+    And a flavor "vspec" version "0.0.4" is deployed to "$home/.vim"
 
   Scenario: Declare using a Vim plugin from GitHub
-    Given a repository 'kana/vim-vspec' with versions '0.0.4 1.2.0'
-    And flavorfile
+    Given a GitHub repository "kana/vim-vspec" with versions "0.0.4 1.2.0"
+    And a flavorfile with:
       """ruby
       # Fetch the plugin from git://github.com/kana/vim-vspec.git
       flavor 'kana/vim-vspec', '~> 0.0'
       """
     When I run `vim-flavor install`
-    Then I get lockfile
+    Then it should pass
+    And a lockfile is created with:
       """
       kana/vim-vspec (0.0.4)
       """
-    And I get a bootstrap script in '$home/.vim'
-    And I get flavor 'kana/vim-vspec' with '0.0.4' in '$home/.vim'
+    And a bootstrap script is created in "$home/.vim"
+    And a flavor "kana/vim-vspec" version "0.0.4" is deployed to "$home/.vim"
 
   Scenario: Declare using a Vim plugin from an arbitrary URI
-    Given a repository 'vspec' with versions '0.0.4 1.2.0'
-    And flavorfile
+    Given a local repository "vspec" with versions "0.0.4 1.2.0"
+    And a flavorfile with:
       """ruby
       # Fetch the plugin from the URI.
       flavor '$vspec_uri', '~> 0.0'
       """
     When I run `vim-flavor install`
-    Then I get lockfile
+    Then it should pass
+    And a lockfile is created with:
       """
       $vspec_uri (0.0.4)
       """
-    And I get a bootstrap script in '$home/.vim'
-    And I get flavor '$vspec_uri' with '0.0.4' in '$home/.vim'
+    And a bootstrap script is created in "$home/.vim"
+    And a flavor "$vspec_uri" version "0.0.4" is deployed to "$home/.vim"
