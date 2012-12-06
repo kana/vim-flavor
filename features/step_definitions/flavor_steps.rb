@@ -19,11 +19,11 @@ Given /^a (?:(?:GitHub|local) )?repository "(.+)" with versions "(.+)"$/ do |bas
   END
 end
 
-Given /^a repository '(.+)' from offline cache$/ do |repo_name|
-  repository_path = make_repo_path(repo_name)
+Given /^a repository "(.+)" from offline cache$/ do |repo_name|
+  repository_path = make_repo_path(repo_name).sub(expand('$tmp/'), '')
   sh <<-"END"
     {
-      git clone 'vendor/#{repo_name}' '#{repository_path}'
+      git clone 'vendor/#{repo_name}' '#{current_dir}/#{repository_path}'
     } >/dev/null
   END
 end
