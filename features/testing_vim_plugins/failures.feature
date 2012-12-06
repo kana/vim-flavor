@@ -49,6 +49,10 @@ Feature: Failures
       Files=1, Tests=1,  0 wallclock secs (.*)
       Result: FAIL
       """
+    And the output should not contain:
+      """
+      :in `test':
+      """
     And a lockfile with:
       """
       kana/vim-vspec (1.1.0)
