@@ -157,7 +157,7 @@ module Vim
           prove --ext '.vim' #{prove_options} \
             --exec '#{vspec} #{Dir.getwd()} #{plugin_paths.join(' ')}'
         }
-        raise RuntimeError unless succeeded
+        exit(1) unless succeeded
       end
     end
   end
