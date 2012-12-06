@@ -6,15 +6,6 @@ require 'vim-flavor'
 class FakeUserEnvironment
   include Vim::Flavor::ShellUtility
 
-  def initialize()
-    env = self
-    Vim::Flavor::Flavor.instance_eval do
-      @github_repo_uri = lambda {|user, repo|
-        "file://#{env.expand('$tmp')}/repos/#{user}/#{repo}"
-      }
-    end
-  end
-
   def create_file path, content
     FileUtils.mkdir_p(File.dirname(path))
     File.open(path, 'w') do |f|
