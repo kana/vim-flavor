@@ -8,45 +8,46 @@ Feature: Version constraint
   compatibility of plugins.  See also [Philosophy](philosophy) for the details.
 
   Background:
-    Given a temporary directory called 'tmp'
-    And a home directory called 'home' in '$tmp/home'
-    And a repository 'foo' with versions '1.0 1.1 1.2 2.0'
+    Given a repository "foo" with versions "1.0 1.1 1.2 2.0"
 
   Scenario: Declare using the latest version of a Vim plugin
-    Given flavorfile
+    Given a flavorfile with:
       """ruby
       flavor '$foo_uri'
       """
     When I run `vim-flavor install`
-    Then I get lockfile
+    Then it should pass
+    And a lockfile is created with:
       """
       $foo_uri (2.0)
       """
-    And I get a bootstrap script in '$home/.vim'
-    And I get flavor '$foo_uri' with '2.0' in '$home/.vim'
+    And a bootstrap script is created in "$home/.vim"
+    And a flavor "$foo_uri" version "2.0" is deployed to "$home/.vim"
 
   Scenario: Declare using a Vim plugin not older than a specific version
-    Given flavorfile
+    Given a flavorfile with:
       """ruby
       flavor '$foo_uri', '>= 1.1'
       """
     When I run `vim-flavor install`
-    Then I get lockfile
+    Then it should pass
+    And a lockfile is created with:
       """
       $foo_uri (2.0)
       """
-    And I get a bootstrap script in '$home/.vim'
-    And I get flavor '$foo_uri' with '2.0' in '$home/.vim'
+    And a bootstrap script is created in "$home/.vim"
+    And a flavor "$foo_uri" version "2.0" is deployed to "$home/.vim"
 
   Scenario: Declare using the latest and compatible version of a Vim plugin
-    Given flavorfile
+    Given a flavorfile with:
       """ruby
       flavor '$foo_uri', '~> 1.0'
       """
     When I run `vim-flavor install`
-    Then I get lockfile
+    Then it should pass
+    And a lockfile is created with:
       """
       $foo_uri (1.2)
       """
-    And I get a bootstrap script in '$home/.vim'
-    And I get flavor '$foo_uri' with '1.2' in '$home/.vim'
+    And a bootstrap script is created in "$home/.vim"
+    And a flavor "$foo_uri" version "1.2" is deployed to "$home/.vim"
