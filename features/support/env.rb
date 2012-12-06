@@ -6,17 +6,6 @@ require 'vim-flavor'
 class FakeUserEnvironment
   include Vim::Flavor::ShellUtility
 
-  def create_file path, content
-    FileUtils.mkdir_p(File.dirname(path))
-    File.open(path, 'w') do |f|
-      f.write(content)
-    end
-  end
-
-  def delete_path path
-    FileUtils.remove_entry_secure(path)
-  end
-
   def expand(virtual_path)
     virtual_path.gsub(/\$([a-z_]+)/) {
       variable_table[$1]
