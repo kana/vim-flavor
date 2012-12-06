@@ -4,45 +4,45 @@ Feature: Groups
   I want to declare groups of flavors.
 
   Background:
-    Given a temporary directory called 'tmp'
-    And a home directory called 'home' in '$tmp/home'
-    And a repository 'foo' with versions '1.0 1.1 1.2'
-    And a repository 'bar' with versions '2.0 2.1 2.2'
+    Given a repository "foo" with versions "1.0 1.1 1.2"
+    And a repository "bar" with versions "2.0 2.1 2.2"
 
   Scenario: Install only runtime dependencies
-    Given flavorfile
+    Given a flavorfile with:
       """ruby
       flavor '$foo_uri', :group => :runtime
       flavor '$bar_uri', :group => :development
       """
     When I run `vim-flavor install`
-    Then I get lockfile
+    Then it should pass
+    And a lockfile is created with:
       """
       $bar_uri (2.2)
       $foo_uri (1.2)
       """
-    And I get a bootstrap script in '$home/.vim'
-    And I get flavor '$foo_uri' with '1.2' in '$home/.vim'
-    But I don't have flavor '$bar_uri' in '$home/.vim'
+    And a bootstrap script is created in "$home/.vim"
+    And a flavor "$foo_uri" version "1.2" is deployed to "$home/.vim"
+    But a flavor "$bar_uri" is not deployed to "$home/.vim"
 
   Scenario: The default group
-    Given flavorfile
+    Given a flavorfile with:
       """ruby
       flavor '$foo_uri'
       flavor '$bar_uri', :group => :development
       """
     When I run `vim-flavor install`
-    Then I get lockfile
+    Then it should pass
+    And a lockfile is created with:
       """
       $bar_uri (2.2)
       $foo_uri (1.2)
       """
-    And I get a bootstrap script in '$home/.vim'
-    And I get flavor '$foo_uri' with '1.2' in '$home/.vim'
-    But I don't have flavor '$bar_uri' in '$home/.vim'
+    And a bootstrap script is created in "$home/.vim"
+    And a flavor "$foo_uri" version "1.2" is deployed to "$home/.vim"
+    But a flavor "$bar_uri" is not deployed to "$home/.vim"
 
   Scenario: Group a bunch of flavors at once
-    Given flavorfile
+    Given a flavorfile with:
       """ruby
       group :development do
         flavor '$foo_uri'
@@ -50,11 +50,12 @@ Feature: Groups
       end
       """
     When I run `vim-flavor install`
-    Then I get lockfile
+    Then it should pass
+    And a lockfile is created with:
       """
       $bar_uri (2.2)
       $foo_uri (1.2)
       """
-    And I get a bootstrap script in '$home/.vim'
-    But I don't have flavor '$foo_uri' in '$home/.vim'
-    But I don't have flavor '$bar_uri' in '$home/.vim'
+    And a bootstrap script is created in "$home/.vim"
+    But a flavor "$foo_uri" is not deployed to "$home/.vim"
+    But a flavor "$bar_uri" is not deployed to "$home/.vim"
