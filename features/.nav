@@ -12,3 +12,6 @@
 - caching.feature
 - resolve_dependencies.feature
 - testing_vim_plugins:
+  - typical_usage.feature
+  - dependencies.feature
+  - failures.feature
