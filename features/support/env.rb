@@ -61,6 +61,8 @@ end
 Aruba.configure do |config|
   config.before_cmd do |cmd|
     set_env 'HOME', variable_table['home']
+    set_env 'VIM_FLAVOR_GITHUB_URI_PREFIX', expand('file://$tmp/repos/')
+    set_env 'VIM_FLAVOR_GITHUB_URI_SUFFIX', ''
   end
 end
 
