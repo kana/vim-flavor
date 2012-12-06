@@ -5,23 +5,22 @@ Feature: Upgrade Vim plugins
   I want to use a declarative way to upgrade my favorite Vim plugins.
 
   Background:
-    Given a temporary directory called 'tmp'
-    And a home directory called 'home' in '$tmp/home'
-    And a repository 'foo' with versions '1.0.0 1.0.1 1.0.2'
+    Given a repository "foo" with versions "1.0.0 1.0.1 1.0.2"
 
   Scenario: Upgrade with lockfile
-    Given flavorfile
+    Given a flavorfile with:
       """ruby
       flavor '$foo_uri'
       """
-    And lockfile
+    And a lockfile with:
       """
       $foo_uri (1.0.0)
       """
     When I run `vim-flavor upgrade`
-    Then I get lockfile
+    Then it should pass
+    And the lockfile is updated with:
       """
       $foo_uri (1.0.2)
       """
-    And I get a bootstrap script in '$home/.vim'
-    And I get flavor '$foo_uri' with '1.0.2' in '$home/.vim'
+    And a bootstrap script is created in "$home/.vim"
+    And a flavor "$foo_uri" version "1.0.2" is deployed to "$home/.vim"

@@ -27,10 +27,9 @@ module Vim
       end
 
       def self.github_repo_uri(user, repo)
-        @github_repo_uri ||= lambda {|user, repo|
-          "git://github.com/#{user}/#{repo}.git"
-        }
-        @github_repo_uri.call(user, repo)
+        p = (ENV['VIM_FLAVOR_GITHUB_URI_PREFIX'] ||= 'git://github.com/')
+        s = (ENV['VIM_FLAVOR_GITHUB_URI_SUFFIX'] ||= '.git')
+        "#{p}#{user}/#{repo}#{s}"
       end
 
       def repo_uri

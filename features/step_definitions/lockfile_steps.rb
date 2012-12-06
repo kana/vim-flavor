@@ -1,13 +1,24 @@
-Given 'lockfile' do |content|
-  create_file expand('$tmp').to_lockfile_path, expand(content)
+Given 'a lockfile with:' do |content|
+  steps %Q{
+    Given a file named "#{'.'.to_lockfile_path}" with:
+      """
+      #{expand(content)}
+      """
+  }
 end
 
-Given /^I delete lockfile$/ do
-  delete_path expand('$tmp').to_lockfile_path
+Given 'I delete the lockfile' do
+  steps %Q{
+    Given I remove the file "#{'.'.to_lockfile_path}"
+  }
 end
 
-Then 'I get lockfile' do |content|
+Then /^(?:a|the) lockfile is (?:created|updated) with:$/ do |content|
   # For some reason, Cucumber drops the last newline from every docstring...
-  File.open(expand('$tmp').to_lockfile_path, 'r').read().should ==
-    (content == '' ? '' : expand(content) + "\n")
+  steps %Q{
+    Then the file "#{'.'.to_lockfile_path}" should contain exactly:
+      """
+      #{content == '' ? '' : expand(content) + "\n"}
+      """
+  }
 end

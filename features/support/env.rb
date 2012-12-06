@@ -1,17 +1,10 @@
+require 'aruba/api'
+require 'aruba/cucumber'
 require 'fileutils'
 require 'vim-flavor'
 
 class FakeUserEnvironment
   include Vim::Flavor::ShellUtility
-
-  def initialize()
-    env = self
-    Vim::Flavor::Flavor.instance_eval do
-      @github_repo_uri = lambda {|user, repo|
-        "file://#{env.expand('$tmp')}/repos/#{user}/#{repo}"
-      }
-    end
-  end
 
   def create_file path, content
     FileUtils.mkdir_p(File.dirname(path))
@@ -44,6 +37,23 @@ class FakeUserEnvironment
 
   def variable_table
     @variable_table ||= Hash.new
+  end
+end
+
+Before do
+  variable_table['tmp'] = File.absolute_path(current_dir)
+
+  steps %Q{
+    Given a directory named "home"
+  }
+  variable_table['home'] = File.absolute_path(File.join([current_dir, 'home']))
+end
+
+Aruba.configure do |config|
+  config.before_cmd do |cmd|
+    set_env 'HOME', variable_table['home']
+    set_env 'VIM_FLAVOR_GITHUB_URI_PREFIX', expand('file://$tmp/repos/')
+    set_env 'VIM_FLAVOR_GITHUB_URI_SUFFIX', ''
   end
 end
 

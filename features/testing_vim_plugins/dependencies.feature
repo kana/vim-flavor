@@ -4,18 +4,16 @@ Feature: Dependencies
   I want to hide details to do proper testing.
 
   Background:
-    Given a temporary directory called 'tmp'
-    And a home directory called 'home' in '$tmp/home'
-    And a repository 'kana/vim-vspec' from offline cache
-    And a repository 'kana/vim-textobj-user' from offline cache
+    Given a repository "kana/vim-vspec" from offline cache
+    And a repository "kana/vim-textobj-user" from offline cache
 
   Scenario: Testing a Vim plugin with dependencies
-    Given flavorfile
-      """
+    Given a flavorfile with:
+      """ruby
       flavor 'kana/vim-textobj-user', '~> 0.3'
       """
-    And a file called '$tmp/plugin/textobj/date.vim'
-      """
+    And a file named "plugin/textobj/date.vim" with:
+      """vim
       call textobj#user#plugin('date', {
       \   '-': {
       \     '*pattern*': '\v<\d{4}-\d{2}-\d{2}>',
@@ -23,8 +21,8 @@ Feature: Dependencies
       \   }
       \ })
       """
-    And a file called '$tmp/t/basics.vim'
-      """
+    And a file named "t/basics.vim" with:
+      """vim
       " Tests are written with vim-vspec.
       runtime! plugin/textobj/date.vim
       describe 'Text object: date'
@@ -34,8 +32,7 @@ Feature: Dependencies
       end
       """
     When I run `vim-flavor test`
-    Then it succeeds
-    And it outputs progress like
+    Then it should pass with regexp:
       """
       -------- Preparing dependencies
       Checking versions...
@@ -52,10 +49,10 @@ Feature: Dependencies
       Files=1, Tests=1,  \d+ wallclock secs .*
       Result: PASS
       """
-    And I get lockfile
+    And a lockfile is created with:
       """
       kana/vim-textobj-user (0.3.12)
       kana/vim-vspec (1.1.0)
       """
-    And it stores a dependency 'kana/vim-vspec' in '$tmp/.vim-flavor/deps'
-    And it stores a dependency 'kana/vim-textobj-user' in '$tmp/.vim-flavor/deps'
+    And a dependency "kana/vim-vspec" is stored in ".vim-flavor/deps"
+    And a dependency "kana/vim-textobj-user" is stored in ".vim-flavor/deps"
