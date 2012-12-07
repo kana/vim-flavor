@@ -54,6 +54,12 @@ module Vim
           nf.clone() unless already_cached
 
           if mode == :install and lf and nf.satisfied_with?(lf)
+            if not nf.cached_version?(lf.locked_version)
+              nf.fetch()
+              if not nf.cached_version?(lf.locked_version)
+                raise RuntimeError, "#{nf.repo_name} is locked to #{lf.locked_version}, but no such version exists"
+              end
+            end
             nf.use_specific_version(lf.locked_version)
           else
             nf.fetch() if already_cached
