@@ -19,6 +19,10 @@ module Vim
         flavor_table.values.sort_by {|f| f.repo_name}
       end
 
+      def flavors=(fs)
+        flavor_table.replace(Hash[fs.map {|f| [f.repo_name, f]}])
+      end
+
       def load()
         s = File.open(@path, 'r') {|io| io.read()}
         @flavor_table =

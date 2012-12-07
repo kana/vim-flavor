@@ -76,21 +76,49 @@ module Vim
         trace "Deploying plugins...\n"
 
         a_flavors_path = File.absolute_path(flavors_path)
+        deployment_memo = LockFile.load_or_new(a_flavors_path.to_lockfile_path)
 
+        # To uninstall flavors which were deployed by vim-flavor 1.0.2 or
+        # older, the whole deployed flavors have to be removed.  Because
+        # deployment_memo is recorded since 1.0.3.
         FileUtils.rm_rf(
           [a_flavors_path],
           :secure => true
-        )
+        ) if deployment_memo.flavors.empty?
 
         create_vim_script_for_bootstrap(a_flavors_path)
 
         flavors.
         before_each {|f| trace "  #{f.repo_name} #{f.locked_version} ..."}.
-        after_each {|f| trace " done\n"}.
         on_failure {trace " failed\n"}.
         each do |f|
-          f.deploy(a_flavors_path)
+          df = deployment_memo.flavor_table[f.repo_name]
+          deployed_version = (df and df.locked_version)
+          if f.locked_version == deployed_version
+            trace " skipped (already deployed)\n"
+          else
+            FileUtils.rm_rf(
+              [f.make_deployment_path(a_flavors_path)],
+              :secure => true
+            )
+            f.deploy(a_flavors_path)
+            trace " done\n"
+          end
         end
+
+        deployment_memo.flavors.each do |df|
+          if flavors.all? {|f| f.repo_name != df.repo_name}
+            trace "  #{df.repo_name} ..."
+            FileUtils.rm_rf(
+              [df.make_deployment_path(a_flavors_path)],
+              :secure => true
+            )
+            trace " uninstalled\n"
+          end
+        end
+
+        deployment_memo.flavors = flavors
+        deployment_memo.save()
       end
 
       def create_vim_script_for_bootstrap(flavors_path)

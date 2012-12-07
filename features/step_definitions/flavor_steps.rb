@@ -51,6 +51,15 @@ Given /^I disable network to the original repository of "(.+)"$/ do |basename|
   }
 end
 
+When /^I create a file named "(.+?)" in "(.+?)" deployed to "(.+?)"$/ do |file_name, v_repo_name, v_vimfiles_path|
+  flavor_path = make_flavor_path(expand(v_vimfiles_path), expand(v_repo_name))
+  steps %Q{
+    When I write to "#{flavor_path}/#{file_name}" with:
+      """
+      """
+  }
+end
+
 Then /^a flavor "(.+)" version "(.+)" is deployed to "(.+)"$/ do |v_repo_name, version, v_vimfiles_path|
   flavor_path = make_flavor_path(expand(v_vimfiles_path), expand(v_repo_name))
   basename = expand(v_repo_name).split('/').last.sub(/^vim-/, '')
@@ -78,4 +87,11 @@ Then /^"(.+)" version "(.+)" is (?:(not) )?cached$/ do |v_repo_name, version, p|
       git rev-list --quiet '#{version}'
     } >/dev/null 2>&1
   END
+end
+
+Then /^a file named "(.+?)" (should(?: not)?) exist in "(.+?)" deployed to "(.+?)"$/ do |file_name, should, v_repo_name, v_vimfiles_path|
+  flavor_path = make_flavor_path(expand(v_vimfiles_path), expand(v_repo_name))
+  steps %Q{
+    Then a file named "#{flavor_path}/#{file_name}" #{should} exist
+  }
 end

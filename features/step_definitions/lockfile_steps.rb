@@ -22,6 +22,15 @@ Given 'I delete the lockfile' do
   }
 end
 
+When 'I edit the lockfile as:' do |content|
+  steps %Q{
+    Given a lockfile with:
+      """
+      #{content}
+      """
+  }
+end
+
 Then /^(?:a|the) lockfile is (?:created|updated) with:$/ do |content|
   # For some reason, Cucumber drops the last newline from every docstring...
   steps %Q{
