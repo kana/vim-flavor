@@ -88,3 +88,10 @@ Then /^"(.+)" version "(.+)" is (?:(not) )?cached$/ do |v_repo_name, version, p|
     } >/dev/null 2>&1
   END
 end
+
+Then /^a file named "(.+?)" (should(?: not)?) exist in "(.+?)" deployed to "(.+?)"$/ do |file_name, should, v_repo_name, v_vimfiles_path|
+  flavor_path = make_flavor_path(expand(v_vimfiles_path), expand(v_repo_name))
+  steps %Q{
+    Then a file named "#{flavor_path}/#{file_name}" #{should} exist
+  }
+end
