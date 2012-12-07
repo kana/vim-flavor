@@ -21,6 +21,15 @@ module Vim
         Dir.exists?(cached_repo_path)
       end
 
+      def cached_version?(version)
+        system <<-"END"
+          {
+            cd '#{cached_repo_path}' &&
+            git rev-list --quiet '#{version}'
+          } >/dev/null 2>&1
+        END
+      end
+
       def cached_repo_path
         @cached_repo_path ||=
           "#{ENV['HOME'].to_stash_path}/repos/#{@repo_name.zap}"
