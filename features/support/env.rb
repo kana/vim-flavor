@@ -12,6 +12,10 @@ class FakeUserEnvironment
     }
   end
 
+  def make_cached_repo_path(repo_name, stash_path)
+    "#{stash_path}/repos/#{repo_name.zap}"
+  end
+
   def make_flavor_path(vimfiles_path, repo_name)
     "#{vimfiles_path.to_flavors_path}/#{repo_name.zap}"
   end
