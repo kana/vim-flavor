@@ -69,3 +69,13 @@ Then /^a flavor "(.+)" is not deployed to "(.+)"$/ do |v_repo_name, v_vimfiles_p
     Then a directory named "#{flavor_path}" should not exist
   }
 end
+
+Then /^"(.+)" version "(.+)" is (?:(not) )?cached$/ do |v_repo_name, version, p|
+  d = make_cached_repo_path(expand(v_repo_name), expand('$home').to_stash_path)
+  (system <<-"END").should == (p != 'not')
+    {
+      cd '#{d}' &&
+      git rev-list --quiet '#{version}'
+    } >/dev/null 2>&1
+  END
+end
