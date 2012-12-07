@@ -79,7 +79,7 @@ module Vim
       end
 
       def deploy(flavors_path)
-        deployment_path = "#{flavors_path}/#{repo_name.zap}"
+        deployment_path = make_deployment_path(flavors_path)
         sh %Q[
           {
             cd '#{cached_repo_path}' &&
