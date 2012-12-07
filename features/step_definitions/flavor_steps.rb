@@ -19,6 +19,23 @@ Given /^a (?:(?:GitHub|local) )?repository "(.+)" with versions "(.+)"$/ do |bas
   END
 end
 
+Given /^"(.+)" version "(.+)" is released$/ do |basename, version|
+  repository_path = make_repo_path(basename)
+  doc_name = basename.split('/').last.sub(/^vim-/, '')
+  sh <<-"END"
+    {
+      cd '#{repository_path}' &&
+      for v in #{version}
+      do
+        echo "*#{doc_name}* $v" >'doc/#{doc_name}.txt'
+        git add doc
+        git commit -m "Version $v"
+        git tag -m "Version $v" "$v"
+      done
+    } >/dev/null
+  END
+end
+
 Given /^a repository "(.+)" from offline cache$/ do |repo_name|
   repository_path = make_repo_path(repo_name).sub(expand('$tmp/'), '')
   sh <<-"END"
@@ -51,4 +68,14 @@ Then /^a flavor "(.+)" is not deployed to "(.+)"$/ do |v_repo_name, v_vimfiles_p
   steps %Q{
     Then a directory named "#{flavor_path}" should not exist
   }
+end
+
+Then /^"(.+)" version "(.+)" is (?:(not) )?cached$/ do |v_repo_name, version, p|
+  d = make_cached_repo_path(expand(v_repo_name), expand('$home').to_stash_path)
+  (system <<-"END").should == (p != 'not')
+    {
+      cd '#{d}' &&
+      git rev-list --quiet '#{version}'
+    } >/dev/null 2>&1
+  END
 end

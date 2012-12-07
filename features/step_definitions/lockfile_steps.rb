@@ -7,6 +7,15 @@ Given 'a lockfile with:' do |content|
   }
 end
 
+Given 'I copy a new lockfile from another machine with:' do |content|
+  steps %Q{
+    Given a lockfile with:
+      """
+      #{content}
+      """
+  }
+end
+
 Given 'I delete the lockfile' do
   steps %Q{
     Given I remove the file "#{'.'.to_lockfile_path}"

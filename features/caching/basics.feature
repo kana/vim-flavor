@@ -1,4 +1,4 @@
-Feature: Caching
+Feature: Basics
   In order to finish deployment as fast as possible,
   as a lazy Vim user,
   I want to cache repositories of plugins which are installed before.
