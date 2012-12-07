@@ -81,6 +81,7 @@ module Vim
           [a_flavors_path],
           :secure => true
         )
+        old_lockfile = LockFile.load_or_new(a_flavors_path.to_lockfile_path)
 
         create_vim_script_for_bootstrap(a_flavors_path)
 
@@ -91,6 +92,9 @@ module Vim
         each do |f|
           f.deploy(a_flavors_path)
         end
+
+        old_lockfile.flavors = flavors
+        old_lockfile.save()
       end
 
       def create_vim_script_for_bootstrap(flavors_path)
