@@ -40,6 +40,8 @@ Before do
     Given a directory named "home"
   }
   variable_table['home'] = File.absolute_path(File.join([current_dir, 'home']))
+
+  @aruba_timeout_seconds = 5
 end
 
 Aruba.configure do |config|
