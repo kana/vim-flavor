@@ -30,6 +30,11 @@ module Vim
         Facade.new().test()
       end
 
+      desc 'version', 'Show the current version.'
+      def version
+        puts VERSION
+      end
+
       no_tasks do
         def default_vimfiles_path
           ENV['HOME'].to_vimfiles_path
