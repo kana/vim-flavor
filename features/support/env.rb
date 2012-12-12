@@ -34,6 +34,8 @@ class FakeUserEnvironment
 end
 
 Before do
+  variable_table['version'] = Vim::Flavor::VERSION
+
   variable_table['tmp'] = File.absolute_path(current_dir)
 
   steps %Q{
