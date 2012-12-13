@@ -32,24 +32,10 @@ Given /^the repository "([^"]*)" has versions "([^"]*)"$/ do |basename, versions
 end
 
 Given /^a (?:(?:GitHub|local) )?repository "(.+)" with versions "(.+)"$/ do |basename, versions|
-  repository_path = make_repo_path(basename)
-  doc_name = basename.split('/').last.sub(/^vim-/, '')
-  variable_table["#{basename}_uri"] = make_repo_uri(basename)
-  sh <<-"END"
-    {
-      mkdir -p '#{repository_path}' &&
-      cd '#{repository_path}' &&
-      git init &&
-      mkdir doc &&
-      for v in #{versions}
-      do
-        echo "*#{doc_name}* $v" >'doc/#{doc_name}.txt'
-        git add doc
-        git commit -m "Version $v"
-        git tag -m "Version $v" "$v"
-      done
-    } >/dev/null
-  END
+  steps %Q{
+    Given a repository "#{basename}"
+    And the repository "#{basename}" has versions "#{versions}"
+  }
 end
 
 Given /^"(.+)" version "(.+)" is released$/ do |basename, version|
