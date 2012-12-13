@@ -1,3 +1,18 @@
+Given /^a (?:(?:GitHub|local) )?repository "([^"]*)"$/ do |basename|
+  repository_path = make_repo_path(basename)
+  variable_table["#{basename}_uri"] = make_repo_uri(basename)
+  sh <<-"END"
+    {
+      mkdir -p '#{repository_path}' &&
+      cd '#{repository_path}' &&
+      git init &&
+      echo 'README' >README.md &&
+      git add README.md &&
+      git commit -m 'Write README'
+    } >/dev/null
+  END
+end
+
 Given /^a (?:(?:GitHub|local) )?repository "(.+)" with versions "(.+)"$/ do |basename, versions|
   repository_path = make_repo_path(basename)
   doc_name = basename.split('/').last.sub(/^vim-/, '')
