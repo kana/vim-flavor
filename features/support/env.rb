@@ -6,7 +6,7 @@ require 'vim-flavor'
 class FakeUserEnvironment
   include Vim::Flavor::ShellUtility
 
-  def add_new_versions_to_repo(basename, versions)
+  def add_new_versions_to_repo(basename, versions, flavorfile_content = nil)
     repository_path = make_repo_path(basename)
     doc_name = basename.split('/').last.sub(/^vim-/, '')
     sh <<-"END"
@@ -17,6 +17,14 @@ class FakeUserEnvironment
         do
           echo "*#{doc_name}* $v" >'doc/#{doc_name}.txt'
           git add doc
+          #{
+            %Q{
+              cat <<'FF' >#{'.'.to_flavorfile_path}
+#{expand(flavorfile_content)}
+FF
+              git add #{'.'.to_flavorfile_path}
+            } if flavorfile_content
+          }
           git commit -m "Version $v"
           git tag -m "Version $v" "$v"
         done
