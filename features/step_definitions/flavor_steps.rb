@@ -53,20 +53,9 @@ Given /^a (?:(?:GitHub|local) )?repository "(.+)" with versions "(.+)"$/ do |bas
 end
 
 Given /^"(.+)" version "(.+)" is released$/ do |basename, version|
-  repository_path = make_repo_path(basename)
-  doc_name = basename.split('/').last.sub(/^vim-/, '')
-  sh <<-"END"
-    {
-      cd '#{repository_path}' &&
-      for v in #{version}
-      do
-        echo "*#{doc_name}* $v" >'doc/#{doc_name}.txt'
-        git add doc
-        git commit -m "Version $v"
-        git tag -m "Version $v" "$v"
-      done
-    } >/dev/null
-  END
+  steps %Q{
+    Given the repository "#{basename}" has versions "#{version}"
+  }
 end
 
 Given /^a repository "(.+)" from offline cache$/ do |repo_name|
