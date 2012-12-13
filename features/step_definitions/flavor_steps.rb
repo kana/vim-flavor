@@ -17,10 +17,24 @@ Given /^the repository "([^"]*)" has versions "([^"]*)"$/ do |basename, versions
   add_new_versions_to_repo(basename, versions)
 end
 
+Given /^the repository "([^"]*)" has versions "([^"]*)" and a flavorfile:$/ do |basename, versions, flavorfile_content|
+  add_new_versions_to_repo(basename, versions, flavorfile_content)
+end
+
 Given /^a (?:(?:GitHub|local) )?repository "([^"]*)" with versions "([^"]*)"$/ do |basename, versions|
   steps %Q{
     Given a repository "#{basename}"
     And the repository "#{basename}" has versions "#{versions}"
+  }
+end
+
+Given /^a (?:(?:GitHub|local) )?repository "([^"]*)" with versions "([^"]*)" and a flavorfile:$/ do |basename, versions, flavorfile_content|
+  steps %Q{
+    Given a repository "#{basename}"
+    And the repository "#{basename}" has versions "#{versions}" and a flavorfile:
+      """
+      #{flavorfile_content}
+      """
   }
 end
 
