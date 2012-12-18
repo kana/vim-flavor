@@ -39,21 +39,20 @@ module Vim
       end
 
       def complete(current_flavor_table, locked_flavor_table, mode)
-        completed_flavor_table = {}
-
         trace "Checking versions...\n"
 
-        current_flavor_table.values.map(&:dup).sort_by(&:repo_name).
-        before_each {|nf| trace "  Use #{nf.repo_name} ..."}.
-        after_each {|nf| trace " #{nf.locked_version}\n"}.
-        on_failure {trace " failed\n"}.
-        each do |nf|
-          lf = locked_flavor_table[nf.repo_name]
-          complete_a_flavor(nf, lf, mode)
-          completed_flavor_table[nf.repo_name] = nf
-        end
+        nfs =
+          current_flavor_table.values.map(&:dup).sort_by(&:repo_name).
+          before_each {|nf| trace "  Use #{nf.repo_name} ..."}.
+          after_each {|nf| trace " #{nf.locked_version}\n"}.
+          on_failure {trace " failed\n"}.
+          map {|nf|
+            lf = locked_flavor_table[nf.repo_name]
+            complete_a_flavor(nf, lf, mode)
+            nf
+          }
 
-        completed_flavor_table
+        Hash[nfs.map {|nf| [nf.repo_name, nf]}]
       end
 
       def complete_a_flavor(nf, lf, mode)
