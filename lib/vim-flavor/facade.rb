@@ -49,27 +49,29 @@ module Vim
         on_failure {trace " failed\n"}.
         each do |nf|
           lf = locked_flavor_table[nf.repo_name]
-
-          already_cached = nf.cached?
-          nf.clone() unless already_cached
-
-          if mode == :install and lf and nf.satisfied_with?(lf)
-            if not nf.cached_version?(lf.locked_version)
-              nf.fetch()
-              if not nf.cached_version?(lf.locked_version)
-                raise RuntimeError, "#{nf.repo_name} is locked to #{lf.locked_version}, but no such version exists"
-              end
-            end
-            nf.use_specific_version(lf.locked_version)
-          else
-            nf.fetch() if already_cached
-            nf.use_appropriate_version()
-          end
-
+          complete_a_flavor(nf, lf, mode)
           completed_flavor_table[nf.repo_name] = nf
         end
 
         completed_flavor_table
+      end
+
+      def complete_a_flavor(nf, lf, mode)
+        already_cached = nf.cached?
+        nf.clone() unless already_cached
+
+        if mode == :install and lf and nf.satisfied_with?(lf)
+          if not nf.cached_version?(lf.locked_version)
+            nf.fetch()
+            if not nf.cached_version?(lf.locked_version)
+              raise RuntimeError, "#{nf.repo_name} is locked to #{lf.locked_version}, but no such version exists"
+            end
+          end
+          nf.use_specific_version(lf.locked_version)
+        else
+          nf.fetch() if already_cached
+          nf.use_appropriate_version()
+        end
       end
 
       def deploy_flavors(flavors, flavors_path)
