@@ -182,7 +182,6 @@ module Vim
         )
         lockfile.save()
 
-        # FIXME: It's somewhat wasteful to refresh flavors every time.
         deploy_flavors(
           lockfile.flavors,
           Dir.getwd().to_stash_path.to_deps_path
