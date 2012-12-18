@@ -75,10 +75,10 @@ module Vim
         trace "Completed.\n"
       end
 
-      def complete(current_flavor_table, locked_flavor_table, mode)
+      def complete(current_flavor_table, locked_flavor_table, mode, level = 1)
         nfs =
           current_flavor_table.values.map(&:dup).sort_by(&:repo_name).
-          before_each {|nf| trace "  Use #{nf.repo_name} ..."}.
+          before_each {|nf| trace "#{'  ' * level}Use #{nf.repo_name} ..."}.
           after_each {|nf| trace " #{nf.locked_version}\n"}.
           on_failure {trace " failed\n"}.
           map {|nf|
