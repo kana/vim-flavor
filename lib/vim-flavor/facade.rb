@@ -9,10 +9,7 @@ module Vim
         print message
       end
 
-      def refresh_flavors(mode, vimfiles_path)
-        flavorfile = FlavorFile.load(Dir.getwd().to_flavorfile_path)
-        lockfile = LockFile.load_or_new(Dir.getwd().to_lockfile_path)
-
+      def refresh_flavors(mode, flavorfile, lockfile, groups, vimfiles_path)
         lockfile.update(
           complete(
             flavorfile.flavor_table,
@@ -23,7 +20,7 @@ module Vim
         lockfile.save()
 
         deploy_flavors(
-          lockfile.flavors.select {|f| f.group == :runtime},
+          lockfile.flavors.select {|f| groups.include?(f.group)},
           File.absolute_path(vimfiles_path).to_flavors_path
         )
 
@@ -31,7 +28,15 @@ module Vim
       end
 
       def install_or_upgrade(mode, vimfiles_path)
-        refresh_flavors(mode, vimfiles_path)
+        flavorfile = FlavorFile.load(Dir.getwd().to_flavorfile_path)
+        lockfile = LockFile.load_or_new(Dir.getwd().to_lockfile_path)
+        refresh_flavors(
+          mode,
+          flavorfile,
+          lockfile,
+          [:runtime],
+          vimfiles_path
+        )
       end
 
       def install(vimfiles_path)
