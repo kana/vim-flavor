@@ -41,6 +41,7 @@ Feature: Dependencies
       Deploying plugins...
         kana/vim-textobj-user 0.3.12 ... done
         kana/vim-vspec 1.1.0 ... done
+      Completed.
       -------- Testing a Vim plugin
       Files=0, Tests=0,  \d+ wallclock secs .*
       Result: NOTESTS

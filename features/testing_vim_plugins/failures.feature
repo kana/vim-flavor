@@ -32,6 +32,7 @@ Feature: Failures
         Use kana/vim-vspec ... 1.1.0
       Deploying plugins...
         kana/vim-vspec 1.1.0 ... done
+      Completed.
       -------- Testing a Vim plugin
       Files=0, Tests=0,  0 wallclock secs (.*)
       Result: NOTESTS

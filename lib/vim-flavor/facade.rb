@@ -173,17 +173,11 @@ module Vim
           flavorfile.flavor_table.has_key?('kana/vim-vspec')
         lockfile = LockFile.load_or_new(Dir.getwd().to_lockfile_path)
 
-        lockfile.update(
-          complete(
-            flavorfile.flavor_table,
-            lockfile.flavor_table,
-            :install
-          )
-        )
-        lockfile.save()
-
-        deploy_flavors(
-          lockfile.flavors,
+        refresh_flavors(
+          :install,
+          flavorfile,
+          lockfile,
+          [:runtime, :development],
           Dir.getwd().to_stash_path.to_deps_path
         )
 
