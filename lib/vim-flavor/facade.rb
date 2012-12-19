@@ -30,6 +30,10 @@ module Vim
         trace "Completed.\n"
       end
 
+      def install_or_upgrade(mode, vimfiles_path)
+        refresh_flavors(mode, vimfiles_path)
+      end
+
       def install(vimfiles_path)
         refresh_flavors(:install, vimfiles_path)
       end
