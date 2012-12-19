@@ -35,11 +35,11 @@ module Vim
       end
 
       def install(vimfiles_path)
-        refresh_flavors(:install, vimfiles_path)
+        install_or_upgrade(:install, vimfiles_path)
       end
 
       def upgrade(vimfiles_path)
-        refresh_flavors(:upgrade, vimfiles_path)
+        install_or_upgrade(:upgrade, vimfiles_path)
       end
 
       def complete(current_flavor_table, locked_flavor_table, mode)
