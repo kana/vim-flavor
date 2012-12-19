@@ -41,6 +41,7 @@ Feature: Typical usage
         Use kana/vim-vspec ... 1.1.0
       Deploying plugins...
         kana/vim-vspec 1.1.0 ... done
+      Completed.
       -------- Testing a Vim plugin
       t/sh.t .. ok
       All tests successful.
