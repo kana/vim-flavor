@@ -3,8 +3,6 @@ require 'fileutils'
 module Vim
   module Flavor
     class Facade
-      include ShellUtility
-
       def install(vimfiles_path)
         install_or_upgrade(:install, vimfiles_path)
       end
