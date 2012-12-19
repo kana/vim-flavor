@@ -9,7 +9,7 @@ module Vim
         print message
       end
 
-      def refresh_flavors(mode, flavorfile, lockfile, groups, vimfiles_path)
+      def refresh_flavors(mode, flavorfile, lockfile, groups, flavors_path)
         lockfile.update(
           complete(
             flavorfile.flavor_table,
@@ -21,7 +21,7 @@ module Vim
 
         deploy_flavors(
           lockfile.flavors.select {|f| groups.include?(f.group)},
-          File.absolute_path(vimfiles_path).to_flavors_path
+          File.absolute_path(flavors_path)
         )
 
         trace "Completed.\n"
@@ -35,7 +35,7 @@ module Vim
           flavorfile,
           lockfile,
           [:runtime],
-          vimfiles_path
+          vimfiles_path.to_flavors_path
         )
       end
 
