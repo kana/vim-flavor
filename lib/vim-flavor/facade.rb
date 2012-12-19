@@ -5,8 +5,56 @@ module Vim
     class Facade
       include ShellUtility
 
-      def trace message
-        print message
+      def install(vimfiles_path)
+        install_or_upgrade(:install, vimfiles_path)
+      end
+
+      def upgrade(vimfiles_path)
+        install_or_upgrade(:upgrade, vimfiles_path)
+      end
+
+      def test()
+        trace "-------- Preparing dependencies\n"
+
+        flavorfile = FlavorFile.load_or_new(Dir.getwd().to_flavorfile_path)
+        flavorfile.flavor 'kana/vim-vspec', '~> 1.0', :group => :development unless
+          flavorfile.flavor_table.has_key?('kana/vim-vspec')
+        lockfile = LockFile.load_or_new(Dir.getwd().to_lockfile_path)
+
+        refresh_flavors(
+          :install,
+          flavorfile,
+          lockfile,
+          [:runtime, :development],
+          Dir.getwd().to_stash_path.to_deps_path
+        )
+
+        trace "-------- Testing a Vim plugin\n"
+
+        prove_options = '--comments --failure --directives'
+        deps_path = Dir.getwd().to_stash_path.to_deps_path
+        vspec = "#{deps_path}/#{'kana/vim-vspec'.zap}/bin/vspec"
+        plugin_paths = lockfile.flavors.map {|f|
+          "#{deps_path}/#{f.repo_name.zap}"
+        }
+        succeeded = system %Q{
+          prove --ext '.t' #{prove_options} &&
+          prove --ext '.vim' #{prove_options} \
+            --exec '#{vspec} #{Dir.getwd()} #{plugin_paths.join(' ')}'
+        }
+        exit(1) unless succeeded
+      end
+
+      def install_or_upgrade(mode, vimfiles_path)
+        flavorfile = FlavorFile.load(Dir.getwd().to_flavorfile_path)
+        lockfile = LockFile.load_or_new(Dir.getwd().to_lockfile_path)
+        refresh_flavors(
+          mode,
+          flavorfile,
+          lockfile,
+          [:runtime],
+          vimfiles_path.to_flavors_path
+        )
       end
 
       def refresh_flavors(mode, flavorfile, lockfile, groups, flavors_path)
@@ -27,26 +75,6 @@ module Vim
         )
 
         trace "Completed.\n"
-      end
-
-      def install_or_upgrade(mode, vimfiles_path)
-        flavorfile = FlavorFile.load(Dir.getwd().to_flavorfile_path)
-        lockfile = LockFile.load_or_new(Dir.getwd().to_lockfile_path)
-        refresh_flavors(
-          mode,
-          flavorfile,
-          lockfile,
-          [:runtime],
-          vimfiles_path.to_flavors_path
-        )
-      end
-
-      def install(vimfiles_path)
-        install_or_upgrade(:install, vimfiles_path)
-      end
-
-      def upgrade(vimfiles_path)
-        install_or_upgrade(:upgrade, vimfiles_path)
       end
 
       def complete(current_flavor_table, locked_flavor_table, mode)
@@ -165,36 +193,8 @@ module Vim
         end
       end
 
-      def test()
-        trace "-------- Preparing dependencies\n"
-
-        flavorfile = FlavorFile.load_or_new(Dir.getwd().to_flavorfile_path)
-        flavorfile.flavor 'kana/vim-vspec', '~> 1.0', :group => :development unless
-          flavorfile.flavor_table.has_key?('kana/vim-vspec')
-        lockfile = LockFile.load_or_new(Dir.getwd().to_lockfile_path)
-
-        refresh_flavors(
-          :install,
-          flavorfile,
-          lockfile,
-          [:runtime, :development],
-          Dir.getwd().to_stash_path.to_deps_path
-        )
-
-        trace "-------- Testing a Vim plugin\n"
-
-        prove_options = '--comments --failure --directives'
-        deps_path = Dir.getwd().to_stash_path.to_deps_path
-        vspec = "#{deps_path}/#{'kana/vim-vspec'.zap}/bin/vspec"
-        plugin_paths = lockfile.flavors.map {|f|
-          "#{deps_path}/#{f.repo_name.zap}"
-        }
-        succeeded = system %Q{
-          prove --ext '.t' #{prove_options} &&
-          prove --ext '.vim' #{prove_options} \
-            --exec '#{vspec} #{Dir.getwd()} #{plugin_paths.join(' ')}'
-        }
-        exit(1) unless succeeded
+      def trace message
+        print message
       end
     end
   end
