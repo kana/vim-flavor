@@ -10,6 +10,8 @@ module Vim
       end
 
       def refresh_flavors(mode, flavorfile, lockfile, groups, flavors_path)
+        trace "Checking versions...\n"
+
         lockfile.update(
           complete(
             flavorfile.flavor_table,
@@ -48,8 +50,6 @@ module Vim
       end
 
       def complete(current_flavor_table, locked_flavor_table, mode)
-        trace "Checking versions...\n"
-
         nfs =
           current_flavor_table.values.map(&:dup).sort_by(&:repo_name).
           before_each {|nf| trace "  Use #{nf.repo_name} ..."}.
