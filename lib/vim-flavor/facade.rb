@@ -90,7 +90,8 @@ module Vim
       end
 
       def complete_a_flavor(nf, lf, mode)
-        [complete_a_flavor_itself(nf, lf, mode)]
+        [complete_a_flavor_itself(nf, lf, mode)] +
+          complete_a_flavor_dependencies(nf)
       end
 
       def complete_a_flavor_itself(nf, lf, mode)
@@ -111,6 +112,10 @@ module Vim
         end
 
         nf
+      end
+
+      def complete_a_flavor_dependencies(nf)
+        []
       end
 
       def deploy_flavors(flavors, flavors_path)
