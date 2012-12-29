@@ -106,6 +106,8 @@ module Vim
           nf.fetch() if already_cached
           nf.use_appropriate_version()
         end
+
+        [nf]
       end
 
       def deploy_flavors(flavors, flavors_path)
