@@ -78,6 +78,15 @@ module Vim
         }
       end
 
+      def checkout()
+        sh %Q[
+          {
+            cd '#{cached_repo_path}' &&
+            git checkout -f '#{locked_version}'
+          } 2>&1
+        ]
+      end
+
       def deploy(flavors_path)
         deployment_path = make_deployment_path(flavors_path)
         sh %Q[
