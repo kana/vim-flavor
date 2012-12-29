@@ -90,6 +90,10 @@ module Vim
       end
 
       def complete_a_flavor(nf, lf, mode)
+        [complete_a_flavor_itself(nf, lf, mode)]
+      end
+
+      def complete_a_flavor_itself(nf, lf, mode)
         already_cached = nf.cached?
         nf.clone() unless already_cached
 
@@ -106,7 +110,7 @@ module Vim
           nf.use_appropriate_version()
         end
 
-        [nf]
+        nf
       end
 
       def deploy_flavors(flavors, flavors_path)
