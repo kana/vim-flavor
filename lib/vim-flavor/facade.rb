@@ -81,10 +81,9 @@ module Vim
           before_each {|nf| trace "#{'  ' * level}Use #{nf.repo_name} ..."}.
           after_each {|nf| trace " #{nf.locked_version}\n"}.
           on_failure {trace " failed\n"}.
-          map {|nf|
+          flat_map {|nf|
             lf = locked_flavor_table[nf.repo_name]
             complete_a_flavor(nf, lf, mode)
-            nf
           }
 
         Hash[nfs.map {|nf| [nf.repo_name, nf]}]
