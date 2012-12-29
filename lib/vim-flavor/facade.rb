@@ -85,8 +85,18 @@ module Vim
             lf = locked_flavor_table[nf.repo_name]
             complete_a_flavor(nf, lf, mode)
           }
+        nfgs = nfs.group_by {|nf| nf.repo_name}
 
-        Hash[nfs.map {|nf| [nf.repo_name, nf]}]
+        Hash[
+          nfgs.keys.map {|repo_name|
+            nfg = nfgs[repo_name]
+            vs = nfg.group_by {|nf| nf.locked_version}.values
+            if 2 <= vs.length
+              raise RuntimeError, "Different versions of #{repo_name} are required"
+            end
+            [repo_name, nfg.first]
+          }
+        ]
       end
 
       def complete_a_flavor(nf, lf, mode)
