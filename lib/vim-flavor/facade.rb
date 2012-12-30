@@ -76,14 +76,7 @@ module Vim
       end
 
       def complete(current_flavor_table, locked_flavor_table, mode, level = 1)
-        nfs =
-          current_flavor_table.values.map(&:dup).sort_by(&:repo_name).
-          before_each {|nf| trace "#{'  ' * level}Use #{nf.repo_name} ..."}.
-          after_each {|nf| trace " #{nf.locked_version}\n"}.
-          on_failure {trace " failed\n"}.
-          flat_map {|nf|
-            complete_a_flavor(nf, locked_flavor_table, mode, level)
-          }
+        nfs = complete_flavors(current_flavor_table, locked_flavor_table, mode, level)
         nfgs = nfs.group_by {|nf| nf.repo_name}
 
         Hash[
@@ -96,6 +89,16 @@ module Vim
             [repo_name, nfg.first]
           }
         ]
+      end
+
+      def complete_flavors(current_flavor_table, locked_flavor_table, mode, level)
+        current_flavor_table.values.map(&:dup).sort_by(&:repo_name).
+        before_each {|nf| trace "#{'  ' * level}Use #{nf.repo_name} ..."}.
+        after_each {|nf| trace " #{nf.locked_version}\n"}.
+        on_failure {trace " failed\n"}.
+        flat_map {|nf|
+          complete_a_flavor(nf, locked_flavor_table, mode, level)
+        }
       end
 
       def complete_a_flavor(nf, locked_flavor_table, mode, level)
