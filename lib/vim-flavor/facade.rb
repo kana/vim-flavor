@@ -101,7 +101,7 @@ module Vim
       def complete_a_flavor(nf, locked_flavor_table, mode, level)
         lf = locked_flavor_table[nf.repo_name]
         [complete_a_flavor_itself(nf, lf, mode)] +
-          complete_a_flavor_dependencies(nf)
+          complete_a_flavor_dependencies(nf, locked_flavor_table, mode, level)
       end
 
       def complete_a_flavor_itself(nf, lf, mode)
@@ -124,7 +124,7 @@ module Vim
         nf
       end
 
-      def complete_a_flavor_dependencies(nf)
+      def complete_a_flavor_dependencies(nf, locked_flavor_table, mode, level)
         []
       end
 
