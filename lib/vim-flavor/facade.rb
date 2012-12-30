@@ -128,7 +128,9 @@ module Vim
       end
 
       def complete_a_flavor_dependencies(nf, locked_flavor_table, mode, level)
-        []
+        nf.checkout()
+        ff = FlavorFile.load_or_new(nf.cached_repo_path.to_flavorfile_path)
+        complete_flavors(ff.flavor_table, locked_flavor_table, mode, level + 1)
       end
 
       def deploy_flavors(flavors, flavors_path)
