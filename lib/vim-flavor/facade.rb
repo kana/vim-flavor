@@ -82,7 +82,7 @@ module Vim
           after_each {|nf| trace " #{nf.locked_version}\n"}.
           on_failure {trace " failed\n"}.
           flat_map {|nf|
-            complete_a_flavor(nf, locked_flavor_table, mode)
+            complete_a_flavor(nf, locked_flavor_table, mode, level)
           }
         nfgs = nfs.group_by {|nf| nf.repo_name}
 
@@ -98,7 +98,7 @@ module Vim
         ]
       end
 
-      def complete_a_flavor(nf, locked_flavor_table, mode)
+      def complete_a_flavor(nf, locked_flavor_table, mode, level)
         lf = locked_flavor_table[nf.repo_name]
         [complete_a_flavor_itself(nf, lf, mode)] +
           complete_a_flavor_dependencies(nf)
