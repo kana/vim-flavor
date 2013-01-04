@@ -93,8 +93,6 @@ module Vim
 
       def complete_flavors(current_flavor_table, locked_flavor_table, mode, level)
         current_flavor_table.values.map(&:dup).sort_by(&:repo_name).
-        before_each {|nf| trace "#{'  ' * level}Use #{nf.repo_name} ..."}.
-        after_each {|nf| trace " #{nf.locked_version}\n"}.
         on_failure {trace " failed\n"}.
         flat_map {|nf|
           complete_a_flavor(nf, locked_flavor_table, mode, level)
@@ -103,11 +101,13 @@ module Vim
 
       def complete_a_flavor(nf, locked_flavor_table, mode, level)
         lf = locked_flavor_table[nf.repo_name]
-        [complete_a_flavor_itself(nf, lf, mode)] +
+        [complete_a_flavor_itself(nf, lf, mode, level)] +
           complete_a_flavor_dependencies(nf, locked_flavor_table, mode, level)
       end
 
-      def complete_a_flavor_itself(nf, lf, mode)
+      def complete_a_flavor_itself(nf, lf, mode, level)
+        trace "#{'  ' * level}Use #{nf.repo_name} ..."
+
         already_cached = nf.cached?
         nf.clone() unless already_cached
 
@@ -123,6 +123,8 @@ module Vim
           nf.fetch() if already_cached
           nf.use_appropriate_version()
         end
+
+        trace " #{nf.locked_version}\n"
 
         nf
       end
