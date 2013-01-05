@@ -84,7 +84,7 @@ module Vim
             nfg = nfgs[repo_name]
             vs = nfg.group_by {|nf| nf.locked_version}.values
             if 2 <= vs.length
-              raise RuntimeError, "Different versions of #{repo_name} are required"
+              abort "Different versions of #{repo_name} are required"
             end
             [repo_name, nfg.first]
           }
