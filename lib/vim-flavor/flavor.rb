@@ -16,6 +16,9 @@ module Vim
       # A version of a plugin to be installed.
       attr_accessor :locked_version
 
+      # repo_name of a flavor which requires this flavor.
+      attr_accessor :requirer
+
       # Return true if this flavor's repository is already cloned.
       def cached?
         Dir.exists?(cached_repo_path)
