@@ -17,7 +17,6 @@
       # * kana/vim-textobj-indent requires kana/vim-textobj-user.
       #   Such dependencies are automatically installed
       #   if the flavored plugin declares its dependencies with VimFlavor file.
-      #   (FIXME: Resolving dependencies will be implemented later.)
       flavor 'kana/vim-textobj-indent'
 
       # * Declare using git://github.com/vim-scripts/fakeclip.git

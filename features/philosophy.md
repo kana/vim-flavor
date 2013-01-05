@@ -65,8 +65,7 @@ exception is
 doesn't take care about required versions).  The configuration file formats of
 vim-flavor are also used to describe dependencies of plugins with required
 versions.  This means that vim-flavor installs plugins and their dependencies
-automatically (unfortunately this feature is not implemented yet, but it'll be
-available soon).
+automatically.
 
 Any software should have enough and reproducible test cases.
 But existing implementations such as
