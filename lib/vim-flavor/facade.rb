@@ -124,6 +124,8 @@ module Vim
           nf.use_appropriate_version()
         end
 
+        nf.requirer = requirer
+
         trace " #{nf.locked_version}\n"
 
         nf
