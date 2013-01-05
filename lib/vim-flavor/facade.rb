@@ -84,7 +84,13 @@ module Vim
             nfg = nfgs[repo_name]
             vs = nfg.group_by {|nf| nf.locked_version}.values
             if 2 <= vs.length
-              abort "Different versions of #{repo_name} are required"
+              ss = []
+              ss << 'Found incompatible declarations:'
+              nfg.each do |nf|
+                ss << "  #{nf.repo_name} #{nf.version_constraint} is required by #{nf.requirer}"
+              end
+              ss << 'Please resolve the conflict.'
+              abort ss.join("\n")
             end
             [repo_name, nfg.first]
           }
