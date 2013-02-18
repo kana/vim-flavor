@@ -42,7 +42,7 @@ module Vim
       def find_the_best_version(versions)
         versions.
           select {|v| compatible?(v)}.
-          max()
+          max() or raise 'There is no valid version'
       end
     end
   end

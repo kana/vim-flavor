@@ -50,6 +50,13 @@ module Vim
             find_the_best_version(['1.2.2', '1.2.3', '1.2.4', '1.3.3', '2.0']).
             should == '1.2.4'
         end
+
+        it 'fails if no version is given' do
+          expect {
+            VersionConstraint.new('>= 1.2.3').
+              find_the_best_version([]).tap {|v| p v}
+          }.to raise_error(RuntimeError, 'There is no valid version')
+        end
       end
     end
   end
