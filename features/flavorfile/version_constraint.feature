@@ -5,7 +5,8 @@ Feature: Version constraint
 
   Note that vim-flavor assumes that plugins follow [the versioning pocilies of
   RubyGems](http://docs.rubygems.org/read/chapter/7#page26), to determine
-  compatibility of plugins.  See also [Philosophy](philosophy) for the details.
+  compatibility of plugins.  See also [Philosophy](../philosophy) for the
+  details.
 
   Background:
     Given a repository "foo" with versions "1.0 1.1 1.2 2.0"
