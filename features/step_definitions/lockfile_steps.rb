@@ -40,3 +40,9 @@ Then /^(?:a|the) lockfile is (?:created|updated) with:$/ do |content|
       """
   }
 end
+
+Then /^(?:a|the) lockfile is not created$/ do
+  steps %Q{
+    Then a file named "#{'.'.to_lockfile_path}" should not exist
+  }
+end
