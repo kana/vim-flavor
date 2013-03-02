@@ -1,6 +1,6 @@
 module Vim
   module Flavor
-    VERSION = '1.1.0'
+    VERSION = '1.1.1'
 
     class Version < Gem::Version
       attr_accessor :original_tag_name
