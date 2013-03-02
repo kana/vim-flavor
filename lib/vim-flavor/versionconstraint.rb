@@ -22,14 +22,14 @@ module Vim
       def self.parse(s)
         m = /^\s*(>=|~>)\s+(\S+)$/.match(s)
         if m
-          [Gem::Version.create(m[2]), m[1]]
+          [Version.create(m[2]), m[1]]
         else
           raise "Invalid version constraint: #{s.inspect}"
         end
       end
 
       def compatible?(other_version_or_s)
-        v = Gem::Version.create(other_version_or_s)
+        v = Version.create(other_version_or_s)
         if qualifier == '~>'
           self.base_version.bump() > v and v >= self.base_version
         elsif qualifier == '>='
