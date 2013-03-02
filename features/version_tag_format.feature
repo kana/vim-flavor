@@ -18,6 +18,21 @@ Feature: Version tag format
     And a bootstrap script is created in "$home/.vim"
     And a flavor "$foo_uri" version "1.2.3" is deployed to "$home/.vim"
 
+  Scenario: With tags in the style of "vX.Y.Z"
+    Given a repository "foo" with versions "v4.5.6 v7 v8.9"
+    And a flavorfile with:
+      """ruby
+      flavor '$foo_uri'
+      """
+    When I run `vim-flavor install`
+    Then it should pass
+    And a lockfile is created with:
+      """
+      $foo_uri (v8.9)
+      """
+    And a bootstrap script is created in "$home/.vim"
+    And a flavor "$foo_uri" version "v8.9" is deployed to "$home/.vim"
+
   Scenario: Without valid tags
     Given a repository "foo" with versions "abc def ghi"
     And a flavorfile with:

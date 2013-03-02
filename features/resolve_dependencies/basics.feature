@@ -148,3 +148,35 @@ Feature: Resolve dependencies of Vim plugins
     And a bootstrap script is created in "$home/.vim"
     And a flavor "$foo_uri" version "2.1" is deployed to "$home/.vim"
     And a flavor "$bar_uri" version "2.1" is deployed to "$home/.vim"
+
+  Scenario: Resolve dependencies with different style version tags
+    Given a repository "foo" with versions "v4.5 v6.7 v8.9"
+    And a repository "bar" with versions "1.0 1.1 2.0 2.1" and a flavorfile:
+      """ruby
+      flavor '$foo_uri', '>= 6.7'
+      """
+    And a flavorfile with:
+      """ruby
+      flavor '$foo_uri'
+      flavor '$bar_uri'
+      """
+    When I run `vim-flavor install`
+    Then it should pass with template:
+      """
+      Checking versions...
+        Use $bar_uri ... 2.1
+          Use $foo_uri ... v8.9
+        Use $foo_uri ... v8.9
+      Deploying plugins...
+        $bar_uri 2.1 ... done
+        $foo_uri v8.9 ... done
+      Completed.
+      """
+    And a lockfile is created with:
+      """
+      $bar_uri (2.1)
+      $foo_uri (v8.9)
+      """
+    And a bootstrap script is created in "$home/.vim"
+    And a flavor "$foo_uri" version "v8.9" is deployed to "$home/.vim"
+    And a flavor "$bar_uri" version "2.1" is deployed to "$home/.vim"
