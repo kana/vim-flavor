@@ -13,6 +13,7 @@ module Vim
       :ShellUtility,
       :StringExtension,
       :VERSION,
+      :Version,
       :VersionConstraint,
     ].each do |name|
       autoload name, "vim-flavor/#{name.to_s().downcase()}"
