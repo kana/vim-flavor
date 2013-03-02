@@ -3,7 +3,7 @@ Feature: Version tag format
   as a lazy Vim user,
   I want to use only tags which are formatted as versions.
 
-  Scenario: With tags in the style of "#{version}"
+  Scenario: With tags in the style of "X.Y.Z"
     Given a repository "foo" with versions "1 1.2 1.2.3"
     And a flavorfile with:
       """ruby
