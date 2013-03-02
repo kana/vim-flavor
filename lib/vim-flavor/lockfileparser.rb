@@ -37,6 +37,7 @@ module Vim
         }
         rule(:locked_version) {
           (
+            str('v').maybe >>
             match('[\d.]').repeat(1)
           ).as(:locked_version)
         }

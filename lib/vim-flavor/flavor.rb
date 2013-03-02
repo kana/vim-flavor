@@ -129,8 +129,8 @@ module Vim
 
       def versions_from_tags(tags)
         tags.
-          select {|t| t != '' && Gem::Version.correct?(t)}.
-          map {|t| Gem::Version.create(t)}
+          select {|t| t != '' && Version.correct?(t)}.
+          map {|t| Version.create(t)}
       end
 
       def list_versions()
