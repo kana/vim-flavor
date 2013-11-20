@@ -15,4 +15,5 @@
   - typical_usage.feature
   - dependencies.feature
   - failures.feature
+  - specifying_test_scripts.feature
 - version_tag_format.feature

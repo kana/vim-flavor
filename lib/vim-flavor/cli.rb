@@ -25,9 +25,10 @@ module Vim
         )
       end
 
-      desc 'test', 'Test a Vim plugin in the current working directory.'
-      def test
-        Facade.new().test()
+      desc 'test [FILES or DIRS]',
+        'Test a Vim plugin in the current working directory.'
+      def test(*files_or_dirs)
+        Facade.new().test(files_or_dirs)
       end
 
       desc 'version', 'Show the current version.'
