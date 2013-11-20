@@ -1,4 +1,5 @@
 require 'fileutils'
+require 'shellwords'
 
 module Vim
   module Flavor
@@ -11,7 +12,7 @@ module Vim
         install_or_upgrade(:upgrade, vimfiles_path)
       end
 
-      def test()
+      def test(files_or_dirs)
         trace "-------- Preparing dependencies\n"
 
         flavorfile = FlavorFile.load_or_new(Dir.getwd().to_flavorfile_path)
@@ -36,9 +37,10 @@ module Vim
           "#{deps_path}/#{f.repo_name.zap}"
         }
         succeeded = system %Q{
-          prove --ext '.t' #{prove_options} &&
+          prove --ext '.t' #{prove_options} #{files_or_dirs.shelljoin} &&
           prove --ext '.vim' #{prove_options} \
-            --exec '#{vspec} #{Dir.getwd()} #{plugin_paths.join(' ')}'
+            --exec '#{vspec} #{Dir.getwd()} #{plugin_paths.join(' ')}' \
+             #{files_or_dirs.shelljoin}
         }
         exit(1) unless succeeded
       end
