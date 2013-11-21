@@ -35,7 +35,7 @@ module Vim
 
       def cached_repo_path
         @cached_repo_path ||=
-          "#{ENV['HOME'].to_stash_path}/repos/#{@repo_name.zap}"
+          "#{Env::home.to_stash_path}/repos/#{@repo_name.zap}"
       end
 
       def make_deployment_path(flavors_path)
