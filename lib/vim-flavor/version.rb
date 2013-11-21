@@ -11,7 +11,7 @@ module Vim
       end
 
       def self.normalize_tag_name(tag_name)
-        tag_name.sub(/^v/, '')
+        tag_name.to_s.sub(/^v/, '')
       end
 
       def self.correct?(tag_name)
