@@ -7,6 +7,12 @@ module Vim
             ENV['VIM_FLAVOR_GITHUB_URI_PREFIX'] ||
             'git://github.com/'
         end
+
+        def github_uri_suffix
+          @github_uri_suffix ||=
+            ENV['VIM_FLAVOR_GITHUB_URI_SUFFIX'] ||
+            '.git'
+        end
       end
     end
   end
