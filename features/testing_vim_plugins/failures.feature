@@ -29,9 +29,9 @@ Feature: Failures
       """
       -------- Preparing dependencies
       Checking versions...
-        Use kana/vim-vspec ... 1.1.0
+        Use kana/vim-vspec ... 1\.\d+(\.\d+)?
       Deploying plugins...
-        kana/vim-vspec 1.1.0 ... done
+        kana/vim-vspec 1\.\d+(\.\d+)? ... done
       Completed.
       -------- Testing a Vim plugin
       Files=0, Tests=0,  0 wallclock secs (.*)
@@ -54,8 +54,8 @@ Feature: Failures
       """
       :in `test':
       """
-    And a lockfile is created with:
+    And a lockfile is created and matches with:
       """
-      kana/vim-vspec (1.1.0)
+      kana/vim-vspec \(1\.\d+(\.\d+)?\)
       """
     And a dependency "kana/vim-vspec" is stored in ".vim-flavor/deps"
