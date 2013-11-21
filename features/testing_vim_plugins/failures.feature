@@ -54,7 +54,7 @@ Feature: Failures
       """
       :in `test':
       """
-    And a lockfile with:
+    And a lockfile is created with:
       """
       kana/vim-vspec (1.1.0)
       """
