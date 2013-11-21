@@ -5,6 +5,7 @@ module Vim
   module Flavor
     [
       :CLI,
+      :Env,
       :Facade,
       :Flavor,
       :FlavorFile,
