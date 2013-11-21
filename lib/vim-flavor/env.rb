@@ -4,6 +4,7 @@ module Vim
       class << self
         def home
           @home ||=
+            ENV['VIM_FLAVOR_HOME'] ||
             ENV['HOME']
         end
 
