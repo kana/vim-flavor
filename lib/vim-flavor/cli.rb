@@ -38,7 +38,7 @@ module Vim
 
       no_tasks do
         def default_vimfiles_path
-          ENV['HOME'].to_vimfiles_path
+          Env::home.to_vimfiles_path
         end
       end
 

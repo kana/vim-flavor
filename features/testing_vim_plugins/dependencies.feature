@@ -36,11 +36,11 @@ Feature: Dependencies
       """
       -------- Preparing dependencies
       Checking versions...
-        Use kana/vim-textobj-user ... 0.3.12
-        Use kana/vim-vspec ... 1.1.0
+        Use kana/vim-textobj-user ... 0\.\d+(\.\d+)?
+        Use kana/vim-vspec ... 1\.\d+(\.\d+)?
       Deploying plugins...
-        kana/vim-textobj-user 0.3.12 ... done
-        kana/vim-vspec 1.1.0 ... done
+        kana/vim-textobj-user 0\.\d+(\.\d+)? ... done
+        kana/vim-vspec 1\.\d+(\.\d+)? ... done
       Completed.
       -------- Testing a Vim plugin
       Files=0, Tests=0,  \d+ wallclock secs .*
@@ -50,10 +50,10 @@ Feature: Dependencies
       Files=1, Tests=1,  \d+ wallclock secs .*
       Result: PASS
       """
-    And a lockfile is created with:
+    And a lockfile is created and matches with:
       """
-      kana/vim-textobj-user (0.3.12)
-      kana/vim-vspec (1.1.0)
+      kana/vim-textobj-user \(0\.\d+(\.\d+)?\)
+      kana/vim-vspec \(1\.\d+(\.\d+)?\)
       """
     And a dependency "kana/vim-vspec" is stored in ".vim-flavor/deps"
     And a dependency "kana/vim-textobj-user" is stored in ".vim-flavor/deps"

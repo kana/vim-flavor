@@ -36,9 +36,9 @@ Feature: Specifying test scripts
       """
       -------- Preparing dependencies
       Checking versions...
-        Use kana/vim-vspec ... 1.1.0
+        Use kana/vim-vspec ... 1\.\d+(\.\d+)?
       Deploying plugins...
-        kana/vim-vspec 1.1.0 ... done
+        kana/vim-vspec 1\.\d+(\.\d+)? ... done
       Completed.
       -------- Testing a Vim plugin
       spec/sh.t .. ok
@@ -50,8 +50,8 @@ Feature: Specifying test scripts
       Files=1, Tests=1,  \d+ wallclock secs .*
       Result: PASS
       """
-    And a lockfile is created with:
+    And a lockfile is created and matches with:
       """
-      kana/vim-vspec (1.1.0)
+      kana/vim-vspec \(1\.\d+(\.\d+)?\)
       """
     And a dependency "kana/vim-vspec" is stored in ".vim-flavor/deps"

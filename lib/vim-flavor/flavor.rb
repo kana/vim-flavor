@@ -35,7 +35,7 @@ module Vim
 
       def cached_repo_path
         @cached_repo_path ||=
-          "#{ENV['HOME'].to_stash_path}/repos/#{@repo_name.zap}"
+          "#{Env::home.to_stash_path}/repos/#{@repo_name.zap}"
       end
 
       def make_deployment_path(flavors_path)
@@ -43,9 +43,7 @@ module Vim
       end
 
       def self.github_repo_uri(user, repo)
-        p = (ENV['VIM_FLAVOR_GITHUB_URI_PREFIX'] ||= 'git://github.com/')
-        s = (ENV['VIM_FLAVOR_GITHUB_URI_SUFFIX'] ||= '.git')
-        "#{p}#{user}/#{repo}#{s}"
+        "#{Env::github_uri_prefix}#{user}/#{repo}#{Env::github_uri_suffix}"
       end
 
       def repo_uri
