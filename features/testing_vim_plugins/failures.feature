@@ -37,10 +37,10 @@ Feature: Failures
       Files=0, Tests=0,  0 wallclock secs (.*)
       Result: NOTESTS
       t/basics.vim ..\s
-      not ok 1 - g:foo is equal to 5\r
-      # Expected g:foo == 5\r
-      #       Actual value: 3\r
-      #     Expected value: 5\r
+      not ok 1 - g:foo is equal to 5
+      # Expected g:foo == 5
+      #       Actual value: 3
+      #     Expected value: 5
       Failed 1/1 subtests 
 
       Test Summary Report
