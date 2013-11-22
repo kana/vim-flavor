@@ -48,7 +48,7 @@ Given /^a repository "([^"]*)" from offline cache$/ do |repo_name|
   repository_path = make_repo_path(repo_name).sub(expand('$tmp/'), '')
   sh <<-"END"
     {
-      git clone 'vendor/#{repo_name}' '#{current_dir}/#{repository_path}'
+      git clone --no-checkout 'vendor/#{repo_name}' '#{current_dir}/#{repository_path}'
     } >/dev/null
   END
 end
