@@ -3,7 +3,7 @@ Feature: Version constraint
   as a lazy Vim user,
   I want to declare desirable versions of Vim plugins.
 
-  Note that vim-flavor assumes that plugins follow [the versioning pocilies of
+  Note that vim-flavor assumes that plugins follow [the versioning policies of
   RubyGems](http://docs.rubygems.org/read/chapter/7#page26), to determine
   compatibility of plugins.  See also [Philosophy](../philosophy) for the
   details.

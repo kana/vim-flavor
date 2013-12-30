@@ -11,7 +11,7 @@ vim-flavor can install plugins which meet the following conditions:
     [plugins uploaded to www.vim.org](http://www.vim.org/scripts/index.php).
   * Experimental plugins which are not uploaded to www.vim.org
     are usually found in [GitHub](https://github.com/).
-* Plugins must follow [the versioning pocilies of
+* Plugins must follow [the versioning policies of
   RubyGems](http://docs.rubygems.org/read/chapter/7#page26) and have "version"
   tags in their repositories.  For example, if there is the version 1.2.3 of
   a plugin, its repository must have the tag `1.2.3`, and the files of the
