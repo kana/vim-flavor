@@ -36,12 +36,22 @@ module Vim
         plugin_paths = lockfile.flavors.map {|f|
           "#{deps_path}/#{f.repo_name.zap}"
         }
-        succeeded = system %Q{
-          prove --ext '.t' #{prove_options} #{files_or_dirs.shelljoin} &&
-          prove --ext '.vim' #{prove_options} \
-            --exec '#{vspec} #{Dir.getwd()} #{plugin_paths.join(' ')}' \
-             #{files_or_dirs.shelljoin}
-        }
+        dirs = files_or_dirs.select {|p| File.directory?(p)}
+        t_files = files_or_dirs.select {|p| File.file?(p) &&
+                                            File.extname(p) == '.t'}
+        vim_files = files_or_dirs.select {|p| File.file?(p) &&
+                                              File.extname(p) == '.vim'}
+        commands = []
+        commands <<
+          %Q{ prove --ext '.t' #{prove_options} \
+                #{(dirs + t_files).shelljoin} } if files_or_dirs.none? or
+                                                   dirs.any? or t_files.any?
+        commands <<
+          %Q{ prove --ext '.vim' #{prove_options} \
+                --exec '#{vspec} #{Dir.getwd()} #{plugin_paths.join(' ')}' \
+                #{(dirs + vim_files).shelljoin} } if files_or_dirs.none? or
+                                                     dirs.any? or vim_files.any?
+        succeeded = system(commands.join('&&'))
         exit(1) unless succeeded
       end
 
