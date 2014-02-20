@@ -92,8 +92,8 @@ module Vim
         nfgs = nfs.group_by {|nf| nf.repo_name}
 
         Hash[
-          nfgs.keys.map {|repo_name|
-            [repo_name, choose_a_flavor(nfgs[repo_name])]
+          nfgs.map {|repo_name, nfg|
+            [repo_name, choose_a_flavor(nfg)]
           }
         ]
       end
