@@ -89,10 +89,9 @@ module Vim
 
       def complete(current_flavor_table, locked_flavor_table, mode, level = 1)
         nfs = complete_flavors(current_flavor_table, locked_flavor_table, mode, level, 'you')
-        nfgs = nfs.group_by {|nf| nf.repo_name}
 
         Hash[
-          nfgs.map {|repo_name, nfg|
+          nfs.group_by {|nf| nf.repo_name}.map {|repo_name, nfg|
             [repo_name, choose_a_flavor(nfg)]
           }
         ]
