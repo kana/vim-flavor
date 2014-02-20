@@ -102,7 +102,14 @@ module Vim
         if vs.length == 1
           nfg.first
         else
-          stop_by_incompatible_declarations(nfg)
+          latest_version = vs.max()
+          if nfg.all? {|nf| nf.satisfied_with?(latest_version)}
+            nf = nfg.first
+            nf.use_specific_version(latest_version)
+            nf
+          else
+            stop_by_incompatible_declarations(nfg)
+          end
         end
       end
 
