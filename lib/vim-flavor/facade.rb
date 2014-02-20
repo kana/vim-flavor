@@ -93,20 +93,23 @@ module Vim
 
         Hash[
           nfgs.keys.map {|repo_name|
-            nfg = nfgs[repo_name]
-            vs = nfg.group_by {|nf| nf.locked_version}.values
-            if 2 <= vs.length
-              ss = []
-              ss << 'Found incompatible declarations:'
-              nfg.each do |nf|
-                ss << "  #{nf.repo_name} #{nf.version_constraint} is required by #{nf.requirer}"
-              end
-              ss << 'Please resolve the conflict.'
-              abort ss.join("\n")
-            end
-            [repo_name, nfg.first]
+            [repo_name, choose_a_flavor(nfgs[repo_name])]
           }
         ]
+      end
+
+      def choose_a_flavor(nfg)
+        vs = nfg.group_by {|nf| nf.locked_version}.values
+        if 2 <= vs.length
+          ss = []
+          ss << 'Found incompatible declarations:'
+          nfg.each do |nf|
+            ss << "  #{nf.repo_name} #{nf.version_constraint} is required by #{nf.requirer}"
+          end
+          ss << 'Please resolve the conflict.'
+          abort ss.join("\n")
+        end
+        nfg.first
       end
 
       def complete_flavors(current_flavor_table, locked_flavor_table, mode, level, requirer)
