@@ -100,15 +100,19 @@ module Vim
       def choose_a_flavor(nfg)
         vs = nfg.group_by {|nf| nf.locked_version}.values
         if 2 <= vs.length
-          ss = []
-          ss << 'Found incompatible declarations:'
-          nfg.each do |nf|
-            ss << "  #{nf.repo_name} #{nf.version_constraint} is required by #{nf.requirer}"
-          end
-          ss << 'Please resolve the conflict.'
-          abort ss.join("\n")
+          stop_by_incompatible_declarations(nfg)
         end
         nfg.first
+      end
+
+      def stop_by_incompatible_declarations(nfg)
+        ss = []
+        ss << 'Found incompatible declarations:'
+        nfg.each do |nf|
+          ss << "  #{nf.repo_name} #{nf.version_constraint} is required by #{nf.requirer}"
+        end
+        ss << 'Please resolve the conflict.'
+        abort ss.join("\n")
       end
 
       def complete_flavors(current_flavor_table, locked_flavor_table, mode, level, requirer)
