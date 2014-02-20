@@ -99,10 +99,11 @@ module Vim
 
       def choose_a_flavor(nfg)
         vs = nfg.group_by {|nf| nf.locked_version}.values
-        if 2 <= vs.length
+        if vs.length == 1
+          nfg.first
+        else
           stop_by_incompatible_declarations(nfg)
         end
-        nfg.first
       end
 
       def stop_by_incompatible_declarations(nfg)
