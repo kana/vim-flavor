@@ -98,7 +98,7 @@ module Vim
       end
 
       def choose_a_flavor(nfg)
-        vs = nfg.group_by {|nf| nf.locked_version}.values
+        vs = nfg.map {|nf| nf.locked_version}.uniq
         if vs.length == 1
           nfg.first
         else
