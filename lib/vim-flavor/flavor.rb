@@ -135,9 +135,8 @@ module Vim
         versions_from_tags(list_tags())
       end
 
-      def satisfied_with?(locked_flavor)
-        repo_name == locked_flavor.repo_name &&
-          version_constraint.compatible?(locked_flavor.locked_version)
+      def satisfied_with?(version)
+        version_constraint.compatible?(version)
       end
     end
   end

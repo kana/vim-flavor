@@ -129,7 +129,7 @@ module Vim
         already_cached = nf.cached?
         nf.clone() unless already_cached
 
-        if mode == :install and lf and nf.satisfied_with?(lf)
+        if mode == :install and lf and nf.satisfied_with?(lf.locked_version)
           if not nf.cached_version?(lf.locked_version)
             nf.fetch()
             if not nf.cached_version?(lf.locked_version)
