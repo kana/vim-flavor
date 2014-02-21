@@ -33,7 +33,7 @@ FF
   end
 
   def expand(virtual_path)
-    virtual_path.gsub(/\$([a-z_]+)/) {
+    virtual_path.gsub(/\$([A-Za-z_]+)/) {
       variable_table[$1]
     }
   end

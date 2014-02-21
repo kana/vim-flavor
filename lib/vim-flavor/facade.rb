@@ -89,24 +89,38 @@ module Vim
 
       def complete(current_flavor_table, locked_flavor_table, mode, level = 1)
         nfs = complete_flavors(current_flavor_table, locked_flavor_table, mode, level, 'you')
-        nfgs = nfs.group_by {|nf| nf.repo_name}
 
         Hash[
-          nfgs.keys.map {|repo_name|
-            nfg = nfgs[repo_name]
-            vs = nfg.group_by {|nf| nf.locked_version}.values
-            if 2 <= vs.length
-              ss = []
-              ss << 'Found incompatible declarations:'
-              nfg.each do |nf|
-                ss << "  #{nf.repo_name} #{nf.version_constraint} is required by #{nf.requirer}"
-              end
-              ss << 'Please resolve the conflict.'
-              abort ss.join("\n")
-            end
-            [repo_name, nfg.first]
+          nfs.group_by {|nf| nf.repo_name}.map {|repo_name, nfg|
+            [repo_name, choose_a_flavor(nfg)]
           }
         ]
+      end
+
+      def choose_a_flavor(nfg)
+        vs = nfg.map {|nf| nf.locked_version}.uniq
+        if vs.length == 1
+          nfg.first
+        else
+          latest_version = vs.max()
+          if nfg.all? {|nf| nf.satisfied_with?(latest_version)}
+            nf = nfg.first
+            nf.use_specific_version(latest_version)
+            nf
+          else
+            stop_by_incompatible_declarations(nfg)
+          end
+        end
+      end
+
+      def stop_by_incompatible_declarations(nfg)
+        ss = []
+        ss << 'Found incompatible declarations:'
+        nfg.each do |nf|
+          ss << "  #{nf.repo_name} #{nf.version_constraint} is required by #{nf.requirer}"
+        end
+        ss << 'Please resolve the conflict.'
+        abort ss.join("\n")
       end
 
       def complete_flavors(current_flavor_table, locked_flavor_table, mode, level, requirer)
@@ -129,7 +143,7 @@ module Vim
         already_cached = nf.cached?
         nf.clone() unless already_cached
 
-        if mode == :install and lf and nf.satisfied_with?(lf)
+        if mode == :install and lf and nf.satisfied_with?(lf.locked_version)
           if not nf.cached_version?(lf.locked_version)
             nf.fetch()
             if not nf.cached_version?(lf.locked_version)

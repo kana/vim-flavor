@@ -57,7 +57,7 @@ module Vim
         ) {
           f = Flavor.new()
           f.repo_name = repo_name.to_s
-          f.locked_version = locked_version.to_s
+          f.locked_version = Version.create(locked_version.to_s)
           f
         }
       end
