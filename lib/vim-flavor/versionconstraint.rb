@@ -28,12 +28,11 @@ module Vim
         end
       end
 
-      def compatible?(other_version_or_s)
-        v = Version.create(other_version_or_s)
+      def compatible?(version)
         if qualifier == '~>'
-          self.base_version.bump() > v and v >= self.base_version
+          self.base_version.bump() > version and version >= self.base_version
         elsif qualifier == '>='
-          v >= self.base_version
+          version >= self.base_version
         else
           raise NotImplementedError
         end
