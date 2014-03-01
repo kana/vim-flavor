@@ -4,6 +4,7 @@ require 'vim-flavor/enumerableextension'
 module Vim
   module Flavor
     [
+      :BranchVersion,
       :CLI,
       :Env,
       :Facade,
