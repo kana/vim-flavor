@@ -11,6 +11,7 @@ module Vim
       :FlavorFile,
       :LockFile,
       :LockFileParser,
+      :PlainVersion,
       :ShellUtility,
       :StringExtension,
       :VERSION,
