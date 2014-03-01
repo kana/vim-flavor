@@ -10,15 +10,15 @@ module Vim
           it 'registers a flavor' do
             ff.flavor 'kana/vim-altr', '>= 1.2.3'
             f = ff.flavor_table['kana/vim-altr']
-            f.repo_name.should == 'kana/vim-altr'
-            f.version_constraint.should == VersionConstraint.new('>= 1.2.3')
+            expect(f.repo_name).to be == 'kana/vim-altr'
+            expect(f.version_constraint).to be == VersionConstraint.new('>= 1.2.3')
           end
 
           it 'completes version constraint if it is not given' do
             ff.flavor 'kana/vim-altr'
             f = ff.flavor_table['kana/vim-altr']
-            f.repo_name.should == 'kana/vim-altr'
-            f.version_constraint.should == VersionConstraint.new('>= 0')
+            expect(f.repo_name).to be == 'kana/vim-altr'
+            expect(f.version_constraint).to be == VersionConstraint.new('>= 0')
           end
         end
 
@@ -26,21 +26,21 @@ module Vim
           it 'supports a group option with a version constraint' do
             ff.flavor 'kana/vim-vspec', '~> 1.0', :group => :development
             f = ff.flavor_table['kana/vim-vspec']
-            f.version_constraint.should == VersionConstraint.new('~> 1.0')
-            f.group.should == :development
+            expect(f.version_constraint).to be == VersionConstraint.new('~> 1.0')
+            expect(f.group).to be == :development
           end
 
           it 'supports a group option without version constraint' do
             ff.flavor 'kana/vim-vspec', :group => :development
             f = ff.flavor_table['kana/vim-vspec']
-            f.version_constraint.should == VersionConstraint.new('>= 0')
-            f.group.should == :development
+            expect(f.version_constraint).to be == VersionConstraint.new('>= 0')
+            expect(f.group).to be == :development
           end
 
           it 'uses :default as the default group' do
             ff.flavor 'kana/vim-vspec'
             f = ff.flavor_table['kana/vim-vspec']
-            f.group.should == :runtime
+            expect(f.group).to be == :runtime
           end
         end
 
@@ -56,11 +56,11 @@ module Vim
             end
             ff.flavor 'e'
 
-            ff.flavor_table['a'].group.should == :runtime
-            ff.flavor_table['b'].group.should == :outer
-            ff.flavor_table['c'].group.should == :inner
-            ff.flavor_table['d'].group.should == :outer
-            ff.flavor_table['e'].group.should == :runtime
+            expect(ff.flavor_table['a'].group).to be == :runtime
+            expect(ff.flavor_table['b'].group).to be == :outer
+            expect(ff.flavor_table['c'].group).to be == :inner
+            expect(ff.flavor_table['d'].group).to be == :outer
+            expect(ff.flavor_table['e'].group).to be == :runtime
           end
 
           it 'restores the default group even if an exception is raised' do
@@ -78,11 +78,11 @@ module Vim
             end
             ff.flavor 'e'
 
-            ff.flavor_table['a'].group.should == :runtime
-            ff.flavor_table['b'].group.should == :outer
-            ff.flavor_table['c'].should be_nil
-            ff.flavor_table['d'].group.should == :outer
-            ff.flavor_table['e'].group.should == :runtime
+            expect(ff.flavor_table['a'].group).to be == :runtime
+            expect(ff.flavor_table['b'].group).to be == :outer
+            expect(ff.flavor_table['c']).to be_nil
+            expect(ff.flavor_table['d'].group).to be == :outer
+            expect(ff.flavor_table['e'].group).to be == :runtime
           end
         end
       end
@@ -102,8 +102,8 @@ module Vim
           end
           ff = FlavorFile.load(flavorfile_path)
           f = ff.flavor_table['kana/vim-altr']
-          f.repo_name.should == 'kana/vim-altr'
-          f.version_constraint.should == VersionConstraint.new('~> 1.2')
+          expect(f.repo_name).to be == 'kana/vim-altr'
+          expect(f.version_constraint).to be == VersionConstraint.new('~> 1.2')
         end
       end
     end
