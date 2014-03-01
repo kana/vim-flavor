@@ -3,6 +3,10 @@ require 'spec_helper'
 module Vim
   module Flavor
     describe FlavorFile do
+      def constraint(*args)
+        VersionConstraint.new(*args)
+      end
+
       describe '#flavor' do
         let(:ff) {FlavorFile.new()}
 
@@ -11,14 +15,14 @@ module Vim
             ff.flavor 'kana/vim-altr', '>= 1.2.3'
             f = ff.flavor_table['kana/vim-altr']
             expect(f.repo_name).to be == 'kana/vim-altr'
-            expect(f.version_constraint).to be == VersionConstraint.new('>= 1.2.3')
+            expect(f.version_constraint).to be == constraint('>= 1.2.3')
           end
 
           it 'completes version constraint if it is not given' do
             ff.flavor 'kana/vim-altr'
             f = ff.flavor_table['kana/vim-altr']
             expect(f.repo_name).to be == 'kana/vim-altr'
-            expect(f.version_constraint).to be == VersionConstraint.new('>= 0')
+            expect(f.version_constraint).to be == constraint('>= 0')
           end
         end
 
@@ -26,14 +30,14 @@ module Vim
           it 'supports a group option with a version constraint' do
             ff.flavor 'kana/vim-vspec', '~> 1.0', :group => :development
             f = ff.flavor_table['kana/vim-vspec']
-            expect(f.version_constraint).to be == VersionConstraint.new('~> 1.0')
+            expect(f.version_constraint).to be == constraint('~> 1.0')
             expect(f.group).to be == :development
           end
 
           it 'supports a group option without version constraint' do
             ff.flavor 'kana/vim-vspec', :group => :development
             f = ff.flavor_table['kana/vim-vspec']
-            expect(f.version_constraint).to be == VersionConstraint.new('>= 0')
+            expect(f.version_constraint).to be == constraint('>= 0')
             expect(f.group).to be == :development
           end
 
@@ -103,7 +107,7 @@ module Vim
           ff = FlavorFile.load(flavorfile_path)
           f = ff.flavor_table['kana/vim-altr']
           expect(f.repo_name).to be == 'kana/vim-altr'
-          expect(f.version_constraint).to be == VersionConstraint.new('~> 1.2')
+          expect(f.version_constraint).to be == constraint('~> 1.2')
         end
       end
     end

@@ -6,7 +6,8 @@ module Vim
       describe '#versions_from_tags' do
         def example tags, versions
           f = Flavor.new()
-          expect(f.versions_from_tags(tags).sort.map(&:version)).to be == versions
+          expect(f.versions_from_tags(tags).sort.map(&:version)).to be ==
+            versions
         end
 
         it 'converts tags into versions' do

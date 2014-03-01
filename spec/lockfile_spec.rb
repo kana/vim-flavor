@@ -14,11 +14,11 @@ module Vim
       def flavor(repo_name, locked_version)
         f = Flavor.new()
         f.repo_name = repo_name
-        f.locked_version = version(locked_version)
+        f.locked_version = v(locked_version)
         f
       end
 
-      def version(s)
+      def v(s)
         Version.create(s)
       end
 
@@ -36,8 +36,9 @@ module Vim
 
       describe '::serialize_lock_status' do
         it 'converts a flavor into an array of lines' do
-          expect(LockFile.serialize_lock_status(flavor('foo', '1.2.3'))).to be ==
-            ['foo (1.2.3)']
+          expect(
+            LockFile.serialize_lock_status(flavor('foo', '1.2.3'))
+          ).to be == ['foo (1.2.3)']
         end
       end
 
@@ -56,11 +57,11 @@ module Vim
 
           l.load()
           expect(l.flavor_table['foo'].repo_name).to be == 'foo'
-          expect(l.flavor_table['foo'].locked_version).to be == version('1.2.3')
+          expect(l.flavor_table['foo'].locked_version).to be == v('1.2.3')
           expect(l.flavor_table['bar'].repo_name).to be == 'bar'
-          expect(l.flavor_table['bar'].locked_version).to be == version('2.3.4')
+          expect(l.flavor_table['bar'].locked_version).to be == v('2.3.4')
           expect(l.flavor_table['baz'].repo_name).to be == 'baz'
-          expect(l.flavor_table['baz'].locked_version).to be == version('3.4.5')
+          expect(l.flavor_table['baz'].locked_version).to be == v('3.4.5')
         end
       end
 
@@ -74,7 +75,7 @@ module Vim
 
           l = LockFile.load_or_new(@tmp_path.to_lockfile_path)
           expect(l.flavor_table['foo'].repo_name).to be == 'foo'
-          expect(l.flavor_table['foo'].locked_version).to be == version('1.2.3')
+          expect(l.flavor_table['foo'].locked_version).to be == v('1.2.3')
         end
 
         it 'only creates a new instance if a given path does not exist' do
