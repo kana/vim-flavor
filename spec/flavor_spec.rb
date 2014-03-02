@@ -6,7 +6,8 @@ module Vim
       describe '#versions_from_tags' do
         def example tags, versions
           f = Flavor.new()
-          f.versions_from_tags(tags).sort.map(&:version).should == versions
+          expect(f.versions_from_tags(tags).sort.map(&:version)).to be ==
+            versions
         end
 
         it 'converts tags into versions' do
@@ -34,15 +35,15 @@ module Vim
           Version.create(s)
         end
 
-        it {should be_satisfied_with version('1.2.3')}
+        it {is_expected.to be_satisfied_with version('1.2.3')}
 
-        it {should be_satisfied_with version('1.2.4')}
-        it {should be_satisfied_with version('1.3.3')}
-        it {should be_satisfied_with version('2.2.3')}
+        it {is_expected.to be_satisfied_with version('1.2.4')}
+        it {is_expected.to be_satisfied_with version('1.3.3')}
+        it {is_expected.to be_satisfied_with version('2.2.3')}
 
-        it {should_not be_satisfied_with version('0.2.3')}
-        it {should_not be_satisfied_with version('1.1.3')}
-        it {should_not be_satisfied_with version('1.2.2')}
+        it {is_expected.not_to be_satisfied_with version('0.2.3')}
+        it {is_expected.not_to be_satisfied_with version('1.1.3')}
+        it {is_expected.not_to be_satisfied_with version('1.2.2')}
       end
     end
   end

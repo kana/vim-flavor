@@ -17,7 +17,7 @@ module Vim
           flavors_path = @tmp_path.to_vimfiles_path.to_flavors_path
           Facade.new().create_vim_script_for_bootstrap(flavors_path)
 
-          File.should exist(flavors_path.to_bootstrap_path)
+          expect(File).to exist(flavors_path.to_bootstrap_path)
 
           _rtp = %x{
             for plugin_name in 'foo' 'bar' 'baz'
@@ -40,7 +40,7 @@ module Vim
             _rtp.
             split(/[\r\n]/).
             select {|p| p != ''}
-          rtps.should == [
+          expect(rtps).to be == [
             '!',
             '!/flavors/bar',
             '!/flavors/baz',

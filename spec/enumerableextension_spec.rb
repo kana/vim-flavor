@@ -12,7 +12,7 @@ module Vim
             xs << "each #{n}"
           end
 
-          xs.should == [
+          expect(xs).to be == [
             "before_each 1",
             "each 1",
             "before_each 2",
@@ -32,7 +32,7 @@ module Vim
             xs << "each #{n}"
           end
 
-          xs.should == [
+          expect(xs).to be == [
             "each 1",
             "after_each 1",
             "each 2",
@@ -57,7 +57,7 @@ module Vim
             end
           }.to raise_error(RuntimeError, 'bang! 3')
 
-          xs.should == [
+          expect(xs).to be == [
             "each enter 1",
             "each leave 1",
             "each enter 2",
@@ -86,7 +86,7 @@ module Vim
             end
           }.to raise_error(RuntimeError, 'bang!')
 
-          xs.should == [
+          expect(xs).to be == [
             "each enter 1",
             "each leave 1",
             "each enter 2",
