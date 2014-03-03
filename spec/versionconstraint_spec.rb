@@ -20,6 +20,10 @@ module Vim
           expect(p('~> 1.2.3')).to be == [v('1.2.3'), '~>']
         end
 
+        it 'accepts "branch: $branch"' do
+          expect(p('branch: master')).to be == [v(branch: 'master'), 'branch:']
+        end
+
         it 'ignores extra spaces' do
           expect(p('  ~>  1.2.3  ')).to be == p('~> 1.2.3')
         end
@@ -76,6 +80,16 @@ module Vim
           it {is_expected.not_to be_compatible v('0.2.3')}
 
           it {is_expected.not_to be_compatible v('1.2')}
+        end
+
+        context 'with "branch: master"' do
+          subject {VersionConstraint.new('branch: master')}
+
+          it {is_expected.to be_compatible v(branch: 'master')}
+          it {is_expected.to be_compatible v(branch: 'master', revision: '1' * 40)}
+          it {is_expected.to be_compatible v(branch: 'master', revision: '2' * 40)}
+
+          it {is_expected.not_to be_compatible v(branch: 'experimental')}
         end
       end
 

@@ -20,9 +20,13 @@ module Vim
       end
 
       def self.parse(s)
-        m = /^\s*(>=|~>)\s+(\S+)\s*$/.match(s)
+        m = /^\s*(>=|~>|branch:)\s+(\S+)\s*$/.match(s)
         if m
-          [Version.create(m[2]), m[1]]
+          if m[1] == 'branch:'
+            [Version.create(branch: m[2]), m[1]]
+          else
+            [Version.create(m[2]), m[1]]
+          end
         else
           raise "Invalid version constraint: #{s.inspect}"
         end
@@ -33,6 +37,8 @@ module Vim
           self.base_version.bump() > version and version >= self.base_version
         elsif qualifier == '>='
           version >= self.base_version
+        elsif qualifier == 'branch:'
+          version.branch == self.base_version.branch
         else
           raise NotImplementedError
         end
