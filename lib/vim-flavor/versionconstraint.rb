@@ -20,7 +20,7 @@ module Vim
       end
 
       def self.parse(s)
-        m = /^\s*(>=|~>)\s+(\S+)$/.match(s)
+        m = /^\s*(>=|~>)\s+(\S+)\s*$/.match(s)
         if m
           [Version.create(m[2]), m[1]]
         else
