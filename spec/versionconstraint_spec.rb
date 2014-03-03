@@ -8,7 +8,7 @@ module Vim
       end
 
       describe '#compatible?' do
-        describe '>=' do
+        context 'with ">= 1.2.3"' do
           subject {VersionConstraint.new('>= 1.2.3')}
 
           it {is_expected.to be_compatible v('1.2.3')}
@@ -26,7 +26,7 @@ module Vim
           it {is_expected.not_to be_compatible v('1.2')}
         end
 
-        describe '~>' do
+        context 'with "~> 1.2.3"' do
           subject {VersionConstraint.new('~> 1.2.3')}
 
           it {is_expected.to be_compatible v('1.2.3')}
