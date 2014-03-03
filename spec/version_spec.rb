@@ -6,9 +6,29 @@ module Vim
       v = described_class
 
       describe '::create' do
-        it 'makes a PlainVersion' do
-          expect(v.create('1.2.3')).to be_a(PlainVersion)
-          expect(v.create('v1.2.3')).to be_a(PlainVersion)
+        context 'with a string' do
+          it 'makes a PlainVersion' do
+            expect(v.create('1.2.3')).to be_a(PlainVersion)
+            expect(v.create('v1.2.3')).to be_a(PlainVersion)
+          end
+        end
+
+        context 'with a branch' do
+          it 'makes a BranchVersion' do
+            r = v.create(branch: 'master')
+            expect(r).to be_a(BranchVersion)
+            expect(r.branch).to be == 'master'
+            expect(r.revision).to be_nil
+          end
+        end
+
+        context 'with a branch and a ref' do
+          it 'makes a BranchVersion' do
+            r = v.create(branch: 'master', revision: '1' * 40)
+            expect(r).to be_a(BranchVersion)
+            expect(r.branch).to be == 'master'
+            expect(r.revision).to be == '1' * 40
+          end
         end
       end
 

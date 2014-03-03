@@ -3,8 +3,12 @@ module Vim
     VERSION = '1.1.5'
 
     class Version
-      def self.create(*args)
-        PlainVersion.create(*args)
+      def self.create(arg)
+        if String === arg
+          PlainVersion.create(arg)
+        else
+          BranchVersion.new(arg[:branch], arg[:revision])
+        end
       end
 
       def self.correct?(*args)
