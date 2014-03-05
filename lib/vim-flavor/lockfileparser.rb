@@ -37,9 +37,12 @@ module Vim
         }
         rule(:locked_version) {
           (
-            str('v').maybe >>
-            match('[\d.]').repeat(1)
+            plain_version
           ).as(:locked_version)
+        }
+        rule(:plain_version) {
+          str('v').maybe >>
+          match('[\d.]').repeat(1)
         }
 
         rule(:space) {match('[ \t]').repeat(1)}
