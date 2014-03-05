@@ -22,16 +22,18 @@ module Vim
         Version.create(s)
       end
 
-      it 'has flavors sorted by repo_name' do
-        l = LockFile.new(@tmp_path.to_lockfile_path)
-        foo = flavor('foo', '1.2.3')
-        bar = flavor('bar', '2.3.4')
-        baz = flavor('baz', '3.4.5')
-        [foo, bar, baz].each do |f|
-          l.flavor_table[f.repo_name] = f
-        end
+      describe '#flavors' do
+        it 'is sorted by repo_name' do
+          l = LockFile.new(@tmp_path.to_lockfile_path)
+          foo = flavor('foo', '1.2.3')
+          bar = flavor('bar', '2.3.4')
+          baz = flavor('baz', '3.4.5')
+          [foo, bar, baz].each do |f|
+            l.flavor_table[f.repo_name] = f
+          end
 
-        expect(l.flavors).to be == [bar, baz, foo]
+          expect(l.flavors).to be == [bar, baz, foo]
+        end
       end
 
       describe '::serialize_lock_status' do
