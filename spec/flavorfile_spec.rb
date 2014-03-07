@@ -10,7 +10,7 @@ module Vim
       describe '#flavor' do
         let(:ff) {FlavorFile.new()}
 
-        context 'basics' do
+        context 'with basic usage' do
           it 'registers a flavor' do
             ff.flavor 'kana/vim-altr', '>= 1.2.3'
             f = ff.flavor_table['kana/vim-altr']
@@ -18,7 +18,7 @@ module Vim
             expect(f.version_constraint).to be == constraint('>= 1.2.3')
           end
 
-          it 'completes version constraint if it is not given' do
+          it 'completes a version constraint if it is not given' do
             ff.flavor 'kana/vim-altr'
             f = ff.flavor_table['kana/vim-altr']
             expect(f.repo_name).to be == 'kana/vim-altr'
@@ -26,7 +26,7 @@ module Vim
           end
         end
 
-        context 'group option' do
+        context 'with a group option' do
           it 'supports a group option with a version constraint' do
             ff.flavor 'kana/vim-vspec', '~> 1.0', :group => :development
             f = ff.flavor_table['kana/vim-vspec']
@@ -48,7 +48,7 @@ module Vim
           end
         end
 
-        context 'group block' do
+        context 'in a group block' do
           it 'changes the default group for flavors in a given block' do
             ff.flavor 'a'
             ff.group :outer do
