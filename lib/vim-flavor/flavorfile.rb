@@ -33,10 +33,22 @@ module Vim
         )
       end
 
-      def flavor(repo_name, version_constraint='>= 0', group: nil)
+      def flavor(repo_name, version_constraint=nil, group: nil, branch: nil)
+        if version_constraint and branch
+          throw <<-"END"
+Found an invalid declaration on #{repo_name}.
+A version constraint '#{version_constraint}' and
+a branch '#{branch}' are specified at the same time.
+But a branch cannot be used with a version constraint.
+          END
+        end
+
         f = Flavor.new()
         f.repo_name = repo_name
-        f.version_constraint = VersionConstraint.new(version_constraint)
+        f.version_constraint = VersionConstraint.new(
+          branch && "branch: #{branch}" ||
+          version_constraint || '>= 0'
+        )
         f.group = group || default_group
         flavor_table[f.repo_name] = f
       end

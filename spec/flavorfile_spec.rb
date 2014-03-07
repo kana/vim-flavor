@@ -89,6 +89,21 @@ module Vim
             expect(ff.flavor_table['e'].group).to be == :runtime
           end
         end
+
+        context 'with a branch option' do
+          it 'is supported' do
+            ff.flavor 'kana/vim-altr', branch: 'master'
+            f = ff.flavor_table['kana/vim-altr']
+            expect(f.repo_name).to be == 'kana/vim-altr'
+            expect(f.version_constraint).to be == constraint('branch: master')
+          end
+
+          it 'cannot be used with a version constraint' do
+            expect {
+              ff.flavor 'kana/vim-altr', '>= 0', branch: 'master'
+            }.to raise_error(/branch cannot be used with a version constraint/)
+          end
+        end
       end
 
       describe '.load' do
