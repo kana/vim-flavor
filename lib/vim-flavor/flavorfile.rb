@@ -33,22 +33,11 @@ module Vim
         )
       end
 
-      # :call-seq:
-      #   flavor repo_name, version_constraint='>= 0', options={} -> a_flavor
-      def flavor(repo_name, *args)
-        a = args.shift()
-        if a.kind_of?(String)
-          version_constraint = a
-          a = args.shift()
-        else
-          version_constraint = '>= 0'
-        end
-        options = a.kind_of?(Hash) ? a : {}
-
+      def flavor(repo_name, version_constraint='>= 0', group: nil)
         f = Flavor.new()
         f.repo_name = repo_name
         f.version_constraint = VersionConstraint.new(version_constraint)
-        f.group = options[:group] || default_group
+        f.group = group || default_group
         flavor_table[f.repo_name] = f
       end
 
