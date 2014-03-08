@@ -18,3 +18,8 @@
   - failures.feature
   - specifying_test_scripts.feature
 - version_tag_format.feature
+- branches:
+  - install.feature
+  - upgrade.feature
+  - changing_tracking_branches.feature
+  - detect_incompatible_declarations.feature
