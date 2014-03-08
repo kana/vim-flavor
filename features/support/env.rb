@@ -30,6 +30,12 @@ FF
         done
       } >/dev/null
     END
+    versions.split.each do |v|
+      variable_table["#{basename}_rev_#{v.gsub('.', '')}"] = sh(<<-"END").chomp
+        cd '#{repository_path}' &&
+        git rev-list -n1 '#{v}' --
+      END
+    end
   end
 
   def expand(virtual_path)
