@@ -44,6 +44,16 @@ Given /^"([^"]*)" version "([^"]*)" is released$/ do |basename, version|
   }
 end
 
+Given /^"([^"]*)" has "([^"]*)" branch$/ do |basename, branch|
+  repository_path = make_repo_path(basename)
+  sh <<-"END"
+    {
+      cd '#{repository_path}' &&
+      git branch '#{branch}'
+    } >/dev/null
+  END
+end
+
 Given /^a repository "([^"]*)" from offline cache$/ do |repo_name|
   repository_path = make_repo_path(repo_name).sub(expand('$tmp/'), '')
   sh <<-"END"
