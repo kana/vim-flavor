@@ -18,6 +18,11 @@ module Vim
       def to_s()
         "#{revision} at #{branch}"
       end
+
+      def to_revision()
+        return revision if revision
+        throw "Internal error: A revision of a branch #{branch} is not known"
+      end
     end
   end
 end
