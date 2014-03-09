@@ -28,7 +28,7 @@ module Vim
         system <<-"END"
           {
             cd '#{cached_repo_path}' &&
-            git rev-list --quiet '#{version.to_revision}'
+            git rev-list --quiet '#{version.to_revision}' --
           } >/dev/null 2>&1
         END
       end
