@@ -83,7 +83,7 @@ module Vim
         sh %Q[
           {
             cd '#{cached_repo_path}' &&
-            git checkout -f '#{locked_version}'
+            git checkout -f '#{locked_version.to_revision}'
           } 2>&1
         ]
       end
