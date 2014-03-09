@@ -34,11 +34,15 @@ module Vim
 
       def compatible?(version)
         if qualifier == '~>'
-          self.base_version.bump() > version and version >= self.base_version
+          PlainVersion === version and
+            self.base_version.bump() > version and
+            version >= self.base_version
         elsif qualifier == '>='
-          version >= self.base_version
+          PlainVersion === version and
+            version >= self.base_version
         elsif qualifier == 'branch:'
-          version.branch == self.base_version.branch
+          BranchVersion === version and
+            version.branch == self.base_version.branch
         else
           raise NotImplementedError
         end
