@@ -63,6 +63,13 @@ module Vim
           expect(v.create('v1.2.3').to_s).to be == 'v1.2.3'
         end
       end
+
+      describe '#to_revision' do
+        it 'returns the revision corresponding to a version' do
+          expect(v.create('1.2.3').to_revision).to be == '1.2.3'
+          expect(v.create('v1.2.3').to_revision).to be == 'v1.2.3'
+        end
+      end
     end
   end
 end

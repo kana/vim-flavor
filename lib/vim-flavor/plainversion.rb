@@ -19,6 +19,10 @@ module Vim
       def to_s()
         @original_tag_name
       end
+
+      def to_revision()
+        to_s
+      end
     end
   end
 end
