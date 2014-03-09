@@ -114,7 +114,7 @@ module Vim
       end
 
       def find_latest_version(vs)
-        vs.max()
+        vs.all? {|v| PlainVersion === v} and vs.max() or nil
       end
 
       def stop_by_incompatible_declarations(nfg)
