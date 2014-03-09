@@ -11,7 +11,14 @@ module Vim
       end
 
       def to_s()
-        "#{qualifier} #{base_version}"
+        case
+        when PlainVersion === base_version
+          "#{qualifier} #{base_version}"
+        when BranchVersion === base_version
+          "#{qualifier} #{base_version.branch}"
+        else
+          throw "Unexpected base_version: #{base_version}"
+        end
       end
 
       def ==(other)
