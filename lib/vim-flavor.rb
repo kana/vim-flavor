@@ -4,6 +4,7 @@ require 'vim-flavor/enumerableextension'
 module Vim
   module Flavor
     [
+      :BranchVersion,
       :CLI,
       :Env,
       :Facade,
@@ -11,6 +12,7 @@ module Vim
       :FlavorFile,
       :LockFile,
       :LockFileParser,
+      :PlainVersion,
       :ShellUtility,
       :StringExtension,
       :VERSION,

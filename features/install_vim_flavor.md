@@ -1,7 +1,7 @@
 ## Required softwares
 
 * [Git](http://git-scm.com/) 1.7.9 or later
-* [Ruby](http://www.ruby-lang.org/) 1.9.2 or later
+* [Ruby](http://www.ruby-lang.org/) 2.0.0 or later
   * Recommendation: Use [RVM](http://beginrescueend.com/) or other tools
     for ease of installation across different envinronments.
 * [Vim](http://www.vim.org/) 7.3 or later

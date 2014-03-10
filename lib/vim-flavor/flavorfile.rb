@@ -33,22 +33,23 @@ module Vim
         )
       end
 
-      # :call-seq:
-      #   flavor repo_name, version_constraint='>= 0', options={} -> a_flavor
-      def flavor(repo_name, *args)
-        a = args.shift()
-        if a.kind_of?(String)
-          version_constraint = a
-          a = args.shift()
-        else
-          version_constraint = '>= 0'
+      def flavor(repo_name, version_constraint=nil, group: nil, branch: nil)
+        if version_constraint and branch
+          throw <<-"END"
+Found an invalid declaration on #{repo_name}.
+A version constraint '#{version_constraint}' and
+a branch '#{branch}' are specified at the same time.
+But a branch cannot be used with a version constraint.
+          END
         end
-        options = a.kind_of?(Hash) ? a : {}
 
         f = Flavor.new()
         f.repo_name = repo_name
-        f.version_constraint = VersionConstraint.new(version_constraint)
-        f.group = options[:group] || default_group
+        f.version_constraint = VersionConstraint.new(
+          branch && "branch: #{branch}" ||
+          version_constraint || '>= 0'
+        )
+        f.group = group || default_group
         flavor_table[f.repo_name] = f
       end
 

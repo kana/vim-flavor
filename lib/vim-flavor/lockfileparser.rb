@@ -37,9 +37,18 @@ module Vim
         }
         rule(:locked_version) {
           (
-            str('v').maybe >>
-            match('[\d.]').repeat(1)
+            branch_version |
+            plain_version
           ).as(:locked_version)
+        }
+        rule(:plain_version) {
+          str('v').maybe >>
+          match('[\d.]').repeat(1)
+        }
+        rule(:branch_version) {
+          match('\h').repeat(1).as(:revision) >>
+          str(' at ') >>
+          match('[^\s()]').repeat(1).as(:branch)
         }
 
         rule(:space) {match('[ \t]').repeat(1)}
@@ -52,12 +61,17 @@ module Vim
         rule(
           :flavor => {
             :repo_name => simple(:repo_name),
-            :locked_version => simple(:locked_version),
+            :locked_version => subtree(:locked_version),
           }
         ) {
           f = Flavor.new()
           f.repo_name = repo_name.to_s
-          f.locked_version = Version.create(locked_version.to_s)
+          f.locked_version =
+            Version.create(
+              Hash === locked_version ?
+              locked_version :
+              locked_version.to_s
+            )
           f
         }
       end

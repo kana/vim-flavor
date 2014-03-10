@@ -28,7 +28,7 @@ module Vim
         system <<-"END"
           {
             cd '#{cached_repo_path}' &&
-            git rev-list --quiet '#{version}'
+            git rev-list --quiet '#{version.to_revision}' --
           } >/dev/null 2>&1
         END
       end
@@ -74,7 +74,7 @@ module Vim
         sh %Q{
           {
             cd '#{cached_repo_path}' &&
-            git fetch --tags
+            git fetch origin --tags 'refs/heads/*:refs/remotes/origin/*'
           } 2>&1
         }
       end
@@ -83,7 +83,7 @@ module Vim
         sh %Q[
           {
             cd '#{cached_repo_path}' &&
-            git checkout -f '#{locked_version}'
+            git checkout -f '#{locked_version.to_revision}'
           } 2>&1
         ]
       end
@@ -93,7 +93,7 @@ module Vim
         sh %Q[
           {
             cd '#{cached_repo_path}' &&
-            git checkout -f '#{locked_version}' &&
+            git checkout -f '#{locked_version.to_revision}' &&
             git checkout-index -a -f --prefix='#{deployment_path}/' &&
             {
               vim -u NONE -i NONE -n -N -e -s -c '
@@ -108,7 +108,14 @@ module Vim
 
       def use_appropriate_version()
         @locked_version =
-          version_constraint.find_the_best_version(list_versions)
+          case
+          when PlainVersion === version_constraint.base_version
+            version_constraint.find_the_best_version(list_versions)
+          when BranchVersion === version_constraint.base_version
+            make_branch_version(version_constraint.base_version.branch)
+          else
+            throw "Unexpected version_constraint: #{version_constraint}"
+          end
       end
 
       def use_specific_version(locked_version)
@@ -137,6 +144,14 @@ module Vim
 
       def satisfied_with?(version)
         version_constraint.compatible?(version)
+      end
+
+      def make_branch_version(branch)
+        revision = sh(%Q[
+          cd '#{cached_repo_path}' &&
+          git rev-list -n1 'origin/#{branch}' --
+        ]).chomp
+        BranchVersion.new(branch, revision)
       end
     end
   end

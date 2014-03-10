@@ -2,24 +2,17 @@ module Vim
   module Flavor
     VERSION = '1.1.5'
 
-    class Version < Gem::Version
-      attr_accessor :original_tag_name
-
-      def initialize(tag_name)
-        @original_tag_name = tag_name
-        super(self.class.normalize_tag_name(tag_name))
+    class Version
+      def self.create(arg)
+        if String === arg
+          PlainVersion.create(arg)
+        else
+          BranchVersion.new(arg[:branch], arg[:revision])
+        end
       end
 
-      def self.normalize_tag_name(tag_name)
-        tag_name.to_s.sub(/^v/, '')
-      end
-
-      def self.correct?(tag_name)
-        super(normalize_tag_name(tag_name))
-      end
-
-      def to_s()
-        @original_tag_name
+      def self.correct?(*args)
+        PlainVersion.correct?(*args)
       end
     end
   end

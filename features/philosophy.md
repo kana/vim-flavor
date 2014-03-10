@@ -1,6 +1,6 @@
 ## Installable plugins
 
-Not all Vim plugins can be installed with vim-flavor.
+Basically, not all Vim plugins can be installed with vim-flavor.
 vim-flavor can install plugins which meet the following conditions:
 
 * Plugins must have dedicated Git repositories.
@@ -40,6 +40,27 @@ vim-flavor can install plugins which meet the following conditions:
   * Other Git repositories might not have proper directory structures.
     Such plugins are not ready to use for everyone.
     So that it should not be installable.
+
+Though the above principle is not changed, nowadays (2014)
+
+* www.vim.org becomes less popular as a central repository of Vim plugins.
+  Because:
+  * It's a tedious task to publish plugins at www.vim.org because there is no
+    standard tool to automate the process to publish plugins.
+  * As GitHub becomes more popular, many plugin authors seem to choose only
+    GitHub to publish plugins because it is easy and fast.
+* As a result, vim-scripts.org's mirrors are mostly outdated.  Latest versions
+  are not usually found in the mirrors.  So that GitHub repositories rather
+  than vim-scripts.org's mirrors are specified in [flavorfile](./flavorfile)
+  in most cases.
+* But unlike vim-scripts.org's mirrors, "version" tags might not exist in wild
+  repositories.
+* And sometimes it's necessary to track a brach with proposed changes which
+  are not ready to release as a proper version.
+
+So that [branches](./branches) are also supported.  But branches are not
+comparable and it's not possible to detect incompatibility before installing
+plugins.  It's not recommended for daily use.  Use branches at your own risk.
 
 
 

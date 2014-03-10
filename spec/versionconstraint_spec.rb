@@ -7,8 +7,46 @@ module Vim
         Version.create(s)
       end
 
+      describe '.parse' do
+        def p(*args)
+          described_class.parse(*args)
+        end
+
+        it 'accepts ">= $version"' do
+          expect(p('>= 1.2.3')).to be == [v('1.2.3'), '>=']
+        end
+
+        it 'accepts "~> $version"' do
+          expect(p('~> 1.2.3')).to be == [v('1.2.3'), '~>']
+        end
+
+        it 'accepts "branch: $branch"' do
+          expect(p('branch: master')).to be == [v(branch: 'master'), 'branch:']
+        end
+
+        it 'ignores extra spaces' do
+          expect(p('  ~>  1.2.3  ')).to be == p('~> 1.2.3')
+        end
+
+        it 'fails with an unknown qualifier' do
+          expect {
+            p('!? 1.2.3')
+          }.to raise_error('Invalid version constraint: "!? 1.2.3"')
+        end
+
+        it 'fails with an invalid format' do
+          expect {
+            p('1.2.3')
+          }.to raise_error('Invalid version constraint: "1.2.3"')
+
+          expect {
+            p('>= 2.0 beta')
+          }.to raise_error('Invalid version constraint: ">= 2.0 beta"')
+        end
+      end
+
       describe '#compatible?' do
-        describe '>=' do
+        context 'with ">= 1.2.3"' do
           subject {VersionConstraint.new('>= 1.2.3')}
 
           it {is_expected.to be_compatible v('1.2.3')}
@@ -26,7 +64,7 @@ module Vim
           it {is_expected.not_to be_compatible v('1.2')}
         end
 
-        describe '~>' do
+        context 'with "~> 1.2.3"' do
           subject {VersionConstraint.new('~> 1.2.3')}
 
           it {is_expected.to be_compatible v('1.2.3')}
@@ -42,6 +80,16 @@ module Vim
           it {is_expected.not_to be_compatible v('0.2.3')}
 
           it {is_expected.not_to be_compatible v('1.2')}
+        end
+
+        context 'with "branch: master"' do
+          subject {VersionConstraint.new('branch: master')}
+
+          it {is_expected.to be_compatible v(branch: 'master')}
+          it {is_expected.to be_compatible v(branch: 'master', revision: '1' * 40)}
+          it {is_expected.to be_compatible v(branch: 'master', revision: '2' * 40)}
+
+          it {is_expected.not_to be_compatible v(branch: 'experimental')}
         end
       end
 

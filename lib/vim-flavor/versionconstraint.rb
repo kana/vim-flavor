@@ -11,7 +11,14 @@ module Vim
       end
 
       def to_s()
-        "#{qualifier} #{base_version}"
+        case
+        when PlainVersion === base_version
+          "#{qualifier} #{base_version}"
+        when BranchVersion === base_version
+          "#{qualifier} #{base_version.branch}"
+        else
+          throw "Unexpected base_version: #{base_version}"
+        end
       end
 
       def ==(other)
@@ -20,9 +27,13 @@ module Vim
       end
 
       def self.parse(s)
-        m = /^\s*(>=|~>)\s+(\S+)$/.match(s)
+        m = /^\s*(>=|~>|branch:)\s+(\S+)\s*$/.match(s)
         if m
-          [Version.create(m[2]), m[1]]
+          if m[1] == 'branch:'
+            [Version.create(branch: m[2]), m[1]]
+          else
+            [Version.create(m[2]), m[1]]
+          end
         else
           raise "Invalid version constraint: #{s.inspect}"
         end
@@ -30,9 +41,15 @@ module Vim
 
       def compatible?(version)
         if qualifier == '~>'
-          self.base_version.bump() > version and version >= self.base_version
+          PlainVersion === version and
+            self.base_version.bump() > version and
+            version >= self.base_version
         elsif qualifier == '>='
-          version >= self.base_version
+          PlainVersion === version and
+            version >= self.base_version
+        elsif qualifier == 'branch:'
+          BranchVersion === version and
+            version.branch == self.base_version.branch
         else
           raise NotImplementedError
         end

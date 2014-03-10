@@ -102,15 +102,19 @@ module Vim
         if vs.length == 1
           nfg.first
         else
-          latest_version = vs.max()
-          if nfg.all? {|nf| nf.satisfied_with?(latest_version)}
+          lv = find_latest_version(vs)
+          if lv and nfg.all? {|nf| nf.satisfied_with?(lv)}
             nf = nfg.first
-            nf.use_specific_version(latest_version)
+            nf.use_specific_version(lv)
             nf
           else
             stop_by_incompatible_declarations(nfg)
           end
         end
+      end
+
+      def find_latest_version(vs)
+        vs.all? {|v| PlainVersion === v} and vs.max() or nil
       end
 
       def stop_by_incompatible_declarations(nfg)
