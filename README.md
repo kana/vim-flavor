@@ -61,7 +61,7 @@ See also
 
 ## License
 
-vim-flavor is released under the terms of so-called MIT/X license.
+vim-flavor is released under the terms of MIT license.
 See the LICENSE file for the details.
 
 
