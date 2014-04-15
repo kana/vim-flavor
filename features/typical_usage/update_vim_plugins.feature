@@ -35,6 +35,32 @@ Feature: Update Vim plugins
     And a flavor "$bar_uri" version "1.0.2" is deployed to "$home/.vim"
     And a flavor "$baz_uri" version "1.0.2" is deployed to "$home/.vim"
 
+  Scenario: Update specific plugins
+    Given a flavorfile with:
+      """ruby
+      flavor '$foo_uri'
+      flavor '$bar_uri'
+      flavor '$baz_uri'
+      """
+    And a lockfile with:
+      """
+      $bar_uri (1.0.0)
+      $baz_uri (1.0.0)
+      $foo_uri (1.0.0)
+      """
+    When I run `vim-flavor update $foo_uri $baz_uri` (variables expanded)
+    Then it should pass
+    And the lockfile is updated with:
+      """
+      $bar_uri (1.0.0)
+      $baz_uri (1.0.2)
+      $foo_uri (1.0.2)
+      """
+    And a bootstrap script is created in "$home/.vim"
+    And a flavor "$foo_uri" version "1.0.2" is deployed to "$home/.vim"
+    And a flavor "$bar_uri" version "1.0.0" is deployed to "$home/.vim"
+    And a flavor "$baz_uri" version "1.0.2" is deployed to "$home/.vim"
+
   Scenario: Update by "upgrade", an alias of "update" for backward compatibility
     Given a flavorfile with:
       """ruby
