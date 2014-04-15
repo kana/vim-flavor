@@ -7,7 +7,7 @@ Feature: Update Vim plugins
   Background:
     Given a repository "foo" with versions "1.0.0 1.0.1 1.0.2"
 
-  Scenario: Update with lockfile
+  Scenario: Update with a lockfile
     Given a flavorfile with:
       """ruby
       flavor '$foo_uri'
