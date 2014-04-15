@@ -24,3 +24,21 @@ Feature: Update Vim plugins
       """
     And a bootstrap script is created in "$home/.vim"
     And a flavor "$foo_uri" version "1.0.2" is deployed to "$home/.vim"
+
+  Scenario: Update by "upgrade", an alias of "update" for backward compatibility
+    Given a flavorfile with:
+      """ruby
+      flavor '$foo_uri'
+      """
+    And a lockfile with:
+      """
+      $foo_uri (1.0.0)
+      """
+    When I run `vim-flavor upgrade`
+    Then it should pass
+    And the lockfile is updated with:
+      """
+      $foo_uri (1.0.2)
+      """
+    And a bootstrap script is created in "$home/.vim"
+    And a flavor "$foo_uri" version "1.0.2" is deployed to "$home/.vim"
