@@ -8,7 +8,7 @@ following:
 2. Copy source tree in the package into `~/.vim` etc.
 3. Generate the help tags file for the plugin.
 
-It is also exciting to upgrade favorite Vim plugins to the latest version,
+It is also exciting to update favorite Vim plugins to the latest version,
 but I don't want to repeat the steps for each plugin.  It's boring.
 
 Some plugins depend on other plugins, so that I have to install also

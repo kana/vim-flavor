@@ -5,11 +5,11 @@ module Vim
   module Flavor
     class Facade
       def install(vimfiles_path)
-        install_or_upgrade(:install, vimfiles_path)
+        install_or_update(:install, vimfiles_path)
       end
 
-      def upgrade(vimfiles_path)
-        install_or_upgrade(:upgrade, vimfiles_path)
+      def update(vimfiles_path)
+        install_or_update(:update, vimfiles_path)
       end
 
       def test(files_or_dirs)
@@ -55,7 +55,7 @@ module Vim
         exit(1) unless succeeded
       end
 
-      def install_or_upgrade(mode, vimfiles_path)
+      def install_or_update(mode, vimfiles_path)
         flavorfile = FlavorFile.load(Dir.getwd().to_flavorfile_path)
         lockfile = LockFile.load_or_new(Dir.getwd().to_lockfile_path)
         refresh_flavors(

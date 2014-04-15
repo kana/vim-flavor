@@ -17,10 +17,10 @@ module Vim
         )
       end
 
-      desc 'upgrade', 'Upgrade Vim plugins according to VimFlavor file.'
+      desc 'update', 'Update Vim plugins according to VimFlavor file.'
       common_options_to_deploy
-      def upgrade
-        Facade.new().upgrade(
+      def update
+        Facade.new().update(
           options[:vimfiles_path] || default_vimfiles_path
         )
       end

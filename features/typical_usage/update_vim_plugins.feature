@@ -1,13 +1,13 @@
 @typical_usage
-Feature: Upgrade Vim plugins
+Feature: Update Vim plugins
   In order to automate boring steps,
   as a lazy Vim user,
-  I want to use a declarative way to upgrade my favorite Vim plugins.
+  I want to use a declarative way to update my favorite Vim plugins.
 
   Background:
     Given a repository "foo" with versions "1.0.0 1.0.1 1.0.2"
 
-  Scenario: Upgrade with lockfile
+  Scenario: Update with lockfile
     Given a flavorfile with:
       """ruby
       flavor '$foo_uri'
@@ -16,7 +16,7 @@ Feature: Upgrade Vim plugins
       """
       $foo_uri (1.0.0)
       """
-    When I run `vim-flavor upgrade`
+    When I run `vim-flavor update`
     Then it should pass
     And the lockfile is updated with:
       """
