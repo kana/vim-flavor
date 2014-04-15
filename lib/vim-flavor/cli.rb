@@ -25,6 +25,12 @@ module Vim
         )
       end
 
+      desc 'upgrade', 'Update Vim plugins.  (alias of "update")'
+      common_options_to_deploy
+      def upgrade
+        update
+      end
+
       desc 'test [FILES or DIRS]',
         'Test a Vim plugin in the current working directory.'
       def test(*files_or_dirs)
