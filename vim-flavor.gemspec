@@ -1,25 +1,28 @@
-# -*- encoding: utf-8 -*-
-require File.expand_path('../lib/vim-flavor/version', __FILE__)
+# coding: utf-8
+lib = File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'vim-flavor/version'
 
-Gem::Specification.new do |gem|
-  gem.authors       = ['Kana Natsuno']
-  gem.email         = ['dev@whileimautomaton.net']
-  gem.summary       = %q{A tool to manage your favorite Vim plugins}
-  gem.description   = gem.summary
-  gem.homepage      = 'https://github.com/kana/vim-flavor'
+Gem::Specification.new do |spec|
+  spec.name          = 'vim-flavor'
+  spec.version       = Vim::Flavor::VERSION
+  spec.authors       = ['Kana Natsuno']
+  spec.email         = ['dev@whileimautomaton.net']
+  spec.summary       = %q{A tool to manage your favorite Vim plugins}
+  spec.description   = spec.summary
+  spec.homepage      = 'https://github.com/kana/vim-flavor'
+  spec.license       = 'MIT'
 
-  gem.executables   = `git ls-files -- bin/*`.split(/\n/).map{ |f| File.basename(f) }
-  gem.files         = `git ls-files`.split(/\n/)
-  gem.test_files    = `git ls-files -- {test,spec,features}/*`.split(/\n/)
-  gem.name          = 'vim-flavor'
-  gem.require_paths = ['lib']
-  gem.version       = Vim::Flavor::VERSION
+  spec.files         = `git ls-files -z`.split("\x0")
+  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
+  spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
+  spec.require_paths = ['lib']
 
-  gem.add_dependency('parslet', '~> 1.0')
-  gem.add_dependency('thor', '~> 0.14')
+  spec.add_dependency('parslet', '~> 1.0')
+  spec.add_dependency('thor', '~> 0.14')
 
-  gem.add_development_dependency('aruba', '~> 0.5')
-  gem.add_development_dependency('cucumber', '~> 1.2')
-  gem.add_development_dependency('pry')
-  gem.add_development_dependency('rspec', '~> 2.8')
+  spec.add_development_dependency('aruba', '~> 0.5')
+  spec.add_development_dependency('cucumber', '~> 1.2')
+  spec.add_development_dependency('pry')
+  spec.add_development_dependency('rspec', '~> 2.8')
 end
