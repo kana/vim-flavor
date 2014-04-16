@@ -87,8 +87,8 @@ module Vim
         trace "Completed.\n"
       end
 
-      def complete(current_flavor_table, locked_flavor_table, mode, level = 1)
-        nfs = complete_flavors(current_flavor_table, locked_flavor_table, mode, level, 'you')
+      def complete(current_flavor_table, locked_flavor_table, mode)
+        nfs = complete_flavors(current_flavor_table, locked_flavor_table, mode, 1, 'you')
 
         Hash[
           nfs.group_by {|nf| nf.repo_name}.map {|repo_name, nfg|
