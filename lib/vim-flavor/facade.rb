@@ -4,11 +4,16 @@ require 'shellwords'
 module Vim
   module Flavor
     class Facade
+      def initialize
+        @target_repo_names = []
+      end
+
       def install(vimfiles_path)
         install_or_update(:install, vimfiles_path)
       end
 
-      def update(vimfiles_path)
+      def update(vimfiles_path, target_repo_names)
+        @target_repo_names = target_repo_names
         install_or_update(:update, vimfiles_path)
       end
 
@@ -141,13 +146,22 @@ module Vim
           complete_a_flavor_dependencies(nf, locked_flavor_table, mode, level)
       end
 
+      def effective_mode(mode, repo_name)
+        return :install if
+          mode == :update and
+          not @target_repo_names.empty? and
+          not @target_repo_names.member?(repo_name)
+        mode
+      end
+
       def complete_a_flavor_itself(nf, lf, mode, level, requirer)
         trace "#{'  ' * level}Use #{nf.repo_name} ..."
 
         already_cached = nf.cached?
         nf.clone() unless already_cached
 
-        if mode == :install and lf and nf.satisfied_with?(lf.locked_version)
+        e_mode = effective_mode(mode, nf.repo_name)
+        if e_mode == :install and lf and nf.satisfied_with?(lf.locked_version)
           if not nf.cached_version?(lf.locked_version)
             nf.fetch()
             if not nf.cached_version?(lf.locked_version)

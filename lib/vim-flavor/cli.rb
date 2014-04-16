@@ -17,18 +17,21 @@ module Vim
         )
       end
 
-      desc 'update', 'Update Vim plugins according to VimFlavor file.'
+      desc 'update [REPO_NAME...]',
+        'Update Vim plugins according to VimFlavor file.'
       common_options_to_deploy
-      def update
+      def update(*repo_names)
         Facade.new().update(
-          options[:vimfiles_path] || default_vimfiles_path
+          options[:vimfiles_path] || default_vimfiles_path,
+          repo_names
         )
       end
 
-      desc 'upgrade', 'Update Vim plugins.  (alias of "update")'
+      desc 'upgrade [REPO_NAME...]',
+        'Update Vim plugins.  (alias of "update")'
       common_options_to_deploy
-      def upgrade
-        update
+      def upgrade(*repo_names)
+        update(*repo_names)
       end
 
       desc 'test [FILES or DIRS]',
