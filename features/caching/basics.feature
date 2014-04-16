@@ -41,8 +41,8 @@ Feature: Basics
       fatal: \S+ does not appear to be a git repository
       """
 
-  Scenario: Upgrading plugins
-    When I run `vim-flavor upgrade`
+  Scenario: Updating plugins
+    When I run `vim-flavor update`
     Then it should fail with regexp:
       """
       fatal: \S+ does not appear to be a git repository

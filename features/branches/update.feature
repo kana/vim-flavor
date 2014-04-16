@@ -1,4 +1,4 @@
-Feature: Upgrade Vim plugins with specific branches
+Feature: Update Vim plugins with specific branches
   In order to try out proposed changes which are not released yet,
   as a lazy Vim user,
   I want to track the latest revision of a specific branch.
@@ -6,7 +6,7 @@ Feature: Upgrade Vim plugins with specific branches
   Background:
     Given a repository "foo" with versions "1.0.0 1.0.1 1.0.2"
 
-  Scenario: Upgrade a plugin
+  Scenario: Update a plugin
     Given a flavorfile with:
       """ruby
       flavor '$foo_uri', branch: 'master'
@@ -17,7 +17,7 @@ Feature: Upgrade Vim plugins with specific branches
       $foo_uri ($foo_rev_102 at master)
       """
     And "foo" version "1.0.3" is released
-    When I run `vim-flavor upgrade`
+    When I run `vim-flavor update`
     Then it should pass with template:
       """
       Checking versions...

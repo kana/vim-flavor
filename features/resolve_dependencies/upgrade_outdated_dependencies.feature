@@ -1,7 +1,7 @@
-Feature: Upgrade outdated dependencies of Vim plugins
+Feature: Update outdated dependencies of Vim plugins
   In order to smoothly install Vim plugins,
   as a lazy Vim user,
-  I want to automatically upgrade outdated dependencies of Vim plugins.
+  I want to automatically update outdated dependencies of Vim plugins.
 
   Scenario: Some plugins use outdated dependencies
     Given a repository "L" with versions "0.1 0.2 0.3 0.4"

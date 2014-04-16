@@ -4,7 +4,7 @@
 - uninstall_vim_flavor.md (Uninstall vim-flavor)
 - typical_usage:
   - install_vim_plugins.feature
-  - upgrade_vim_plugins.feature
+  - update_vim_plugins.feature
   - uninstall_vim_plugins.feature
   - deploy_to_arbitrary_place.feature
 - command_line:
@@ -20,6 +20,6 @@
 - version_tag_format.feature
 - branches:
   - install.feature
-  - upgrade.feature
+  - update.feature
   - changing_tracking_branches.feature
   - detect_incompatible_declarations.feature
