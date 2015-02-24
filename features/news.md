@@ -1,3 +1,13 @@
+## vim-flavor 2.1.1
+
+### Enhancements
+
+* `install` and `update` skip checking versions of plugins which are
+  development dependencies.
+
+
+
+
 ## vim-flavor 2.1.0
 
 ### Enhancements
