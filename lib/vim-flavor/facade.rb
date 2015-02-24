@@ -135,6 +135,7 @@ module Vim
 
       def complete_flavors(current_flavor_table, locked_flavor_table, mode, groups, level, requirer)
         current_flavor_table.values.map(&:dup).sort_by(&:repo_name).
+        select {|nf| groups.include?(nf.group)}.
         on_failure {trace " failed\n"}.
         flat_map {|nf|
           complete_a_flavor(nf, locked_flavor_table, mode, groups, level, requirer)
