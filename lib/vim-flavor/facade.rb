@@ -144,7 +144,7 @@ module Vim
       def complete_a_flavor(nf, locked_flavor_table, mode, level, requirer)
         lf = locked_flavor_table[nf.repo_name]
         [complete_a_flavor_itself(nf, lf, mode, level, requirer)] +
-          complete_a_flavor_dependencies(nf, locked_flavor_table, mode, level)
+          complete_a_flavor_dependencies(nf, locked_flavor_table, mode, [], level)
       end
 
       def effective_mode(mode, repo_name)
@@ -182,10 +182,10 @@ module Vim
         nf
       end
 
-      def complete_a_flavor_dependencies(nf, locked_flavor_table, mode, level)
+      def complete_a_flavor_dependencies(nf, locked_flavor_table, mode, groups, level)
         nf.checkout()
         ff = FlavorFile.load_or_new(nf.cached_repo_path.to_flavorfile_path)
-        complete_flavors(ff.flavor_table, locked_flavor_table, mode, [], level + 1, nf.repo_name)
+        complete_flavors(ff.flavor_table, locked_flavor_table, mode, groups, level + 1, nf.repo_name)
       end
 
       def deploy_flavors(flavors, flavors_path)
