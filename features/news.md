@@ -1,6 +1,16 @@
+## vim-flavor 2.1.1
+
+### Enhancements
+
+* `install` and `update` skip checking versions of plugins which are
+  development dependencies.
+
+
+
+
 ## vim-flavor 2.1.0
 
-### Feature additions
+### Enhancements
 
 * `update` command is added.  It is an alias of existing `upgrade` command.
   Now it is recommended to use `update` rather than `upgrade`.
@@ -13,7 +23,7 @@
 
 ## vim-flavor 2.0.0
 
-### Feature additions
+### Enhancements
 
 * [Branches](./branches) are supported.
 
