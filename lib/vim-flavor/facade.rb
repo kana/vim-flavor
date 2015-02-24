@@ -79,7 +79,8 @@ module Vim
           complete(
             flavorfile.flavor_table,
             lockfile.flavor_table,
-            mode
+            mode,
+            groups
           )
         )
         lockfile.save()
@@ -92,7 +93,7 @@ module Vim
         trace "Completed.\n"
       end
 
-      def complete(current_flavor_table, locked_flavor_table, mode)
+      def complete(current_flavor_table, locked_flavor_table, mode, groups)
         nfs = complete_flavors(current_flavor_table, locked_flavor_table, mode, 1, 'you')
 
         Hash[
