@@ -86,7 +86,7 @@ module Vim
         lockfile.save()
 
         deploy_flavors(
-          lockfile.flavors.select {|f| groups.include?(f.group)},
+          lockfile.flavors,
           File.absolute_path(flavors_path)
         )
 
