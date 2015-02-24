@@ -17,7 +17,6 @@ Feature: Groups
     Then it should pass
     And a lockfile is created with:
       """
-      $bar_uri (2.2)
       $foo_uri (1.2)
       """
     And a bootstrap script is created in "$home/.vim"
@@ -34,7 +33,6 @@ Feature: Groups
     Then it should pass
     And a lockfile is created with:
       """
-      $bar_uri (2.2)
       $foo_uri (1.2)
       """
     And a bootstrap script is created in "$home/.vim"
@@ -53,8 +51,6 @@ Feature: Groups
     Then it should pass
     And a lockfile is created with:
       """
-      $bar_uri (2.2)
-      $foo_uri (1.2)
       """
     And a bootstrap script is created in "$home/.vim"
     But a flavor "$foo_uri" is not deployed to "$home/.vim"

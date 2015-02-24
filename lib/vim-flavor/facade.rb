@@ -79,21 +79,22 @@ module Vim
           complete(
             flavorfile.flavor_table,
             lockfile.flavor_table,
-            mode
+            mode,
+            groups
           )
         )
         lockfile.save()
 
         deploy_flavors(
-          lockfile.flavors.select {|f| groups.include?(f.group)},
+          lockfile.flavors,
           File.absolute_path(flavors_path)
         )
 
         trace "Completed.\n"
       end
 
-      def complete(current_flavor_table, locked_flavor_table, mode)
-        nfs = complete_flavors(current_flavor_table, locked_flavor_table, mode, 1, 'you')
+      def complete(current_flavor_table, locked_flavor_table, mode, groups)
+        nfs = complete_flavors(current_flavor_table, locked_flavor_table, mode, groups, 1, 'you')
 
         Hash[
           nfs.group_by {|nf| nf.repo_name}.map {|repo_name, nfg|
@@ -132,18 +133,19 @@ module Vim
         abort ss.join("\n")
       end
 
-      def complete_flavors(current_flavor_table, locked_flavor_table, mode, level, requirer)
+      def complete_flavors(current_flavor_table, locked_flavor_table, mode, groups, level, requirer)
         current_flavor_table.values.map(&:dup).sort_by(&:repo_name).
+        select {|nf| groups.include?(nf.group)}.
         on_failure {trace " failed\n"}.
         flat_map {|nf|
-          complete_a_flavor(nf, locked_flavor_table, mode, level, requirer)
+          complete_a_flavor(nf, locked_flavor_table, mode, groups, level, requirer)
         }
       end
 
-      def complete_a_flavor(nf, locked_flavor_table, mode, level, requirer)
+      def complete_a_flavor(nf, locked_flavor_table, mode, groups, level, requirer)
         lf = locked_flavor_table[nf.repo_name]
         [complete_a_flavor_itself(nf, lf, mode, level, requirer)] +
-          complete_a_flavor_dependencies(nf, locked_flavor_table, mode, level)
+          complete_a_flavor_dependencies(nf, locked_flavor_table, mode, groups, level)
       end
 
       def effective_mode(mode, repo_name)
@@ -181,10 +183,10 @@ module Vim
         nf
       end
 
-      def complete_a_flavor_dependencies(nf, locked_flavor_table, mode, level)
+      def complete_a_flavor_dependencies(nf, locked_flavor_table, mode, groups, level)
         nf.checkout()
         ff = FlavorFile.load_or_new(nf.cached_repo_path.to_flavorfile_path)
-        complete_flavors(ff.flavor_table, locked_flavor_table, mode, level + 1, nf.repo_name)
+        complete_flavors(ff.flavor_table, locked_flavor_table, mode, groups, level + 1, nf.repo_name)
       end
 
       def deploy_flavors(flavors, flavors_path)
