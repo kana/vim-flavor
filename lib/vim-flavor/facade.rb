@@ -137,14 +137,14 @@ module Vim
         current_flavor_table.values.map(&:dup).sort_by(&:repo_name).
         on_failure {trace " failed\n"}.
         flat_map {|nf|
-          complete_a_flavor(nf, locked_flavor_table, mode, level, requirer)
+          complete_a_flavor(nf, locked_flavor_table, mode, groups, level, requirer)
         }
       end
 
-      def complete_a_flavor(nf, locked_flavor_table, mode, level, requirer)
+      def complete_a_flavor(nf, locked_flavor_table, mode, groups, level, requirer)
         lf = locked_flavor_table[nf.repo_name]
         [complete_a_flavor_itself(nf, lf, mode, level, requirer)] +
-          complete_a_flavor_dependencies(nf, locked_flavor_table, mode, [], level)
+          complete_a_flavor_dependencies(nf, locked_flavor_table, mode, groups, level)
       end
 
       def effective_mode(mode, repo_name)
