@@ -17,7 +17,7 @@ module Vim
         install_or_update(:update, vimfiles_path)
       end
 
-      def test(files_or_dirs)
+      def test(files_or_dirs, options)
         trace "-------- Preparing dependencies\n"
 
         flavorfile = FlavorFile.load_or_new(Dir.getwd().to_flavorfile_path)

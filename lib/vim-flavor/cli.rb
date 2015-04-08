@@ -36,8 +36,11 @@ module Vim
 
       desc 'test [FILES or DIRS]',
         'Test a Vim plugin in the current working directory.'
+      method_option :update_dependencies,
+        :desc => 'Update dependencies for testing',
+        :type => :boolean
       def test(*files_or_dirs)
-        Facade.new().test(files_or_dirs)
+        Facade.new().test(files_or_dirs, options)
       end
 
       desc 'version', 'Show the current version.'
