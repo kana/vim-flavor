@@ -65,7 +65,7 @@ end
 
 Given /^I disable network to the original repository of "([^"]*)"$/ do |basename|
   steps %Q{
-    Given I remove the directory "#{make_repo_path(basename)}"
+    Given I delete the directory "#{make_repo_path(basename)}"
   }
 end
 

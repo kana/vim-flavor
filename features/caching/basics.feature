@@ -13,7 +13,7 @@ Feature: Basics
     And I disable network to the original repository of "foo"
 
   Scenario: Install plugins - locked and compatible with new flavorfile
-    Given I remove the directory "home/.vim"
+    Given I delete the directory "home/.vim"
     When I run `vim-flavor install`
     Then it should pass
     And a lockfile is created with:
