@@ -26,7 +26,7 @@ module Vim
         lockfile = LockFile.load_or_new(Dir.getwd().to_lockfile_path)
 
         refresh_flavors(
-          :install,
+          options[:update_dependencies] ? :update : :install,
           flavorfile,
           lockfile,
           [:runtime, :development],
