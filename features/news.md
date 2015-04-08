@@ -1,3 +1,14 @@
+## vim-flavor 2.2.0
+
+### Enhancements
+
+* `test` runs `*.vim` and `*.t` in a single step, to get a simplified result.
+* `test` uses [vim-vspec](https://github.com/kana/vim-vspec) 1.5 or later by
+  default.
+
+
+
+
 ## vim-flavor 2.1.1
 
 ### Enhancements
