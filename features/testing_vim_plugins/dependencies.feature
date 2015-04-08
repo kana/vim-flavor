@@ -55,3 +55,55 @@ Feature: Dependencies
       """
     And a dependency "kana/vim-vspec" is stored in ".vim-flavor/deps"
     And a dependency "kana/vim-textobj-user" is stored in ".vim-flavor/deps"
+
+  Scenario: Update dependencies for testing
+    Given a flavorfile with:
+      """ruby
+      flavor 'kana/vim-textobj-user', '~> 0.3.0'
+      """
+    And a lockfile with:
+      """ruby
+      kana/vim-textobj-user (0.3.5)
+      """
+    And a directory named "t"
+    And I run `vim-flavor test`
+    And it should pass with regexp:
+      """
+      -------- Preparing dependencies
+      Checking versions...
+        Use kana/vim-textobj-user ... 0\.3\.5
+        Use kana/vim-vspec ... 1\.\d+(\.\d+)?
+      Deploying plugins...
+        kana/vim-textobj-user 0\.3\.5 ... done
+        kana/vim-vspec 1\.\d+(\.\d+)? ... done
+      Completed.
+      -------- Testing a Vim plugin
+      Files=0, Tests=0,  \d+ wallclock secs .*
+      Result: NOTESTS
+      """
+    And a lockfile is updated and matches with:
+      """
+      kana/vim-textobj-user \(0\.3\.5\)
+      kana/vim-vspec \(1\.\d+(\.\d+)?\)
+      """
+    When I run `vim-flavor test --update-dependencies`
+    Then it should pass with regexp:
+      """
+      .*
+      -------- Preparing dependencies
+      Checking versions...
+        Use kana/vim-textobj-user ... 0\.3\.13
+        Use kana/vim-vspec ... 1\.\d+(\.\d+)?
+      Deploying plugins...
+        kana/vim-textobj-user 0\.3\.13 ... done
+        kana/vim-vspec 1\.\d+(\.\d+)? ... skipped \(already deployed\)
+      Completed.
+      -------- Testing a Vim plugin
+      Files=0, Tests=0,  \d+ wallclock secs .*
+      Result: NOTESTS
+      """
+    And a lockfile is updated and matches with:
+      """
+      kana/vim-textobj-user \(0\.3\.13\)
+      kana/vim-vspec \(1\.\d+(\.\d+)?\)
+      """
