@@ -21,7 +21,7 @@ module Vim
         trace "-------- Preparing dependencies\n"
 
         flavorfile = FlavorFile.load_or_new(Dir.getwd().to_flavorfile_path)
-        flavorfile.flavor 'kana/vim-vspec', '~> 1.0', :group => :development unless
+        flavorfile.flavor 'kana/vim-vspec', '~> 1.5', :group => :development unless
           flavorfile.flavor_table.has_key?('kana/vim-vspec')
         lockfile = LockFile.load_or_new(Dir.getwd().to_lockfile_path)
 
