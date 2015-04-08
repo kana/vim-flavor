@@ -35,28 +35,18 @@ module Vim
 
         trace "-------- Testing a Vim plugin\n"
 
-        prove_options = '--comments --failure --directives'
-        deps_path = Dir.getwd().to_stash_path.to_deps_path
-        vspec = "#{deps_path}/#{'kana/vim-vspec'.zap}/bin/vspec"
+        this_path = Dir.getwd()
+        deps_path = this_path.to_stash_path.to_deps_path
+        runner = "#{deps_path}/#{'kana/vim-vspec'.zap}/bin/prove-vspec"
         plugin_paths = lockfile.flavors.map {|f|
           "#{deps_path}/#{f.repo_name.zap}"
         }
-        dirs = files_or_dirs.select {|p| File.directory?(p)}
-        t_files = files_or_dirs.select {|p| File.file?(p) &&
-                                            File.extname(p) == '.t'}
-        vim_files = files_or_dirs.select {|p| File.file?(p) &&
-                                              File.extname(p) == '.vim'}
-        commands = []
-        commands <<
-          %Q{ prove --ext '.t' #{prove_options} \
-                #{(dirs + t_files).shelljoin} } if files_or_dirs.none? or
-                                                   dirs.any? or t_files.any?
-        commands <<
-          %Q{ prove --ext '.vim' #{prove_options} \
-                --exec '#{vspec} #{Dir.getwd()} #{plugin_paths.join(' ')}' \
-                #{(dirs + vim_files).shelljoin} } if files_or_dirs.none? or
-                                                     dirs.any? or vim_files.any?
-        succeeded = system(commands.join('&&'))
+        runtime_paths = ([this_path] + plugin_paths).flat_map {|p| ['-d', p]}
+        command =
+          %Q{ '#{runner}' \
+              #{runtime_paths.flat_map {|p| ['-d', p]}.shelljoin} \
+              #{files_or_dirs.shelljoin} }
+        succeeded = system(command)
         exit(1) unless succeeded
       end
 
