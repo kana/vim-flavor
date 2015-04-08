@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency('parslet', '~> 1.7')
-  spec.add_dependency('thor', '~> 0.14')
+  spec.add_dependency('thor', '~> 0.19')
 
   spec.add_development_dependency('aruba', '~> 0.6')
   spec.add_development_dependency('cucumber', '~> 1.3')
