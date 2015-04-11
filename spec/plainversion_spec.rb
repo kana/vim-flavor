@@ -25,15 +25,15 @@ module Vim
 
       describe '::correct?' do
         it 'accept "X.Y.Z" style tags' do
-          expect(v.correct?('1')).to be_true
-          expect(v.correct?('1.2')).to be_true
-          expect(v.correct?('1.2.3')).to be_true
+          expect(v.correct?('1')).to be_truthy
+          expect(v.correct?('1.2')).to be_truthy
+          expect(v.correct?('1.2.3')).to be_truthy
         end
 
         it 'accept "vX.Y.Z" style tags' do
-          expect(v.correct?('v1')).to be_true
-          expect(v.correct?('v1.2')).to be_true
-          expect(v.correct?('v1.2.3')).to be_true
+          expect(v.correct?('v1')).to be_truthy
+          expect(v.correct?('v1.2')).to be_truthy
+          expect(v.correct?('v1.2.3')).to be_truthy
         end
       end
 

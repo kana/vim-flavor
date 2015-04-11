@@ -34,13 +34,13 @@ module Vim
 
       describe '::correct?' do
         it 'is an alias of PlainVersion::correct?' do
-          expect(v.correct?('1')).to be_true
-          expect(v.correct?('1.2')).to be_true
-          expect(v.correct?('1.2.3')).to be_true
-          expect(v.correct?('v1')).to be_true
-          expect(v.correct?('v1.2')).to be_true
-          expect(v.correct?('v1.2.3')).to be_true
-          expect(v.correct?('vim7.4')).to be_false
+          expect(v.correct?('1')).to be_truthy
+          expect(v.correct?('1.2')).to be_truthy
+          expect(v.correct?('1.2.3')).to be_truthy
+          expect(v.correct?('v1')).to be_truthy
+          expect(v.correct?('v1.2')).to be_truthy
+          expect(v.correct?('v1.2.3')).to be_truthy
+          expect(v.correct?('vim7.4')).to be_falsey
         end
       end
     end
