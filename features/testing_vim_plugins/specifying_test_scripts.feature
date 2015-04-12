@@ -42,13 +42,10 @@ Feature: Specifying test scripts
         kana/vim-vspec 1\.\d+(\.\d+)? ... done
       Completed.
       -------- Testing a Vim plugin
-      spec/sh.t .. ok
-      All tests successful.
-      Files=1, Tests=1,  \d+ wallclock secs .*
-      Result: PASS
       spec/basics.vim .. ok
+      spec/sh.t ........ ok
       All tests successful.
-      Files=1, Tests=1,  \d+ wallclock secs .*
+      Files=2, Tests=2,  \d+ wallclock secs .*
       Result: PASS
       """
     And a lockfile is created and matches with:

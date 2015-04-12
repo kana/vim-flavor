@@ -43,8 +43,6 @@ Feature: Dependencies
         kana/vim-vspec 1\.\d+(\.\d+)? ... done
       Completed.
       -------- Testing a Vim plugin
-      Files=0, Tests=0,  \d+ wallclock secs .*
-      Result: NOTESTS
       t/basics.vim .. ok
       All tests successful.
       Files=1, Tests=1,  \d+ wallclock secs .*

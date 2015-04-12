@@ -43,13 +43,10 @@ Feature: Typical usage
         kana/vim-vspec 1\.\d+(\.\d+)? ... done
       Completed.
       -------- Testing a Vim plugin
-      t/sh.t .. ok
-      All tests successful.
-      Files=1, Tests=1,  \d+ wallclock secs .*
-      Result: PASS
       t/basics.vim .. ok
+      t/sh.t ........ ok
       All tests successful.
-      Files=1, Tests=1,  \d+ wallclock secs .*
+      Files=2, Tests=2,  \d+ wallclock secs .*
       Result: PASS
       """
     And a lockfile is created and matches with:

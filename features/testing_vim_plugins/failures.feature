@@ -34,8 +34,6 @@ Feature: Failures
         kana/vim-vspec 1\.\d+(\.\d+)? ... done
       Completed.
       -------- Testing a Vim plugin
-      Files=0, Tests=0,  0 wallclock secs (.*)
-      Result: NOTESTS
       t/basics.vim ..\s
       not ok 1 - g:foo is equal to 5
       # Expected g:foo == 5
