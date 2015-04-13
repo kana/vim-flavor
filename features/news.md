@@ -5,6 +5,8 @@
 * `test` runs `*.vim` and `*.t` in a single step, to get a simplified result.
 * `test` uses [vim-vspec](https://github.com/kana/vim-vspec) 1.5 or later by
   default.
+* `test` supports --update-dependencies` to update dependencies before running
+  tests.
 
 
 
