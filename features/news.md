@@ -1,3 +1,12 @@
+## vim-flavor 2.2.1
+
+### Bug Fixes
+
+* Fix not to fail fetching repositories which have non-fastforward updates.
+
+
+
+
 ## vim-flavor 2.2.0
 
 ### Enhancements
