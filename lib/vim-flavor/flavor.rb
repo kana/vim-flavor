@@ -74,7 +74,7 @@ module Vim
         sh %Q{
           {
             cd '#{cached_repo_path}' &&
-            git fetch origin --tags 'refs/heads/*:refs/remotes/origin/*'
+            git fetch origin --tags '+refs/heads/*:refs/remotes/origin/*'
           } 2>&1
         }
       end
