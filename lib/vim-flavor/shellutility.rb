@@ -2,7 +2,8 @@ module Vim
   module Flavor
     module ShellUtility
       def sh script
-        output = send(:`, script)
+        output = IO.popen(['bash', '-c', script], 'r', &:read)
+
         if $? == 0
           output
         else

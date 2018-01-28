@@ -46,7 +46,7 @@ module Vim
           %Q{ '#{runner}' \
               #{runtime_paths.flat_map {|p| ['-d', p]}.shelljoin} \
               #{files_or_dirs.shelljoin} }
-        succeeded = system(command)
+        succeeded = system('bash', '-c', command)
         exit(1) unless succeeded
       end
 

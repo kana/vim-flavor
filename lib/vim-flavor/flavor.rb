@@ -25,7 +25,7 @@ module Vim
       end
 
       def cached_version?(version)
-        system <<-"END"
+        system 'bash', '-c', <<-"END"
           {
             cd '#{cached_repo_path}' &&
             git rev-list --quiet '#{version.to_revision}' --
