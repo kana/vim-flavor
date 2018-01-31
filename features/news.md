@@ -1,3 +1,13 @@
+## vim-flavor 2.2.2
+
+### Bug Fixes
+
+* Fix `install`, `update` and `test` to work even if these commands are invoked
+  from non-bash shell.
+
+
+
+
 ## vim-flavor 2.2.1
 
 ### Bug Fixes
