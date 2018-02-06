@@ -18,10 +18,10 @@ module Vim
       end
 
       it 'is not comparable' do
-        expect {v1 < v2}.to raise_error
-        expect {v1 <= v2}.to raise_error
-        expect {v1 > v2}.to raise_error
-        expect {v1 >= v2}.to raise_error
+        expect {v1 < v2}.to raise_error(NoMethodError)
+        expect {v1 <= v2}.to raise_error(NoMethodError)
+        expect {v1 > v2}.to raise_error(NoMethodError)
+        expect {v1 >= v2}.to raise_error(NoMethodError)
         expect(v1 <=> v2).to be_nil
       end
 
