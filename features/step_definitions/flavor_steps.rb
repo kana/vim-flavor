@@ -99,7 +99,7 @@ end
 
 Then /^"([^"]*)" version "([^"]*)" is (?:(not) )?cached$/ do |v_repo_name, version, p|
   d = make_cached_repo_path(expand(v_repo_name), expand('$home').to_stash_path)
-  (system <<-"END").should == (p != 'not')
+  expect(system <<-"END").to equal(p != 'not')
     {
       cd '#{d}' &&
       git rev-list --quiet '#{version}'
