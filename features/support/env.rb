@@ -76,14 +76,10 @@ Before do
   variable_table['home'] = File.absolute_path(File.join([expand_path('.'), 'home']))
 
   @aruba_timeout_seconds = 5
-end
 
-Aruba.configure do |config|
-  config.before(:command) do |cmd|
-    set_environment_variable 'VIM_FLAVOR_HOME', variable_table['home']
-    set_environment_variable 'VIM_FLAVOR_GITHUB_URI_PREFIX', expand('file://$tmp/repos/')
-    set_environment_variable 'VIM_FLAVOR_GITHUB_URI_SUFFIX', ''
-  end
+  set_environment_variable 'VIM_FLAVOR_HOME', variable_table['home']
+  set_environment_variable 'VIM_FLAVOR_GITHUB_URI_PREFIX', expand('file://$tmp/repos/')
+  set_environment_variable 'VIM_FLAVOR_GITHUB_URI_SUFFIX', ''
 end
 
 World do
