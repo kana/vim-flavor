@@ -68,12 +68,12 @@ end
 Before do
   variable_table['version'] = Vim::Flavor::VERSION
 
-  variable_table['tmp'] = File.absolute_path(current_directory)
+  variable_table['tmp'] = File.absolute_path(expand_path('.'))
 
   steps %Q{
     Given a directory named "home"
   }
-  variable_table['home'] = File.absolute_path(File.join([current_directory, 'home']))
+  variable_table['home'] = File.absolute_path(File.join([expand_path('.'), 'home']))
 
   @aruba_timeout_seconds = 5
 end

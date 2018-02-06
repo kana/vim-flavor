@@ -5,5 +5,5 @@ Given /^an executable file named "(.*)" with:$/ do |file_path, content|
       #{content}
       """
   }
-  File.chmod(0755, File.join([current_directory, file_path]))
+  File.chmod(0755, File.join([expand_path('.'), file_path]))
 end
