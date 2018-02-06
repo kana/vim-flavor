@@ -42,7 +42,7 @@ Then /^(?:a|the) lockfile is (?:created|updated) with:$/ do |content|
 end
 
 Then /^(?:a|the) lockfile is (?:created|updated) and matches with:$/ do |content|
-  check_file_content(expand_path('.').to_lockfile_path, /#{content}/, true)
+  expect(expand_path('.').to_lockfile_path).to have_file_content(/#{content}/)
 end
 
 Then /^(?:a|the) lockfile is not created$/ do
