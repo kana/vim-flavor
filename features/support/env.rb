@@ -19,10 +19,10 @@ class FakeUserEnvironment
           git add doc
           #{
             %Q{
-              cat <<'FF' >#{'.'.to_flavorfile_path}
+              cat <<'FF' >#{expand_path('.').to_flavorfile_path}
 #{expand(flavorfile_content)}
 FF
-              git add #{'.'.to_flavorfile_path}
+              git add #{expand_path('.').to_flavorfile_path}
             } if flavorfile_content
           }
           git commit -m "Version $v"
