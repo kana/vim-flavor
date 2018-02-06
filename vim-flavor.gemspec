@@ -24,5 +24,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency('aruba', '~> 0.6.0')
   spec.add_development_dependency('cucumber', '~> 1.3.0')
   spec.add_development_dependency('pry')
-  spec.add_development_dependency('rspec', '~> 2.99')
+  spec.add_development_dependency('rspec', '~> 3.0')
 end
