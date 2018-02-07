@@ -1,6 +1,7 @@
 require 'aruba/api'
 require 'aruba/cucumber'
 require 'fileutils'
+require 'pathname'
 require 'vim-flavor'
 
 class FakeUserEnvironment
@@ -42,6 +43,16 @@ FF
     virtual_path.gsub(/\$([A-Za-z0-9_]+)/) {
       variable_table[$1]
     }
+  end
+
+  def path_for_step(path)
+    cwd = Pathname.new(expand_path('.'))
+    pathd = Pathname.new(path)
+    if not pathd.absolute?
+      pathd = cwd + pathd
+    end
+
+    pathd.relative_path_from(cwd).to_s
   end
 
   def make_cached_repo_path(repo_name, stash_path)

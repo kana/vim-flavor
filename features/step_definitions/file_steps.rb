@@ -1,6 +1,6 @@
 Given /^an executable file named "(.*)" with:$/ do |file_path, content|
   steps %Q{
-    Given a file named "#{file_path}" with:
+    Given a file named "#{path_for_step(file_path)}" with:
       """
       #{content}
       """
