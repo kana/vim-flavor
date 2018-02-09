@@ -7,7 +7,12 @@ Then 'it should pass' do
 end
 
 Then /^it should (pass|fail) with template:$/ do |pass_fail, template|
-  self.__send__("assert_#{pass_fail}ing_with", expand(template))
+  if pass_fail == 'pass'
+    expect(last_command_started).to be_successfully_executed
+  else
+    expect(last_command_started).not_to be_successfully_executed
+  end
+  expect(last_command_started).to have_output(Regexp.new(Regexp.quote(expand(template))))
 end
 
 When /^I run `(.*)` \(variables expanded\)$/ do |command|
