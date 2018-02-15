@@ -21,7 +21,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency('parslet', '~> 1.7')
   spec.add_dependency('thor', '~> 0.19')
 
-  spec.add_development_dependency('aruba', '~> 0.12.0')
+  spec.add_development_dependency('aruba', '~> 0.13.0')
   spec.add_development_dependency('cucumber', '~> 1.3.0')
   spec.add_development_dependency('pry')
   spec.add_development_dependency('rspec', '~> 3.0')
