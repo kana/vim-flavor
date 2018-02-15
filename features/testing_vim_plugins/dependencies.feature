@@ -89,7 +89,6 @@ Feature: Dependencies
     When I run `vim-flavor test --update-dependencies`
     Then it should pass with regexp:
       """
-      .*
       -------- Preparing dependencies
       Checking versions...
         Use kana/vim-textobj-user ... 0\.3\.13

@@ -1,6 +1,7 @@
 require 'aruba/api'
 require 'aruba/cucumber'
 require 'fileutils'
+require 'pathname'
 require 'vim-flavor'
 
 class FakeUserEnvironment
@@ -19,10 +20,10 @@ class FakeUserEnvironment
           git add doc
           #{
             %Q{
-              cat <<'FF' >#{'.'.to_flavorfile_path}
+              cat <<'FF' >#{repository_path.to_flavorfile_path}
 #{expand(flavorfile_content)}
 FF
-              git add #{'.'.to_flavorfile_path}
+              git add #{repository_path.to_flavorfile_path}
             } if flavorfile_content
           }
           git commit -m "Version $v"
@@ -42,6 +43,16 @@ FF
     virtual_path.gsub(/\$([A-Za-z0-9_]+)/) {
       variable_table[$1]
     }
+  end
+
+  def path_for_step(path)
+    cwd = Pathname.new(expand_path('.'))
+    pathd = Pathname.new(path)
+    if not pathd.absolute?
+      pathd = cwd + pathd
+    end
+
+    pathd.relative_path_from(cwd).to_s
   end
 
   def make_cached_repo_path(repo_name, stash_path)
@@ -68,22 +79,18 @@ end
 Before do
   variable_table['version'] = Vim::Flavor::VERSION
 
-  variable_table['tmp'] = File.absolute_path(current_dir)
+  variable_table['tmp'] = File.absolute_path(expand_path('.'))
 
   steps %Q{
     Given a directory named "home"
   }
-  variable_table['home'] = File.absolute_path(File.join([current_dir, 'home']))
+  variable_table['home'] = File.absolute_path(File.join([expand_path('.'), 'home']))
 
   @aruba_timeout_seconds = 5
-end
 
-Aruba.configure do |config|
-  config.before_cmd do |cmd|
-    set_env 'VIM_FLAVOR_HOME', variable_table['home']
-    set_env 'VIM_FLAVOR_GITHUB_URI_PREFIX', expand('file://$tmp/repos/')
-    set_env 'VIM_FLAVOR_GITHUB_URI_SUFFIX', ''
-  end
+  set_environment_variable 'VIM_FLAVOR_HOME', variable_table['home']
+  set_environment_variable 'VIM_FLAVOR_GITHUB_URI_PREFIX', expand('file://$tmp/repos/')
+  set_environment_variable 'VIM_FLAVOR_GITHUB_URI_SUFFIX', ''
 end
 
 World do

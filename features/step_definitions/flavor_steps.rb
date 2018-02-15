@@ -58,21 +58,22 @@ Given /^a repository "([^"]*)" from offline cache$/ do |repo_name|
   repository_path = make_repo_path(repo_name).sub(expand('$tmp/'), '')
   sh <<-"END"
     {
-      git clone --quiet --no-checkout 'vendor/#{repo_name}' '#{current_dir}/#{repository_path}'
+      git clone --quiet --no-checkout 'vendor/#{repo_name}' '#{expand_path('.')}/#{repository_path}'
     } >/dev/null
   END
 end
 
 Given /^I disable network to the original repository of "([^"]*)"$/ do |basename|
   steps %Q{
-    Given I delete the directory "#{make_repo_path(basename)}"
+    Given I delete the directory "#{path_for_step(make_repo_path(basename))}"
   }
 end
 
 When /^I create a file named "([^"]*)" in "([^"]*)" deployed to "([^"]*)"$/ do |file_name, v_repo_name, v_vimfiles_path|
   flavor_path = make_flavor_path(expand(v_vimfiles_path), expand(v_repo_name))
+  file_path = "#{flavor_path}/#{file_name}"
   steps %Q{
-    When I write to "#{flavor_path}/#{file_name}" with:
+    When I write to "#{path_for_step(file_path)}" with:
       """
       """
   }
@@ -82,24 +83,24 @@ Then /^a flavor "([^"]*)" version "([^"]*)" is deployed to "([^"]*)"$/ do |v_rep
   flavor_path = make_flavor_path(expand(v_vimfiles_path), expand(v_repo_name))
   basename = expand(v_repo_name).split('/').last.sub(/^vim-/, '')
   steps %Q{
-    Then the file "#{flavor_path}/doc/#{basename}.txt" should contain:
+    Then the file "#{path_for_step(flavor_path)}/doc/#{basename}.txt" should contain:
       """
       *#{basename}* #{version}
       """
-    Then a file named "#{flavor_path}/doc/tags" should exist
+    Then a file named "#{path_for_step(flavor_path)}/doc/tags" should exist
   }
 end
 
 Then /^a flavor "([^"]*)" is not deployed to "([^"]*)"$/ do |v_repo_name, v_vimfiles_path|
   flavor_path = make_flavor_path(expand(v_vimfiles_path), expand(v_repo_name))
   steps %Q{
-    Then a directory named "#{flavor_path}" should not exist
+    Then a directory named "#{path_for_step(flavor_path)}" should not exist
   }
 end
 
 Then /^"([^"]*)" version "([^"]*)" is (?:(not) )?cached$/ do |v_repo_name, version, p|
   d = make_cached_repo_path(expand(v_repo_name), expand('$home').to_stash_path)
-  (system <<-"END").should == (p != 'not')
+  expect(system <<-"END").to equal(p != 'not')
     {
       cd '#{d}' &&
       git rev-list --quiet '#{version}'
@@ -109,7 +110,8 @@ end
 
 Then /^a file named "([^"]*)" (should(?: not)?) exist in "([^"]*)" deployed to "([^"]*)"$/ do |file_name, should, v_repo_name, v_vimfiles_path|
   flavor_path = make_flavor_path(expand(v_vimfiles_path), expand(v_repo_name))
+  file_path = "#{flavor_path}/#{file_name}"
   steps %Q{
-    Then a file named "#{flavor_path}/#{file_name}" #{should} exist
+    Then a file named "#{path_for_step(file_path)}" #{should} exist
   }
 end
