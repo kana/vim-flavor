@@ -71,7 +71,7 @@ end
 
 When /^I create a file named "([^"]*)" in "([^"]*)" deployed to "([^"]*)"$/ do |file_name, v_repo_name, v_vimfiles_path|
   flavor_path = make_flavor_path(expand(v_vimfiles_path), expand(v_repo_name))
-  file_path = "#{flavor_path}/#{file_name}" 
+  file_path = "#{flavor_path}/#{file_name}"
   steps %Q{
     When I write to "#{path_for_step(file_path)}" with:
       """
@@ -110,7 +110,7 @@ end
 
 Then /^a file named "([^"]*)" (should(?: not)?) exist in "([^"]*)" deployed to "([^"]*)"$/ do |file_name, should, v_repo_name, v_vimfiles_path|
   flavor_path = make_flavor_path(expand(v_vimfiles_path), expand(v_repo_name))
-  file_path = "#{flavor_path}/#{file_name}" 
+  file_path = "#{flavor_path}/#{file_name}"
   steps %Q{
     Then a file named "#{path_for_step(file_path)}" #{should} exist
   }
