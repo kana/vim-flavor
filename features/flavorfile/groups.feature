@@ -19,7 +19,6 @@ Feature: Groups
       """
       $foo_uri (1.2)
       """
-    And a bootstrap script is created in "$home/.vim"
     And a flavor "$foo_uri" version "1.2" is deployed to "$home/.vim"
     But a flavor "$bar_uri" is not deployed to "$home/.vim"
 
@@ -35,7 +34,6 @@ Feature: Groups
       """
       $foo_uri (1.2)
       """
-    And a bootstrap script is created in "$home/.vim"
     And a flavor "$foo_uri" version "1.2" is deployed to "$home/.vim"
     But a flavor "$bar_uri" is not deployed to "$home/.vim"
 
@@ -52,6 +50,5 @@ Feature: Groups
     And a lockfile is created with:
       """
       """
-    And a bootstrap script is created in "$home/.vim"
     But a flavor "$foo_uri" is not deployed to "$home/.vim"
     But a flavor "$bar_uri" is not deployed to "$home/.vim"

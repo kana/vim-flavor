@@ -26,7 +26,6 @@ Feature: Version tag format
       """
       $foo_uri (1.2.3)
       """
-    And a bootstrap script is created in "$home/.vim"
     And a flavor "$foo_uri" version "1.2.3" is deployed to "$home/.vim"
     When I run `vim-flavor install`
     Then it should pass with template:
@@ -57,7 +56,6 @@ Feature: Version tag format
       """
       $foo_uri (v1.2.3)
       """
-    And a bootstrap script is created in "$home/.vim"
     And a flavor "$foo_uri" version "v1.2.3" is deployed to "$home/.vim"
     When I run `vim-flavor install`
     Then it should pass with template:

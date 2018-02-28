@@ -21,5 +21,4 @@ Feature: Install Vim plugins
       """
       $foo_uri (1.0.2)
       """
-    And a bootstrap script is created in "$home/.vim"
     And a flavor "$foo_uri" version "1.0.2" is deployed to "$home/.vim"

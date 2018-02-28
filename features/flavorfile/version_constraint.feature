@@ -21,7 +21,6 @@ Feature: Version constraint
       """
       $foo_uri (2.0)
       """
-    And a bootstrap script is created in "$home/.vim"
     And a flavor "$foo_uri" version "2.0" is deployed to "$home/.vim"
 
   Scenario: Declare using a Vim plugin not older than a specific version
@@ -35,7 +34,6 @@ Feature: Version constraint
       """
       $foo_uri (2.0)
       """
-    And a bootstrap script is created in "$home/.vim"
     And a flavor "$foo_uri" version "2.0" is deployed to "$home/.vim"
 
   Scenario: Declare using the latest and compatible version of a Vim plugin
@@ -49,5 +47,4 @@ Feature: Version constraint
       """
       $foo_uri (1.2)
       """
-    And a bootstrap script is created in "$home/.vim"
     And a flavor "$foo_uri" version "1.2" is deployed to "$home/.vim"

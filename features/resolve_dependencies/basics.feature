@@ -34,7 +34,6 @@ Feature: Resolve dependencies of Vim plugins
       $foo_uri (1.1)
       $qux_uri (2.1)
       """
-    And a bootstrap script is created in "$home/.vim"
     And a flavor "$foo_uri" version "1.1" is deployed to "$home/.vim"
     And a flavor "$bar_uri" version "2.1" is deployed to "$home/.vim"
     And a flavor "$qux_uri" version "2.1" is deployed to "$home/.vim"
@@ -72,7 +71,6 @@ Feature: Resolve dependencies of Vim plugins
       $foo_uri (1.1)
       $qux_uri (1.1)
       """
-    And a bootstrap script is created in "$home/.vim"
     And a flavor "$foo_uri" version "1.1" is deployed to "$home/.vim"
     And a flavor "$bar_uri" version "2.1" is deployed to "$home/.vim"
     And a flavor "$qux_uri" version "1.1" is deployed to "$home/.vim"
@@ -112,7 +110,6 @@ Feature: Resolve dependencies of Vim plugins
       $foo_uri (2.1)
       $qux_uri (2.1)
       """
-    And a bootstrap script is created in "$home/.vim"
     And a flavor "$foo_uri" version "2.1" is deployed to "$home/.vim"
     And a flavor "$bar_uri" version "2.1" is deployed to "$home/.vim"
     And a flavor "$qux_uri" version "2.1" is deployed to "$home/.vim"
@@ -145,6 +142,5 @@ Feature: Resolve dependencies of Vim plugins
       $bar_uri (2.1)
       $foo_uri (2.1)
       """
-    And a bootstrap script is created in "$home/.vim"
     And a flavor "$foo_uri" version "2.1" is deployed to "$home/.vim"
     And a flavor "$bar_uri" version "2.1" is deployed to "$home/.vim"

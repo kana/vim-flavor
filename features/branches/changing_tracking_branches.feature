@@ -24,7 +24,6 @@ Feature: Changing tracking branches
         $foo_uri $foo_rev_102 at master ... done
       Completed.
       """
-    And a bootstrap script is created in "$home/.vim"
     And a flavor "$foo_uri" version "1.0.2" is deployed to "$home/.vim"
 
   Scenario: Use a branch instead of a version
@@ -49,7 +48,6 @@ Feature: Changing tracking branches
       """
       $foo_uri ($foo_rev_102 at master)
       """
-    And a bootstrap script is created in "$home/.vim"
     And a flavor "$foo_uri" version "1.0.2" is deployed to "$home/.vim"
 
   Scenario: Use a version instead of a branch
@@ -74,5 +72,4 @@ Feature: Changing tracking branches
       """
       $foo_uri (1.0.2)
       """
-    And a bootstrap script is created in "$home/.vim"
     And a flavor "$foo_uri" version "1.0.2" is deployed to "$home/.vim"

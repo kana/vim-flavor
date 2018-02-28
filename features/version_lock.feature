@@ -19,5 +19,4 @@ Feature: Version lock
       """
       $foo_uri (1.0.0)
       """
-    And a bootstrap script is created in "$home/.vim"
     And a flavor "$foo_uri" version "1.0.0" is deployed to "$home/.vim"

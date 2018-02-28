@@ -26,5 +26,4 @@ Feature: Update Vim plugins with specific branches
         $foo_uri $foo_rev_103 at master ... done
       Completed.
       """
-    And a bootstrap script is created in "$home/.vim"
     And a flavor "$foo_uri" version "1.0.3" is deployed to "$home/.vim"
