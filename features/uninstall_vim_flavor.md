@@ -1,11 +1,10 @@
 ## Uninstallation steps
 
-    rm -r ~/.vim-flavor
-    rm -r ~/.vim/flavors  # or ~/vimfiles/flavors etc.
+    rm -rf ~/.vim-flavor
+    rm -rf ~/.vim/flavors  # or ~/vimfiles/flavors etc.
 
     cd $YOUR_REPOSITORY_FOR_DOTFILES
-    rm VimFlavor VimFlavor.lock
-    vim vimrc  # Remove the "runtime flavors/bootstrap.vim" line.
+    rm Flavorfile Flavorfile.lock
     git commit -am 'Farewell to vim-flavor'
 
     gem uninstall vim-flavor
