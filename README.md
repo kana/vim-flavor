@@ -1,7 +1,7 @@
 # vim-flavor, a tool to manage your favorite Vim plugins
 
 [![Build Status](https://travis-ci.org/kana/vim-flavor.png)](https://travis-ci.org/kana/vim-flavor)
-[![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/kana/vim-flavor)
+[![Maintainability](https://api.codeclimate.com/v1/badges/97414d95fb6d19c7fb72/maintainability)](https://codeclimate.com/github/kana/vim-flavor/maintainability)
 
 
 
