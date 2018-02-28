@@ -84,7 +84,6 @@ Feature: Version tag format
       There is no valid version
       """
     And a lockfile is not created
-    And a bootstrap script is not created in "$home/.vim"
     And a flavor "$foo_uri" is not deployed to "$home/.vim"
 
   Scenario: Without tags
@@ -104,5 +103,4 @@ Feature: Version tag format
       There is no valid version
       """
     And a lockfile is not created
-    And a bootstrap script is not created in "$home/.vim"
     And a flavor "$foo_uri" is not deployed to "$home/.vim"

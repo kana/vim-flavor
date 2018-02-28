@@ -31,7 +31,6 @@ Feature: Version conflict
         $foo_uri ~> 2.0 is required by $qux_uri
       Please resolve the conflict.
       """
-    And a bootstrap script is not created in "$home/.vim"
     And a flavor "$foo_uri" is not deployed to "$home/.vim"
     And a flavor "$bar_uri" is not deployed to "$home/.vim"
     And a flavor "$qux_uri" is not deployed to "$home/.vim"
@@ -59,6 +58,5 @@ Feature: Version conflict
         $foo_uri >= 2.0 is required by you
       Please resolve the conflict.
       """
-    And a bootstrap script is not created in "$home/.vim"
     And a flavor "$foo_uri" is not deployed to "$home/.vim"
     And a flavor "$bar_uri" is not deployed to "$home/.vim"

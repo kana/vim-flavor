@@ -32,7 +32,6 @@ Feature: Detect incompatible declarations
         $L_uri branch: experimental is required by $B_uri
       Please resolve the conflict.
       """
-    And a bootstrap script is not created in "$home/.vim"
     And a flavor "$A_uri" is not deployed to "$home/.vim"
     And a flavor "$B_uri" is not deployed to "$home/.vim"
     And a flavor "$L_uri" is not deployed to "$home/.vim"
@@ -66,7 +65,6 @@ Feature: Detect incompatible declarations
         $L_uri ~> 0.2 is required by $B_uri
       Please resolve the conflict.
       """
-    And a bootstrap script is not created in "$home/.vim"
     And a flavor "$A_uri" is not deployed to "$home/.vim"
     And a flavor "$B_uri" is not deployed to "$home/.vim"
     And a flavor "$L_uri" is not deployed to "$home/.vim"
