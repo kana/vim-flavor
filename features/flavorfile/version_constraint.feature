@@ -3,10 +3,9 @@ Feature: Version constraint
   as a lazy Vim user,
   I want to declare desirable versions of Vim plugins.
 
-  Note that vim-flavor assumes that plugins follow [the versioning policies of
-  RubyGems](http://docs.rubygems.org/read/chapter/7#page26), to determine
-  compatibility of plugins.  See also [Philosophy](../philosophy) for the
-  details.
+  Note that vim-flavor assumes that plugins follow [Semantic Versioning
+  2.0.0](https://semver.org/spec/v2.0.0.html), to determine compatibility of
+  plugins.  See also [Philosophy](../philosophy) for the details.
 
   Background:
     Given a repository "foo" with versions "1.0 1.1 1.2 2.0"
