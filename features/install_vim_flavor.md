@@ -1,10 +1,10 @@
 ## Required softwares
 
-* [Git](http://git-scm.com/) 2.10.1 or later
-* [Ruby](http://www.ruby-lang.org/) 2.5.0 or later
-  * Recommendation: Use [RVM](http://beginrescueend.com/) or other tools
+* [Git](https://git-scm.com/) 2.10.1 or later
+* [Ruby](https://www.ruby-lang.org/) 2.5.0 or later
+  * Recommendation: Use [RVM](https://rvm.io/) or other tools
     for ease of installation across different envinronments.
-* [Vim](http://www.vim.org/) 8.0 or later
+* [Vim](https://www.vim.org/) 8.0 or later
   * Note that Vim should be compiled as normal, big or huge version
     to use most of plugins.
 
