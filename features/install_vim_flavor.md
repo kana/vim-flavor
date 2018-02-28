@@ -1,10 +1,10 @@
 ## Required softwares
 
-* [Git](http://git-scm.com/) 1.7.9 or later
-* [Ruby](http://www.ruby-lang.org/) 2.0.0 or later
+* [Git](http://git-scm.com/) 2.10.1 or later
+* [Ruby](http://www.ruby-lang.org/) 2.5.0 or later
   * Recommendation: Use [RVM](http://beginrescueend.com/) or other tools
     for ease of installation across different envinronments.
-* [Vim](http://www.vim.org/) 7.3 or later
+* [Vim](http://www.vim.org/) 8.0 or later
   * Note that Vim should be compiled as normal, big or huge version
     to use most of plugins.
 
@@ -26,14 +26,8 @@
 
     cd $YOUR_REPOSITORY_FOR_DOTFILES
 
-    # Add the following line into the first line of your vimrc:
-    #
-    #   runtime flavors/bootstrap.vim
-    vim vimrc
-
-    touch VimFlavor VimFlavor.lock
-
-    git add VimFlavor VimFlavor.lock vimrc
+    touch Flavorfile Flavorfile.lock
+    git add Flavorfile Flavorfile.lock
     git commit -m 'Use vim-flavor to manage my favorite Vim plugins'
 
 
