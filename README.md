@@ -10,13 +10,13 @@
 
     cd $YOUR_REPOSITORY_FOR_DOTFILES
 
-    cat >VimFlavor <<'END'
+    cat >Flavorfile <<'END'
       # * Declare using git://github.com/kana/vim-textobj-indent.git
       # * vim-flavor fetches git://github.com/$USER/$REPO.git
       #   if the argument is written in '$USER/$REPO' format.
       # * kana/vim-textobj-indent requires kana/vim-textobj-user.
       #   Such dependencies are automatically installed
-      #   if the flavored plugin declares its dependencies with VimFlavor file.
+      #   if the flavored plugin declares its dependencies with Flavorfile.
       flavor 'kana/vim-textobj-indent'
 
       # * Declare using git://github.com/vim-scripts/fakeclip.git
@@ -39,17 +39,12 @@
       flavor 'kana/vim-smarttill', '>= 0.1.0'
     END
 
-    # Fetch the plugins declared in the VimFlavor,
-    # create VimFlavor.lock for a snapshot of all plugins and versions,
-    # then install the plugins and a bootstrap script into ~/.vim etc.
+    # Fetch the plugins declared in the Flavorfile,
+    # create Flavorfile.lock for a snapshot of all plugins and versions,
+    # then install the plugins into ~/.vim.
     vim-flavor install
 
-    # Add the following line into the first line of your vimrc:
-    #
-    #   runtime flavors/bootstrap.vim
-    vim vimrc
-
-    git add VimFlavor VimFlavor.lock vimrc
+    git add Flavorfile Flavorfile.lock
     git commit -m 'Use vim-flavor to manage my favorite Vim plugins'
 
 See also
@@ -69,8 +64,8 @@ See the LICENSE file for the details.
 
 ## Author
 
-* [Kana Natsuno](http://whileimautomaton.net/)
-  (also known as [@kana1](http://twitter.com/kana1))
+* [Kana Natsuno](https://whileimautomaton.net/)
+  (also known as [@kana1](https://twitter.com/kana1))
 
 
 
