@@ -14,12 +14,13 @@ overlooked.
 
 So that `vim-flavor` automatically resolves dependencies of Vim plugins.  If
 a plugin declares its dependencies as a [flavorfile](flavorfile) and saves it
-as `VimFlavor`, `vim-flavor` reads the file and automatically installs
+as `Flavorfile`, `vim-flavor` reads the file and automatically installs
 dependencies according to the file.
 
 `vim-flavor` also takes care about versions of Vim plugins.  If two plugins
-require the same plugin but required versions are not compatible to others,
-installation will be stopped to avoid using Vim with a broken configuration.
+require the same plugin but required versions are not compatible to each
+other, installation will be stopped to avoid using Vim with a broken
+configuration.
 
 
 
