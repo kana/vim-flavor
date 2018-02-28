@@ -1,6 +1,6 @@
 Flavorfile is a DSL to declare which versions of Vim plugins to use.
 Whenever `vim-flavor` is invoked to manage Vim plugins,
-`vim-flavor` reads a file `VimFlavor` in the current working directory,
+`vim-flavor` reads a file `Flavorfile` in the current working directory,
 and evaluates it as a flavorfile.
 
 
