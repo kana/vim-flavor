@@ -17,12 +17,14 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
+  spec.required_ruby_version = '~> 2.5'
 
   spec.add_dependency('parslet', '~> 1.8')
   spec.add_dependency('thor', '~> 0.20')
 
-  spec.add_development_dependency('aruba', '~> 0.14.0')
-  spec.add_development_dependency('cucumber', '~> 3.0')
+  spec.add_development_dependency('aruba', '~> 0.14')
+  spec.add_development_dependency('cucumber', '~> 3.1')
   spec.add_development_dependency('pry')
-  spec.add_development_dependency('rspec', '~> 3.0')
+  spec.add_development_dependency('relish', '~> 0.7')
+  spec.add_development_dependency('rspec', '~> 3.7')
 end
