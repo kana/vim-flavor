@@ -60,7 +60,7 @@ FF
   end
 
   def make_flavor_path(vimfiles_path, repo_name)
-    "#{vimfiles_path.to_flavors_path}/#{repo_name.zap}"
+    "#{vimfiles_path}/pack/flavors/start/#{repo_name.zap}"
   end
 
   def make_repo_path(basename)
