@@ -8,11 +8,11 @@ vim-flavor can install plugins which meet the following conditions:
   This is an intentional design.  Because:
   * [vim-scripts.org](http://vim-scripts.org/) provides
     [comprehensive Git mirrors](https://github.com/vim-scripts) for
-    [plugins uploaded to www.vim.org](http://www.vim.org/scripts/index.php).
+    [plugins uploaded to www.vim.org](https://www.vim.org/scripts/index.php).
   * Experimental plugins which are not uploaded to www.vim.org
     are usually found in [GitHub](https://github.com/).
-* Plugins must follow [the versioning policies of
-  RubyGems](http://docs.rubygems.org/read/chapter/7#page26) and have "version"
+* Plugins must follow [Semantic Versioning
+  2.0.0](https://semver.org/spec/v2.0.0.html) and have "version"
   tags in their repositories.  For example, if there is the version 1.2.3 of
   a plugin, its repository must have the tag `1.2.3`, and the files of the
   version 1.2.3 can be checked out via the tag `1.2.3`.  In other words,
@@ -35,7 +35,7 @@ vim-flavor can install plugins which meet the following conditions:
   * Git mirrors by vim-scripts.org have proper directory structures even if
     the original plugins are uploaded to www.vim.org without proper directory
     structures.  (A good example is
-    [a.vim](http://www.vim.org/scripts/script.php?script_id=31) and
+    [a.vim](https://www.vim.org/scripts/script.php?script_id=31) and
     [its mirror](https://github.com/vim-scripts/a.vim).)
   * Other Git repositories might not have proper directory structures.
     Such plugins are not ready to use for everyone.

@@ -9,6 +9,7 @@ Feature: Deployment
       """ruby
       flavor '$foo_uri', '~> 1.0'
       """
+
   Scenario: Deploy plugins which are not deployed yet
     Given a flavor "$foo_uri" is not deployed to "$home/.vim"
     When I run `vim-flavor install`

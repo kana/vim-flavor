@@ -3,7 +3,7 @@
 1. Write tests for your Vim plugin with
    [vim-vspec](https://github.com/kana/vim-vspec).
 2. Declare dependencies of your Vim plugin as a [flavorfile](flavorfile), and
-   save it as `VimFlavor` in the root of your Vim plugin.
+   save it as `Flavorfile` in the root of your Vim plugin.
 3. Run `vim-flavor test`.
 
 
@@ -14,15 +14,16 @@
 It is hard to test Vim plugins, because there are a few problems:
 
 * It is hard to write readable and maintainable test code in Vim script, even
-  for skilled users.  Because Vim script is not expressive as script languages
-  like Ruby and others.
+  for skilled users.  Because Vim script is not expressive as other script
+  languages like Ruby.
 * Each test must be run in an isolated environment to guarantee the same
   results for every time and everywhere.  So that all settings including vimrc
-  and plugins must be ignored.  User's viminfo must not be read and written
-  too.
+  and plugins of yours must be ignored.  Your viminfo also must not be read
+  and written to avoid unexpected test failures and unexpectedly overwritten
+  of registers and marks you used.
 * Some plugins require other plugins at runtime.  Such dependencies must be
   resolved, but they must be installed into a temporary place to avoid
-  corrupting user's settings.  And `'runtimepath'` must be configured
+  corrupting your environment.  And `'runtimepath'` must be configured
   carefully for both dependencies and plugins under development.
 
 Therefore it is hard to do right testing for Vim plugins from scratch.  As

@@ -11,7 +11,7 @@
 - flavorfile:
 - version_lock.feature
 - caching:
-- resolve_dependencies.feature
+- resolve_dependencies:
 - testing_vim_plugins:
   - typical_usage.feature
   - dependencies.feature

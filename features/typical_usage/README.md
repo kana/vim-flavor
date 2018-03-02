@@ -26,21 +26,21 @@ and `vim-flavor` does it.
     cd $YOUR_REPOSITORY_FOR_DOTFILES
 
     # Add, delete or change declarations which versions of Vim plugins to use.
-    vim VimFlavor
+    vim Flavorfile
 
-    # Install Vim plugins according to VimFlavor.
+    # Install Vim plugins according to Flavorfile.
     vim-flavor install
 
     # Record changes to the declarations and locked status.
-    git add VimFlavor VimFlavor.lock
+    git add Flavorfile Flavorfile.lock
     git commit -m '...'
 
 
 
 
-## Flavorfile (`VimFlavor`)
+## Flavorfile (`Flavorfile`)
 
-`vim-flavor` reads a file `VimFlavor` in the current working directory.
+`vim-flavor` reads a file `Flavorfile` in the current working directory.
 The file is called a flavorfile.  A flavorfile contains zero or more
 declarations about Vim plugins and which versions of Vim plugins to use.
 
@@ -49,9 +49,9 @@ See also [more details about flavorfile](flavorfile).
 
 
 
-## Lockfile (`VimFlavor.lock`)
+## Lockfile (`Flavorfile.lock`)
 
-`vim-flavor` creates a file `VimFlavor.lock` in the current working directory.
+`vim-flavor` creates a file `Flavorfile.lock` in the current working directory.
 The file is called a lockfile.  A lockfile contains details about installed
 Vim plugins to use the same configuration on every machine.
 

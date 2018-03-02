@@ -1,3 +1,35 @@
+## vim-flavor 3.0.0
+
+### Enhancements
+
+* Steps to start using vim-flavor are simplified.  Especially, it is not
+  necessary to edit vimrc.
+
+### Incompatible changes
+
+* Vim 8.0 or later is required now.
+* Deployment format is changed.  It might be necessary to manually delete some
+  directories and files.  See also the follwoing migration guide.
+* Configuration file is changed.  Old name is `VimFlavor`.  New name is
+  `Flavorfile`.
+  * Note that old name is still supported for backward compatibility.  Old
+    name file is used if there is no new name file.  But it is highly
+    recommended to rename.
+* Lock file is changed.  Old name is `VimFlavor.lock`.  New name is
+  `Flavorfile.lock`.
+  * If only old name file exists, that file will be read.  But new name file
+    is always used to write updates.
+
+### Migration guide from 2.x
+
+* Delete `~/.vim/flavors` directory.
+* Delete `runtime flavors/bootstrap.vim` line from your vimrc.
+* Rename `VimFlavor` as `Flavorfile`.
+* Rename `VimFlavor.lock` as `Flavorfile.lock`.
+
+
+
+
 ## vim-flavor 2.2.2
 
 ### Bug Fixes
