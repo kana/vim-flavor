@@ -10,7 +10,7 @@ module Vim
       end
 
       def to_flavors_path
-        "#{self}/flavors"
+        "#{self}/pack/flavors/start"
       end
 
       def to_lockfile_path
