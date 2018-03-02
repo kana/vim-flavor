@@ -53,8 +53,8 @@ Feature: Dependencies
       kana/vim-textobj-user \(0\.\d+(\.\d+)?\)
       kana/vim-vspec \(1\.\d+(\.\d+)?\)
       """
-    And a dependency "kana/vim-vspec" is stored in ".vim-flavor/deps"
-    And a dependency "kana/vim-textobj-user" is stored in ".vim-flavor/deps"
+    And a dependency "kana/vim-vspec" is stored in ".vim-flavor/pack/flavors/start"
+    And a dependency "kana/vim-textobj-user" is stored in ".vim-flavor/pack/flavors/start"
 
   Scenario: Update dependencies for testing
     Given a flavorfile with:

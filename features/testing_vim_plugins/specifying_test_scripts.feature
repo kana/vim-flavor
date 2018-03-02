@@ -52,7 +52,7 @@ Feature: Specifying test scripts
       """
       kana/vim-vspec \(1\.\d+(\.\d+)?\)
       """
-    And a dependency "kana/vim-vspec" is stored in ".vim-flavor/deps"
+    And a dependency "kana/vim-vspec" is stored in ".vim-flavor/pack/flavors/start"
 
   Scenario: Running a specific `.vim` test script
     When I run `vim-flavor test spec/basics.vim`
@@ -74,7 +74,7 @@ Feature: Specifying test scripts
       """
       kana/vim-vspec \(1\.\d+(\.\d+)?\)
       """
-    And a dependency "kana/vim-vspec" is stored in ".vim-flavor/deps"
+    And a dependency "kana/vim-vspec" is stored in ".vim-flavor/pack/flavors/start"
 
   Scenario: Running a specific `.t` test script
     When I run `vim-flavor test spec/sh.t`
@@ -96,4 +96,4 @@ Feature: Specifying test scripts
       """
       kana/vim-vspec \(1\.\d+(\.\d+)?\)
       """
-    And a dependency "kana/vim-vspec" is stored in ".vim-flavor/deps"
+    And a dependency "kana/vim-vspec" is stored in ".vim-flavor/pack/flavors/start"
