@@ -10,17 +10,19 @@
 * Vim 8.0 or later is required now.
 * Deployment format is changed.  It might be necessary to manually delete some
   directories and files.  See also the follwoing migration guide.
-* Configuration file is changed.  Old name is `VimFlavor`.  New name is
-  `Flavorfile`.
+* The name of configuration file is changed.
+  * Old name is `VimFlavor`.
+  * New name is `Flavorfile`.
   * Note that old name is still supported for backward compatibility.  Old
     name file is used if there is no new name file.  But it is highly
     recommended to rename.
-* Lock file is changed.  Old name is `VimFlavor.lock`.  New name is
-  `Flavorfile.lock`.
+* The name of lock file is changed.
+  * Old name is `VimFlavor.lock`.
+  * New name is `Flavorfile.lock`.
   * If only old name file exists, that file will be read.  But new name file
     is always used to write updates.
 
-### Migration guide from 2.x
+### Migration guide from version 2
 
 * Delete `~/.vim/flavors` directory.
 * Delete `runtime flavors/bootstrap.vim` line from your vimrc.
