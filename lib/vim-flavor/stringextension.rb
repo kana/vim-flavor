@@ -2,7 +2,7 @@ module Vim
   module Flavor
     module StringExtension
       def to_flavorfile_path
-        "#{self}/VimFlavor"
+        "#{self}/Flavorfile"
       end
 
       def to_flavors_path
