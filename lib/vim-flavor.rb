@@ -5,6 +5,7 @@ module Vim
     [
       :BranchVersion,
       :CLI,
+      :Console,
       :Env,
       :Facade,
       :Flavor,
