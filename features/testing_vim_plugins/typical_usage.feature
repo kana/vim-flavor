@@ -54,3 +54,39 @@ Feature: Typical usage
       kana/vim-vspec \(1\.\d+(\.\d+)?\)
       """
     And a dependency "kana/vim-vspec" is stored in ".vim-flavor/pack/flavors/start"
+
+  Scenario: Assuming no dependencies if flavorfile does not exist
+    Given a file named "plugin/foo.vim" with:
+      """vim
+      let g:foo = 3
+      """
+    And a file named "t/basics.vim" with:
+      """vim
+      " Tests are written with vim-vspec.
+      runtime! plugin/foo.vim
+      describe 'g:foo'
+        it 'is equal to 3'
+          Expect g:foo == 3
+        end
+      end
+      """
+    When I run `vim-flavor test`
+    Then it should pass with regexp:
+      """
+      -------- Preparing dependencies
+      Checking versions...
+        Use kana/vim-vspec ... 1\.\d+(\.\d+)?
+      Deploying plugins...
+        kana/vim-vspec 1\.\d+(\.\d+)? ... done
+      Completed.
+      -------- Testing a Vim plugin
+      t/basics.vim .. ok
+      All tests successful.
+      Files=1, Tests=1,  \d+ wallclock secs .*
+      Result: PASS
+      """
+    And a lockfile is created and matches with:
+      """
+      kana/vim-vspec \(1\.\d+(\.\d+)?\)
+      """
+    And a dependency "kana/vim-vspec" is stored in ".vim-flavor/pack/flavors/start"
