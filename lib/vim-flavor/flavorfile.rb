@@ -17,6 +17,14 @@ module Vim
       end
 
       def self.load_or_new(flavorfile_path)
+        _load_or_new(flavorfile_path, false)
+      end
+
+      def self.load(flavorfile_path)
+        _load_or_new(flavorfile_path, true)
+      end
+
+      private_class_method def self._load_or_new(flavorfile_path, must_exist)
         # Note that flavorfile_path is assumed to be new name.
         new_path = Pathname.new(flavorfile_path).relative_path_from(Pathname.getwd())
         old_path = new_path.dirname() / 'VimFlavor'
@@ -28,31 +36,15 @@ module Vim
             Console::warn "Delete #{old_path}.  #{new_path} is being read instead."
           end
           ff.load(new_path.to_s)
-        elsif if FileTest.file?(old_path)
+        elsif FileTest.file?(old_path)
           Console::warn "Rename #{old_path} to #{new_path}.  #{old_path} wll be ignored in future version."
           ff.load(old_path.to_s)
         else
-          # Do nothing.  Assume no dependencies.
-        end
-
-        ff
-      end
-
-      def self.load(flavorfile_path)
-        # Note that flavorfile_path is assumed to be new name.
-        new_path = Pathname.new(flavorfile_path).relative_path_from(Pathname.getwd())
-        old_path = new_path.dirname() / 'VimFlavor'
-
-        ff = new()
-
-        if FileTest.file?(old_path) and not FileTest.file?(new_path)
-          Console::warn "Rename #{old_path} to #{new_path}.  #{old_path} wll be ignored in future version."
-          ff.load(old_path.to_s)
-        else
-          if FileTest.file?(old_path)
-            Console::warn "Delete #{old_path}.  #{new_path} is being read instead."
+          if must_exist
+            throw "#{new_path} must be created to use vim-flavor."
+          else
+            # Do nothing.  Assume no dependencies.
           end
-          ff.load(new_path.to_s)
         end
 
         ff
