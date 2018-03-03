@@ -9,6 +9,18 @@ module Vim
         l
       end
 
+      def self.path_from(dir_path, error)
+        lockfile_path = dir_path.to_lockfile_path
+        new_path = Pathname.new(lockfile_path).relative_path_from(Pathname.getwd())
+        old_path = new_path.dirname() / 'VimFlavor.lock'
+
+        if error and FileTest.exists?(old_path)
+          Console::error "#{old_path} is no longer used.  Rename it to #{new_path}."
+        end
+
+        new_path.to_s
+      end
+
       def initialize(path)
         @path = path
       end
