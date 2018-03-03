@@ -7,8 +7,11 @@ require 'vim-flavor'
 class FakeUserEnvironment
   include Vim::Flavor::ShellUtility
 
-  def add_new_versions_to_repo(basename, versions, flavorfile_content = nil)
+  def add_new_versions_to_repo(basename, versions, flavorfile_content = nil, naming_style = :new)
     repository_path = make_repo_path(basename)
+    flavorfile_path = naming_style == :new ?
+      repository_path.to_flavorfile_path :
+      "#{repository_path}/VimFlavor"
     doc_name = basename.split('/').last.sub(/^vim-/, '')
     sh <<-"END"
       {
@@ -20,10 +23,10 @@ class FakeUserEnvironment
           git add doc
           #{
             %Q{
-              cat <<'FF' >#{repository_path.to_flavorfile_path}
+              cat <<'FF' >#{flavorfile_path}
 #{expand(flavorfile_content)}
 FF
-              git add #{repository_path.to_flavorfile_path}
+              git add #{flavorfile_path}
             } if flavorfile_content
           }
           git commit -m "Version $v"
