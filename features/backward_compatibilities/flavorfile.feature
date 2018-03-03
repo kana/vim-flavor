@@ -25,6 +25,34 @@ Feature: Flavorfile
       """
     And a flavor "$foo_uri" version "1.0.2" is deployed to "$home/.vim"
 
+  Scenario: User has both new and old name of flavorfile is warned
+    Given a repository "foo" with versions "1.0.0 1.0.1 1.0.2"
+    And a repository "bar" with versions "2.0.0 2.0.1 2.0.2"
+    And a flavorfile with:
+      """ruby
+      flavor '$bar_uri'
+      """
+    And an old name flavorfile with:
+      """ruby
+      flavor '$foo_uri'
+      """
+    When I run `vim-flavor install`
+    Then it should pass with template:
+      """
+      Warning: Delete VimFlavor.  Flavorfile is being read instead.
+      Checking versions...
+        Use $bar_uri ... 2.0.2
+      Deploying plugins...
+        $bar_uri 2.0.2 ... done
+      Completed.
+      """
+    And a lockfile is created with:
+      """
+      $bar_uri (2.0.2)
+      """
+      And a flavor "$foo_uri" is not deployed to "$home/.vim"
+    And a flavor "$bar_uri" version "2.0.2" is deployed to "$home/.vim"
+
   Scenario: Plugin contains old name of flavorfile is not warned
     Given a repository "foo" with versions "1.0.0 1.0.1 1.0.2" and an old name flavorfile:
       """ruby
