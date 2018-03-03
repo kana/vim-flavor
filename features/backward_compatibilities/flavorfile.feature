@@ -100,8 +100,8 @@ Feature: Flavorfile
     When I run `vim-flavor test`
     Then it should pass with regexp:
       """
-      Warning: Rename VimFlavor to Flavorfile.  VimFlavor wll be ignored in future version.
       -------- Preparing dependencies
+      Warning: Rename VimFlavor to Flavorfile.  VimFlavor wll be ignored in future version.
       Checking versions...
         Use kana/vim-vspec ... 1\.\d+(\.\d+)?
       Deploying plugins...
@@ -146,8 +146,8 @@ Feature: Flavorfile
     When I run `vim-flavor test`
     Then it should pass with regexp:
       """
-      Warning: Delete VimFlavor.  Flavorfile is being read instead.
       -------- Preparing dependencies
+      Warning: Delete VimFlavor.  Flavorfile is being read instead.
       Checking versions...
         Use kana/vim-vspec ... 1\.\d+(\.\d+)?
       Deploying plugins...
