@@ -5,12 +5,6 @@ Feature: Typical usage
 
   Background:
     Given a repository "kana/vim-vspec" from offline cache
-
-  Scenario: Testing a Vim plugin without any dependency
-    Given a flavorfile with:
-      """ruby
-      # No dependency
-      """
     And a file named "plugin/foo.vim" with:
       """vim
       let g:foo = 3
@@ -32,6 +26,12 @@ Feature: Typical usage
       # Such tests must output results in Test Anything Protocol.
       echo 'ok 1'
       echo '1..1'
+      """
+
+  Scenario: Testing a Vim plugin with no dependencies
+    Given a flavorfile with:
+      """ruby
+      # No dependencies
       """
     When I run `vim-flavor test`
     Then it should pass with regexp:
@@ -56,20 +56,6 @@ Feature: Typical usage
     And a dependency "kana/vim-vspec" is stored in ".vim-flavor/pack/flavors/start"
 
   Scenario: Assuming no dependencies if flavorfile does not exist
-    Given a file named "plugin/foo.vim" with:
-      """vim
-      let g:foo = 3
-      """
-    And a file named "t/basics.vim" with:
-      """vim
-      " Tests are written with vim-vspec.
-      runtime! plugin/foo.vim
-      describe 'g:foo'
-        it 'is equal to 3'
-          Expect g:foo == 3
-        end
-      end
-      """
     When I run `vim-flavor test`
     Then it should pass with regexp:
       """
@@ -81,8 +67,9 @@ Feature: Typical usage
       Completed.
       -------- Testing a Vim plugin
       t/basics.vim .. ok
+      t/sh.t ........ ok
       All tests successful.
-      Files=1, Tests=1,  \d+ wallclock secs .*
+      Files=2, Tests=2,  \d+ wallclock secs .*
       Result: PASS
       """
     And a lockfile is created and matches with:
