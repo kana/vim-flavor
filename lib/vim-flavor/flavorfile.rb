@@ -33,12 +33,12 @@ module Vim
         new_path = Pathname.new(flavorfile_path).relative_path_from(Pathname.getwd())
         old_path = new_path.dirname() / 'VimFlavor'
 
-        path = if FileTest.file?(new_path)
-          if warn and FileTest.file?(old_path)
+        path = if FileTest.exists?(new_path)
+          if warn and FileTest.exists?(old_path)
             Console::warn "Delete #{old_path}.  #{new_path} is being read instead."
           end
           new_path
-        elsif FileTest.file?(old_path)
+        elsif FileTest.exists?(old_path)
           if warn
             Console::warn "Rename #{old_path} to #{new_path}.  #{old_path} wll be ignored in future version."
           end
