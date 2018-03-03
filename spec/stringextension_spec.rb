@@ -17,7 +17,7 @@ module Vim
 
       describe '#to_lockfile_path' do
         it 'extends a given path to a lockfile' do
-          expect('cwd'.to_lockfile_path).to be == 'cwd/VimFlavor.lock'
+          expect('cwd'.to_lockfile_path).to be == 'cwd/Flavorfile.lock'
         end
       end
 
