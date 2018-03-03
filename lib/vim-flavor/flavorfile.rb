@@ -18,7 +18,7 @@ module Vim
 
       def self.load_or_new(flavorfile_path)
         ff = new()
-        ff.load(flavorfile_path) if File.exists?(flavorfile_path)
+        ff.load(flavorfile_path) if FileTest.exists?(flavorfile_path)
         ff
       end
 
