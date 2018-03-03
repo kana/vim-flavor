@@ -24,7 +24,7 @@ module Vim
 
       def self.load(flavorfile_path)
         # Note that flavorfile_path is assumed to be new name.
-        new_path = Pathname.new(flavorfile_path)
+        new_path = Pathname.new(flavorfile_path).relative_path_from(Pathname.getwd())
         old_path = new_path.dirname() / 'VimFlavor'
 
         ff = new()
