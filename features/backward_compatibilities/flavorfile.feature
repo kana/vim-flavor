@@ -12,13 +12,12 @@ Feature: Flavorfile
     When I run `vim-flavor install`
     Then it should pass with template:
       """
+      Warning: Rename VimFlavor to Flavorfile.  VimFlavor wll be ignored in future version.
       Checking versions...
         Use $foo_uri ... 1.0.2
       Deploying plugins...
         $foo_uri 1.0.2 ... done
       Completed.
-
-      Warning: Rename VimFlavor to Flavorfile.  VimFlavor wll be ignored in future version.
       """
     And a lockfile is created with:
       """
