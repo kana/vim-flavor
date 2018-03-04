@@ -19,5 +19,4 @@ Feature: Deploy Vim plugins to a non-standard directory
       """
       $foo_uri (1.0.2)
       """
-    And a bootstrap script is created in "my-vimfiles"
     And a flavor "$foo_uri" version "1.0.2" is deployed to "my-vimfiles"

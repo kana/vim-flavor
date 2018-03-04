@@ -16,7 +16,6 @@ Feature: Repository name
       """
       vspec (0.0.4)
       """
-    And a bootstrap script is created in "$home/.vim"
     And a flavor "vspec" version "0.0.4" is deployed to "$home/.vim"
 
   Scenario: Declare using a Vim plugin from GitHub
@@ -32,7 +31,6 @@ Feature: Repository name
       """
       kana/vim-vspec (0.0.4)
       """
-    And a bootstrap script is created in "$home/.vim"
     And a flavor "kana/vim-vspec" version "0.0.4" is deployed to "$home/.vim"
 
   Scenario: Declare using a Vim plugin from an arbitrary URI
@@ -48,5 +46,4 @@ Feature: Repository name
       """
       $vspec_uri (0.0.4)
       """
-    And a bootstrap script is created in "$home/.vim"
     And a flavor "$vspec_uri" version "0.0.4" is deployed to "$home/.vim"

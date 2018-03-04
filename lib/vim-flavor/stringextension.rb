@@ -1,10 +1,6 @@
 module Vim
   module Flavor
     module StringExtension
-      def to_bootstrap_path
-        "#{self}/bootstrap.vim"
-      end
-
       def to_deps_path
         "#{self}/deps"
       end

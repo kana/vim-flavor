@@ -26,6 +26,5 @@ Feature: Uninstall Vim plugins
       """
       $bar_uri (2.0.2)
       """
-    And a bootstrap script is created in "$home/.vim"
     And a flavor "$bar_uri" version "2.0.2" is deployed to "$home/.vim"
     But a flavor "$foo_uri" is not deployed to "$home/.vim"

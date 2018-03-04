@@ -40,7 +40,6 @@ Feature: Update outdated dependencies of Vim plugins
       $B_uri (0.0)
       $L_uri (0.4)
       """
-    And a bootstrap script is created in "$home/.vim"
     And a flavor "$A_uri" version "0.0" is deployed to "$home/.vim"
     And a flavor "$B_uri" version "0.0" is deployed to "$home/.vim"
     And a flavor "$L_uri" version "0.4" is deployed to "$home/.vim"
@@ -81,7 +80,6 @@ Feature: Update outdated dependencies of Vim plugins
       $L_uri (0.5)
       $X_uri (0.0)
       """
-    And a bootstrap script is created in "$home/.vim"
     And a flavor "$A_uri" version "0.0" is deployed to "$home/.vim"
     And a flavor "$B_uri" version "0.0" is deployed to "$home/.vim"
     And a flavor "$L_uri" version "0.5" is deployed to "$home/.vim"

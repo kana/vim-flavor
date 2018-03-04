@@ -24,7 +24,6 @@ Feature: Install Vim plugins with specific branches
       """
       $foo_uri ($foo_rev_102 at master)
       """
-    And a bootstrap script is created in "$home/.vim"
     And a flavor "$foo_uri" version "1.0.2" is deployed to "$home/.vim"
 
   Scenario: Install a plugin according to a lockfile
@@ -47,5 +46,4 @@ Feature: Install Vim plugins with specific branches
         $foo_uri $foo_rev_102 at master ... skipped (already deployed)
       Completed.
       """
-    And a bootstrap script is created in "$home/.vim"
     And a flavor "$foo_uri" version "1.0.2" is deployed to "$home/.vim"

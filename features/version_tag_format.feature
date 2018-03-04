@@ -26,7 +26,6 @@ Feature: Version tag format
       """
       $foo_uri (1.2.3)
       """
-    And a bootstrap script is created in "$home/.vim"
     And a flavor "$foo_uri" version "1.2.3" is deployed to "$home/.vim"
     When I run `vim-flavor install`
     Then it should pass with template:
@@ -57,7 +56,6 @@ Feature: Version tag format
       """
       $foo_uri (v1.2.3)
       """
-    And a bootstrap script is created in "$home/.vim"
     And a flavor "$foo_uri" version "v1.2.3" is deployed to "$home/.vim"
     When I run `vim-flavor install`
     Then it should pass with template:
@@ -86,7 +84,6 @@ Feature: Version tag format
       There is no valid version
       """
     And a lockfile is not created
-    And a bootstrap script is not created in "$home/.vim"
     And a flavor "$foo_uri" is not deployed to "$home/.vim"
 
   Scenario: Without tags
@@ -106,5 +103,4 @@ Feature: Version tag format
       There is no valid version
       """
     And a lockfile is not created
-    And a bootstrap script is not created in "$home/.vim"
     And a flavor "$foo_uri" is not deployed to "$home/.vim"

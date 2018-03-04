@@ -1,3 +1,5 @@
+require 'fileutils'
+
 module Vim
   module Flavor
     class LockFile
@@ -38,6 +40,7 @@ module Vim
       end
 
       def save()
+        FileUtils.mkdir_p(File.dirname(@path))
         File.open(@path, 'w') do |io|
           lines = flavors.flat_map {|f| self.class.serialize_lock_status(f)}
           lines.each do |line|

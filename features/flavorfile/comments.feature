@@ -19,5 +19,4 @@ Feature: Comments
     And a lockfile is created with:
       """
       """
-    And a bootstrap script is created in "$home/.vim"
     But a flavor "$foo_uri" is not deployed to "$home/.vim"
