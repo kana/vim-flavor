@@ -30,16 +30,16 @@ module Vim
           flavorfile,
           lockfile,
           [:runtime, :development],
-          Dir.getwd().to_stash_path.to_deps_path
+          Dir.getwd().to_stash_path.to_flavors_path
         )
 
         trace "-------- Testing a Vim plugin\n"
 
         this_path = Dir.getwd()
-        deps_path = this_path.to_stash_path.to_deps_path
-        runner = "#{deps_path}/#{'kana/vim-vspec'.zap}/bin/prove-vspec"
+        flavors_path = this_path.to_stash_path.to_flavors_path
+        runner = "#{flavors_path}/#{'kana/vim-vspec'.zap}/bin/prove-vspec"
         plugin_paths = lockfile.flavors.map {|f|
-          "#{deps_path}/#{f.repo_name.zap}"
+          "#{flavors_path}/#{f.repo_name.zap}"
         }
         runtime_paths = ([this_path] + plugin_paths).flat_map {|p| ['-d', p]}
         command =

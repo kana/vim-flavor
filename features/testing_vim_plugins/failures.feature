@@ -56,4 +56,4 @@ Feature: Failures
       """
       kana/vim-vspec \(1\.\d+(\.\d+)?\)
       """
-    And a dependency "kana/vim-vspec" is stored in ".vim-flavor/deps"
+    And a dependency "kana/vim-vspec" is stored in ".vim-flavor/pack/flavors/start"
