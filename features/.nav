@@ -23,3 +23,4 @@
   - update.feature
   - changing_tracking_branches.feature
   - detect_incompatible_declarations.feature
+- backward_compatibilities:

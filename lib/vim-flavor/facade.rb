@@ -20,7 +20,8 @@ module Vim
       def test(files_or_dirs, options)
         trace "-------- Preparing dependencies\n"
 
-        flavorfile = FlavorFile.load_or_new(Dir.getwd().to_flavorfile_path)
+        flavorfile_path = FlavorFile.path_from(Dir.getwd(), true)
+        flavorfile = FlavorFile.load_or_new(flavorfile_path)
         flavorfile.flavor 'kana/vim-vspec', '~> 1.5', :group => :development unless
           flavorfile.flavor_table.has_key?('kana/vim-vspec')
         lockfile = LockFile.load_or_new(Dir.getwd().to_lockfile_path)
@@ -51,7 +52,8 @@ module Vim
       end
 
       def install_or_update(mode, vimfiles_path)
-        flavorfile = FlavorFile.load(Dir.getwd().to_flavorfile_path)
+        flavorfile_path = FlavorFile.path_from(Dir.getwd(), true)
+        flavorfile = FlavorFile.load_or_new(flavorfile_path)
         lockfile = LockFile.load_or_new(Dir.getwd().to_lockfile_path)
         refresh_flavors(
           mode,
@@ -175,7 +177,8 @@ module Vim
 
       def complete_a_flavor_dependencies(nf, locked_flavor_table, mode, groups, level)
         nf.checkout()
-        ff = FlavorFile.load_or_new(nf.cached_repo_path.to_flavorfile_path)
+        flavorfile_path = FlavorFile.path_from(nf.cached_repo_path, false)
+        ff = FlavorFile.load_or_new(flavorfile_path)
         complete_flavors(ff.flavor_table, locked_flavor_table, mode, groups, level + 1, nf.repo_name)
       end
 

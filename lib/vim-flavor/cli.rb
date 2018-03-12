@@ -9,7 +9,7 @@ module Vim
           :banner => 'DIR'
       end
 
-      desc 'install', 'Install Vim plugins according to VimFlavor file.'
+      desc 'install', 'Install Vim plugins according to Flavofile.'
       common_options_to_deploy
       def install
         Facade.new().install(
@@ -18,7 +18,7 @@ module Vim
       end
 
       desc 'update [REPO_NAME...]',
-        'Update Vim plugins according to VimFlavor file.'
+        'Update Vim plugins according to Flavorfile.'
       common_options_to_deploy
       def update(*repo_names)
         Facade.new().update(

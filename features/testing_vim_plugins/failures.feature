@@ -45,7 +45,7 @@ Feature: Failures
       -------------------
       t/basics.vim \(Wstat: 0 Tests: 1 Failed: 1\)
         Failed test:  1
-      Files=1, Tests=1,  0 wallclock secs (.*)
+      Files=1, Tests=1,  \d+ wallclock secs .*
       Result: FAIL
       """
     And the output should not contain:

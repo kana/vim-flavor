@@ -5,7 +5,7 @@ module Vim
     describe StringExtension do
       describe '#to_flavorfile_path' do
         it 'extends a given path to a flavorfile' do
-          expect('cwd'.to_flavorfile_path).to be == 'cwd/VimFlavor'
+          expect('cwd'.to_flavorfile_path).to be == 'cwd/Flavorfile'
         end
       end
 
