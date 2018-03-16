@@ -19,8 +19,8 @@
 * The name of lock file is changed.
   * Old name is `VimFlavor.lock`.
   * New name is `Flavorfile.lock`.
-  * If only old name file exists, that file will be read.  But new name file
-    is always used to write updates.
+  * To avoid unexpected result and confusion, vim-flavor stops its process as
+    soon as possible if old name lockfile exists.
 
 ### Migration guide from version 2
 

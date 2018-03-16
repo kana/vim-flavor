@@ -7,6 +7,15 @@ Given 'a lockfile with:' do |content|
   }
 end
 
+Given 'an old name lockfile with:' do |content|
+  steps %Q{
+    Given a file named "#{path_for_step("#{expand_path('.')}/VimFlavor.lock")}" with:
+      """
+      #{expand(content)}
+      """
+  }
+end
+
 Given 'I copy a new lockfile from another machine with:' do |content|
   steps %Q{
     Given a lockfile with:

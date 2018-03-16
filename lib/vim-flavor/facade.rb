@@ -24,7 +24,8 @@ module Vim
         flavorfile = FlavorFile.load_or_new(flavorfile_path)
         flavorfile.flavor 'kana/vim-vspec', '~> 1.5', :group => :development unless
           flavorfile.flavor_table.has_key?('kana/vim-vspec')
-        lockfile = LockFile.load_or_new(Dir.getwd().to_lockfile_path)
+        lockfile_path = LockFile.path_from(Dir.getwd(), true)
+        lockfile = LockFile.load_or_new(lockfile_path)
 
         refresh_flavors(
           options[:update_dependencies] ? :update : :install,
@@ -54,7 +55,8 @@ module Vim
       def install_or_update(mode, vimfiles_path)
         flavorfile_path = FlavorFile.path_from(Dir.getwd(), true)
         flavorfile = FlavorFile.load_or_new(flavorfile_path)
-        lockfile = LockFile.load_or_new(Dir.getwd().to_lockfile_path)
+        lockfile_path = LockFile.path_from(Dir.getwd(), true)
+        lockfile = LockFile.load_or_new(lockfile_path)
         refresh_flavors(
           mode,
           flavorfile,
@@ -186,7 +188,8 @@ module Vim
         trace "Deploying plugins...\n"
 
         a_flavors_path = File.absolute_path(flavors_path)
-        deployment_memo = LockFile.load_or_new(a_flavors_path.to_lockfile_path)
+        lockfile_path = LockFile.path_from(a_flavors_path, false)
+        deployment_memo = LockFile.load_or_new(lockfile_path)
 
         # To uninstall flavors which were deployed by vim-flavor 1.0.2 or
         # older, the whole deployed flavors have to be removed.  Because

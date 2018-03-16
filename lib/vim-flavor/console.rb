@@ -11,6 +11,11 @@ module Vim
         def warn message
           puts pastel.yellow("Warning: #{message}")
         end
+
+        def error message
+          puts pastel.red("Error: #{message}")
+          exit(1)
+        end
       end
     end
   end
