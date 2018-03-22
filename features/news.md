@@ -26,8 +26,18 @@
 
 * Delete `~/.vim/flavors` directory.
 * Delete `runtime flavors/bootstrap.vim` line from your vimrc.
-* Rename `VimFlavor` as `Flavorfile`.
-* Rename `VimFlavor.lock` as `Flavorfile.lock`.
+* In your dotfiles repository:
+  * Rename `VimFlavor` as `Flavorfile`.
+  * Rename `VimFlavor.lock` as `Flavorfile.lock`.
+* If you use vim-flavor for Vim plugin development, do the following steps in
+  that Vim plugin repository:
+  * Update `Gemfile` to uses vim-flavor 3.0 or later,
+    e.g., `gem 'vim-flavor', '~> 3.0'`.
+  * Rename `VimFlavor` as `Flavorfile`.
+  * Delete `.vim-flavor` directory.  It is used to stash runtime dependencies to
+    run tests for your Vim plugin.
+  * Note that you must not commit `Flavorfile.lock` for your Vim plugin.  It
+    makes your plugin hard to use with other plugins.
 
 
 
