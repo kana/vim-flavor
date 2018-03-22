@@ -26,18 +26,18 @@ module Vim
           flavorfile.flavor_table.has_key?('kana/vim-vspec')
         lockfile_path = LockFile.path_from(Dir.getwd(), true)
         lockfile = LockFile.load_or_new(lockfile_path)
+        flavors_path = Dir.getwd().to_stash_path.to_flavors_path
 
         refresh_flavors(
           options[:update_dependencies] ? :update : :install,
           flavorfile,
           lockfile,
           [:runtime, :development],
-          Dir.getwd().to_stash_path.to_flavors_path
+          flavors_path
         )
 
         trace "-------- Testing a Vim plugin\n"
 
-        flavors_path = Dir.getwd().to_stash_path.to_flavors_path
         runner = "#{flavors_path}/#{'kana/vim-vspec'.zap}/bin/prove-vspec"
         plugin_paths = lockfile.flavors.map {|f|
           "#{flavors_path}/#{f.repo_name.zap}"
