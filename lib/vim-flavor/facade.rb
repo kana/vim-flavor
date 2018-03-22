@@ -37,13 +37,12 @@ module Vim
 
         trace "-------- Testing a Vim plugin\n"
 
-        this_path = Dir.getwd()
-        flavors_path = this_path.to_stash_path.to_flavors_path
+        flavors_path = Dir.getwd().to_stash_path.to_flavors_path
         runner = "#{flavors_path}/#{'kana/vim-vspec'.zap}/bin/prove-vspec"
         plugin_paths = lockfile.flavors.map {|f|
           "#{flavors_path}/#{f.repo_name.zap}"
         }
-        runtime_paths = ([this_path] + plugin_paths).flat_map {|p| ['-d', p]}
+        runtime_paths = ([Dir.getwd()] + plugin_paths).flat_map {|p| ['-d', p]}
         command =
           %Q{ '#{runner}' \
               #{runtime_paths.flat_map {|p| ['-d', p]}.shelljoin} \
