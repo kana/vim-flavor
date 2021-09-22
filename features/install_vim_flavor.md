@@ -1,8 +1,8 @@
 ## Required softwares
 
 * [Git](https://git-scm.com/) 2.10.1 or later
-* [Ruby](https://www.ruby-lang.org/) 2.5.0 or later
-  * Recommendation: Use [RVM](https://rvm.io/) or other tools
+* [Ruby](https://www.ruby-lang.org/) 3.0.0 or later
+  * Recommendation: Use [rbenv](https://github.com/rbenv/rbenv) or other tools
     for ease of installation across different envinronments.
 * [Vim](https://www.vim.org/) 8.0 or later
   * Note that Vim should be compiled as normal, big or huge version
