@@ -1,6 +1,6 @@
 # vim-flavor, a tool to manage your favorite Vim plugins
 
-[![Build Status](https://travis-ci.org/kana/vim-flavor.png)](https://travis-ci.org/kana/vim-flavor)
+[![CI](https://github.com/kana/vim-flavor/actions/workflows/ci.yml/badge.svg)](https://github.com/kana/vim-flavor/actions/workflows/ci.yml)
 [![Maintainability](https://api.codeclimate.com/v1/badges/97414d95fb6d19c7fb72/maintainability)](https://codeclimate.com/github/kana/vim-flavor/maintainability)
 
 
