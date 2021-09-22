@@ -37,6 +37,9 @@
 
       # * Declare using kana/vim-smarttill 0.1.0 or later.
       flavor 'kana/vim-smarttill', '>= 0.1.0'
+      
+      # * For repositories without versioning, branches can be specified.
+      flavor 'chriskempson/base16-vim', branch: 'master'
     END
 
     # Fetch the plugins declared in the Flavorfile,
