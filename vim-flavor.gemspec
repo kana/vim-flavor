@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency('thor', '~> 0.20')
 
   spec.add_development_dependency('aruba', '~> 0.14')
-  spec.add_development_dependency('cucumber', '~> 3.1')
+  spec.add_development_dependency('cucumber', '~> 7.0')
   spec.add_development_dependency('pry')
   spec.add_development_dependency('relish', '~> 0.7')
   spec.add_development_dependency('rspec', '~> 3.7')
