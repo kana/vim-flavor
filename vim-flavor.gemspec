@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
   spec.required_ruby_version = '~> 3.0'
 
-  spec.add_dependency('parslet', '~> 1.8')
+  spec.add_dependency('parslet', '>= 1.8', '< 3.0')
   spec.add_dependency('pastel', '~> 0.7')
   spec.add_dependency('thor', '~> 0.20')
 
