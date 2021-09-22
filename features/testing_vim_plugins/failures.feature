@@ -36,7 +36,7 @@ Feature: Failures
       -------- Testing a Vim plugin
       t/basics.vim ..\s
       not ok 1 - g:foo is equal to 5
-      # Expected g:foo == 5
+      # Expected g:foo == 5 at line 1
       #       Actual value: 3
       #     Expected value: 5
       Failed 1/1 subtests 

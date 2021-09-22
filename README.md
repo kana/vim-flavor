@@ -62,6 +62,28 @@ See the LICENSE file for the details.
 
 
 
+## For development
+
+### Set up
+
+1. Install [rbenv](https://github.com/rbenv/rbenv).
+2. Run the following commands in your clone of vim-flavor repository:
+
+   ```bash
+   git submodule update --init
+   rbenv install
+   bundle install
+   ```
+
+### Run tests
+
+```bash
+rake test
+```
+
+
+
+
 ## Author
 
 * [Kana Natsuno](https://whileimautomaton.net/)
