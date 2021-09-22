@@ -1,3 +1,12 @@
+## vim-flavor 4.0.0
+
+### Incompatible changes
+
+* Ruby 3.0 or later is required now.
+
+
+
+
 ## vim-flavor 3.0.0
 
 ### Enhancements

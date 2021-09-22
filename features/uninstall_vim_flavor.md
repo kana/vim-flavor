@@ -1,7 +1,7 @@
 ## Uninstallation steps
 
     rm -rf ~/.vim-flavor
-    rm -rf ~/.vim/flavors  # or ~/vimfiles/flavors etc.
+    rm -rf ~/.vim/pack/flavors
 
     cd $YOUR_REPOSITORY_FOR_DOTFILES
     rm Flavorfile Flavorfile.lock
