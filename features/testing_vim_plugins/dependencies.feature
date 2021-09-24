@@ -36,10 +36,10 @@ Feature: Dependencies
       """
       -------- Preparing dependencies
       Checking versions...
-        Use kana/vim-textobj-user ... 0\.\d+(\.\d+)?
+        Use kana/vim-textobj-user ... v?\d+\.\d+(\.\d+)?
         Use kana/vim-vspec ... v?\d+.\d+(\.\d+)?
       Deploying plugins...
-        kana/vim-textobj-user 0\.\d+(\.\d+)? ... done
+        kana/vim-textobj-user v?\d+\.\d+(\.\d+)? ... done
         kana/vim-vspec v?\d+.\d+(\.\d+)? ... done
       Completed.
       -------- Testing a Vim plugin
@@ -50,7 +50,7 @@ Feature: Dependencies
       """
     And a lockfile is created and matches with:
       """
-      kana/vim-textobj-user \(0\.\d+(\.\d+)?\)
+      kana/vim-textobj-user \(v?\d+\.\d+(\.\d+)?\)
       kana/vim-vspec \(v?\d+.\d+(\.\d+)?\)
       """
     And a dependency "kana/vim-vspec" is stored in ".vim-flavor/pack/flavors/start"
