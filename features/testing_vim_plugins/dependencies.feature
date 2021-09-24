@@ -36,11 +36,11 @@ Feature: Dependencies
       """
       -------- Preparing dependencies
       Checking versions...
-        Use kana/vim-textobj-user ... 0\.\d+(\.\d+)?
-        Use kana/vim-vspec ... 1\.\d+(\.\d+)?
+        Use kana/vim-textobj-user ... v?\d+\.\d+(\.\d+)?
+        Use kana/vim-vspec ... v?\d+.\d+(\.\d+)?
       Deploying plugins...
-        kana/vim-textobj-user 0\.\d+(\.\d+)? ... done
-        kana/vim-vspec 1\.\d+(\.\d+)? ... done
+        kana/vim-textobj-user v?\d+\.\d+(\.\d+)? ... done
+        kana/vim-vspec v?\d+.\d+(\.\d+)? ... done
       Completed.
       -------- Testing a Vim plugin
       t/basics.vim .. ok
@@ -50,8 +50,8 @@ Feature: Dependencies
       """
     And a lockfile is created and matches with:
       """
-      kana/vim-textobj-user \(0\.\d+(\.\d+)?\)
-      kana/vim-vspec \(1\.\d+(\.\d+)?\)
+      kana/vim-textobj-user \(v?\d+\.\d+(\.\d+)?\)
+      kana/vim-vspec \(v?\d+.\d+(\.\d+)?\)
       """
     And a dependency "kana/vim-vspec" is stored in ".vim-flavor/pack/flavors/start"
     And a dependency "kana/vim-textobj-user" is stored in ".vim-flavor/pack/flavors/start"
@@ -72,10 +72,10 @@ Feature: Dependencies
       -------- Preparing dependencies
       Checking versions...
         Use kana/vim-textobj-user ... 0\.3\.5
-        Use kana/vim-vspec ... 1\.\d+(\.\d+)?
+        Use kana/vim-vspec ... v?\d+.\d+(\.\d+)?
       Deploying plugins...
         kana/vim-textobj-user 0\.3\.5 ... done
-        kana/vim-vspec 1\.\d+(\.\d+)? ... done
+        kana/vim-vspec v?\d+.\d+(\.\d+)? ... done
       Completed.
       -------- Testing a Vim plugin
       Files=0, Tests=0,  \d+ wallclock secs .*
@@ -84,7 +84,7 @@ Feature: Dependencies
     And a lockfile is updated and matches with:
       """
       kana/vim-textobj-user \(0\.3\.5\)
-      kana/vim-vspec \(1\.\d+(\.\d+)?\)
+      kana/vim-vspec \(v?\d+.\d+(\.\d+)?\)
       """
     When I run `vim-flavor test --update-dependencies`
     Then it should pass with regexp:
@@ -92,10 +92,10 @@ Feature: Dependencies
       -------- Preparing dependencies
       Checking versions...
         Use kana/vim-textobj-user ... 0\.3\.13
-        Use kana/vim-vspec ... 1\.\d+(\.\d+)?
+        Use kana/vim-vspec ... v?\d+.\d+(\.\d+)?
       Deploying plugins...
         kana/vim-textobj-user 0\.3\.13 ... done
-        kana/vim-vspec 1\.\d+(\.\d+)? ... skipped \(already deployed\)
+        kana/vim-vspec v?\d+.\d+(\.\d+)? ... skipped \(already deployed\)
       Completed.
       -------- Testing a Vim plugin
       Files=0, Tests=0,  \d+ wallclock secs .*
@@ -104,5 +104,5 @@ Feature: Dependencies
     And a lockfile is updated and matches with:
       """
       kana/vim-textobj-user \(0\.3\.13\)
-      kana/vim-vspec \(1\.\d+(\.\d+)?\)
+      kana/vim-vspec \(v?\d+.\d+(\.\d+)?\)
       """
