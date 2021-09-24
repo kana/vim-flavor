@@ -37,9 +37,9 @@ Feature: Specifying test scripts
       """
       -------- Preparing dependencies
       Checking versions...
-        Use kana/vim-vspec ... 1\.\d+(\.\d+)?
+        Use kana/vim-vspec ... v?\d+.\d+(\.\d+)?
       Deploying plugins...
-        kana/vim-vspec 1\.\d+(\.\d+)? ... done
+        kana/vim-vspec v?\d+.\d+(\.\d+)? ... done
       Completed.
       -------- Testing a Vim plugin
       spec/basics.vim .. ok
@@ -50,7 +50,7 @@ Feature: Specifying test scripts
       """
     And a lockfile is created and matches with:
       """
-      kana/vim-vspec \(1\.\d+(\.\d+)?\)
+      kana/vim-vspec \(v?\d+.\d+(\.\d+)?\)
       """
     And a dependency "kana/vim-vspec" is stored in ".vim-flavor/pack/flavors/start"
 
@@ -60,9 +60,9 @@ Feature: Specifying test scripts
       """
       -------- Preparing dependencies
       Checking versions...
-        Use kana/vim-vspec ... 1\.\d+(\.\d+)?
+        Use kana/vim-vspec ... v?\d+.\d+(\.\d+)?
       Deploying plugins...
-        kana/vim-vspec 1\.\d+(\.\d+)? ... done
+        kana/vim-vspec v?\d+.\d+(\.\d+)? ... done
       Completed.
       -------- Testing a Vim plugin
       spec/basics.vim .. ok
@@ -72,7 +72,7 @@ Feature: Specifying test scripts
       """
     And a lockfile is created and matches with:
       """
-      kana/vim-vspec \(1\.\d+(\.\d+)?\)
+      kana/vim-vspec \(v?\d+.\d+(\.\d+)?\)
       """
     And a dependency "kana/vim-vspec" is stored in ".vim-flavor/pack/flavors/start"
 
@@ -82,9 +82,9 @@ Feature: Specifying test scripts
       """
       -------- Preparing dependencies
       Checking versions...
-        Use kana/vim-vspec ... 1\.\d+(\.\d+)?
+        Use kana/vim-vspec ... v?\d+.\d+(\.\d+)?
       Deploying plugins...
-        kana/vim-vspec 1\.\d+(\.\d+)? ... done
+        kana/vim-vspec v?\d+.\d+(\.\d+)? ... done
       Completed.
       -------- Testing a Vim plugin
       spec/sh.t .. ok
@@ -94,6 +94,6 @@ Feature: Specifying test scripts
       """
     And a lockfile is created and matches with:
       """
-      kana/vim-vspec \(1\.\d+(\.\d+)?\)
+      kana/vim-vspec \(v?\d+.\d+(\.\d+)?\)
       """
     And a dependency "kana/vim-vspec" is stored in ".vim-flavor/pack/flavors/start"

@@ -103,9 +103,9 @@ Feature: Flavorfile
       -------- Preparing dependencies
       Warning: Rename VimFlavor to Flavorfile.  VimFlavor wll be ignored in future version.
       Checking versions...
-        Use kana/vim-vspec ... 1\.\d+(\.\d+)?
+        Use kana/vim-vspec ... v?\d+\.\d+(\.\d+)?
       Deploying plugins...
-        kana/vim-vspec 1\.\d+(\.\d+)? ... done
+        kana/vim-vspec v?\d+.\d+(\.\d+)? ... done
       Completed.
       -------- Testing a Vim plugin
       t/basics.vim .. ok
@@ -115,7 +115,7 @@ Feature: Flavorfile
       """
     And a lockfile is created and matches with:
       """
-      kana/vim-vspec \(1\.\d+(\.\d+)?\)
+      kana/vim-vspec \(v?\d+.\d+(\.\d+)?\)
       """
     And a dependency "kana/vim-vspec" is stored in ".vim-flavor/pack/flavors/start"
 
@@ -149,9 +149,9 @@ Feature: Flavorfile
       -------- Preparing dependencies
       Warning: Delete VimFlavor.  Flavorfile is being read instead.
       Checking versions...
-        Use kana/vim-vspec ... 1\.\d+(\.\d+)?
+        Use kana/vim-vspec ... v?\d+.\d+(\.\d+)?
       Deploying plugins...
-        kana/vim-vspec 1\.\d+(\.\d+)? ... done
+        kana/vim-vspec v?\d+.\d+(\.\d+)? ... done
       Completed.
       -------- Testing a Vim plugin
       t/basics.vim .. ok
@@ -161,6 +161,6 @@ Feature: Flavorfile
       """
     And a lockfile is created and matches with:
       """
-      kana/vim-vspec \(1\.\d+(\.\d+)?\)
+      kana/vim-vspec \(v?\d+.\d+(\.\d+)?\)
       """
     And a dependency "kana/vim-vspec" is stored in ".vim-flavor/pack/flavors/start"
