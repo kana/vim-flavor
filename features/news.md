@@ -1,24 +1,44 @@
-## vim-flavor 4.0.0
+# Changelog
 
-### Incompatible changes
+All notable changes to this project will be documented in this file.
 
-* Ruby 3.0 or later is required now.
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
 
 
-## vim-flavor 3.0.0
+## [Unreleased](https://github.com/kana/vim-flavor/compare/v4.0.0...master)
 
-### Enhancements
+### Fixed
+
+- Update some tests not to fail with `vX.X.X` style version tags.
+
+
+
+
+## [4.0.0](https://github.com/kana/vim-flavor/compare/v3.0.0...v4.0.0) - 2021-09-22
+
+### Changed
+
+* **BREAKING**: Ruby 3.0 or later is required now.
+
+
+
+
+## [3.0.0](https://github.com/kana/vim-flavor/compare/v2.2.2...v3.0.0) - 2018-03-24
+
+### Improved
 
 * Steps to start using vim-flavor are simplified.  Especially, it is not
   necessary to edit vimrc.
 
-### Incompatible changes
+### Changed
 
-* Vim 8.0 or later is required now.
-* Deployment format is changed.  It might be necessary to manually delete some
-  directories and files.  See also the follwoing migration guide.
+* **BREAKING**: Vim 8.0 or later is required now.
+* **BREAKING**: Deployment format is changed.  It might be necessary to
+  manually delete some directories and files.  See also the follwoing migration
+  guide.
 * The name of configuration file is changed.
   * Old name is `VimFlavor`.
   * New name is `Flavorfile`.
@@ -51,28 +71,28 @@
 
 
 
-## vim-flavor 2.2.2
+## [2.2.2](https://github.com/kana/vim-flavor/compare/v2.2.1...v2.2.2) - 2018-01-31
 
-### Bug Fixes
+### Fixed
 
-* Fix `install`, `update` and `test` to work even if these commands are invoked
-  from non-bash shell.
-
-
-
-
-## vim-flavor 2.2.1
-
-### Bug Fixes
-
-* Fix not to fail fetching repositories which have non-fastforward updates.
+* Fixed `install`, `update` and `test` to work even if these commands are
+  invoked from non-bash shell.
 
 
 
 
-## vim-flavor 2.2.0
+## [2.2.1](https://github.com/kana/vim-flavor/compare/v2.2.0...v2.2.1) - 2015-04-24
 
-### Enhancements
+### Fixed
+
+* Fixed not to fail fetching repositories which have non-fastforward updates.
+
+
+
+
+## [2.2.0](https://github.com/kana/vim-flavor/compare/v2.1.1...v2.2.0) - 2015-04-18
+
+### Improved
 
 * `test` runs `*.vim` and `*.t` in a single step, to get a simplified result.
 * `test` uses [vim-vspec](https://github.com/kana/vim-vspec) 1.5 or later by
@@ -83,9 +103,9 @@
 
 
 
-## vim-flavor 2.1.1
+## [2.1.1](https://github.com/kana/vim-flavor/compare/2.1.0...v2.1.1) - 2015-02-25
 
-### Enhancements
+### Improved
 
 * `install` and `update` skip checking versions of plugins which are
   development dependencies.
@@ -93,9 +113,9 @@
 
 
 
-## vim-flavor 2.1.0
+## [2.1.0](https://github.com/kana/vim-flavor/compare/2.0.0...2.1.0) - 2014-04-19
 
-### Enhancements
+### Improved
 
 * `update` command is added.  It is an alias of existing `upgrade` command.
   Now it is recommended to use `update` rather than `upgrade`.
@@ -106,13 +126,12 @@
 
 
 
-## vim-flavor 2.0.0
+## [2.0.0](https://github.com/kana/vim-flavor/compare/1.1.5...2.0.0) - 2014-03-10
 
-### Enhancements
+### Improved
 
 * [Branches](./branches) are supported.
 
+### Changed
 
-### Incompatible changes
-
-* Ruby 2.0.0 or later is required to run vim-flavor.
+* **BREAKING**: Ruby 2.0.0 or later is required now.
