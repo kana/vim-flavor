@@ -119,6 +119,13 @@ also on relish.
 
 
 
+# Changelog
+
+See [CHANGELOG.md](./CHANGELOG.md).
+
+
+
+
 # License
 
 vim-flavor is released under the terms of MIT license.
