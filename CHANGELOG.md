@@ -10,6 +10,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/kana/vim-flavor/compare/v4.0.0...master)
 
+### Changed
+
+* **BREAKING**: Use `https://github.com/...` instead of `git://github.com/...`
+  to clone Vim plugin repositories.  This change is required because
+  [GitHub deprecates `git://`](https://github.blog/2021-09-01-improving-git-protocol-security-github/)
+  since 2021-11-02.
+
+  This is a breaking change if you installed Vim plugins with vim-flavor v4.0.0
+  or older.  You'll see the following error in that case:
+
+      fatal: remote error: 
+        The unauthenticated git protocol on port 9418 is no longer supported.
+
+  There are two ways to fix this errors:
+
+  (A) Delete local clones:
+
+      rm -rf ~/.vim-flavor
+
+  (B) Change `remote.origin.url` of each local clone:
+
+      for d in ~/.vim-flavor/repos/*/
+      do
+        cd "$d" &&
+          git config remote.origin.url "$(git config remote.origin.url | sed 's!^git://!https://!')"
+      done
+
 ### Fixed
 
 - Update some tests not to fail with `vX.X.X` style version tags.
