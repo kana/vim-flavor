@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/kana/vim-flavor/compare/v4.0.0...master)
 
+
+
+
+## [4.0.1](https://github.com/kana/vim-flavor/compare/v4.0.0...v4.0.1) - 2021-11-02
+
 ### Changed
 
 * **BREAKING**: Use `https://github.com/...` instead of `git://github.com/...`

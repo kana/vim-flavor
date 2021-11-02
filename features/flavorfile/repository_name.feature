@@ -7,7 +7,7 @@ Feature: Repository name
     Given a GitHub repository "vim-scripts/vspec" with versions "0.0.4 1.2.0"
     And a flavorfile with:
       """ruby
-      # Fetch the plugin from git://github.com/vim-scripts/vspec.git
+      # Fetch the plugin from https://github.com/vim-scripts/vspec.git
       flavor 'vspec', '~> 0.0'
       """
     When I run `vim-flavor install`
@@ -22,7 +22,7 @@ Feature: Repository name
     Given a GitHub repository "kana/vim-vspec" with versions "0.0.4 1.2.0"
     And a flavorfile with:
       """ruby
-      # Fetch the plugin from git://github.com/kana/vim-vspec.git
+      # Fetch the plugin from https://github.com/kana/vim-vspec.git
       flavor 'kana/vim-vspec', '~> 0.0'
       """
     When I run `vim-flavor install`

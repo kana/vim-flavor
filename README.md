@@ -25,7 +25,7 @@ flavor 'kana/vim-textobj-indent'
 flavor 'fakeclip'
 
 # Install a Vim plugin from the specified URI.
-flavor 'git://github.com/kana/vim-altr.git'
+flavor 'https://github.com/kana/vim-altr.git'
 
 # You can also specify which version of Vim plugin should be installed.
 # For example:
