@@ -11,7 +11,7 @@ module Vim
         def github_uri_prefix
           @github_uri_prefix ||=
             ENV['VIM_FLAVOR_GITHUB_URI_PREFIX'] ||
-            'git://github.com/'
+            'https://github.com/'
         end
 
         def github_uri_suffix
