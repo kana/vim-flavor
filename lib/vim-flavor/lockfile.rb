@@ -5,7 +5,7 @@ module Vim
     class LockFile
       def self.load_or_new(lockfile_path)
         l = new(lockfile_path)
-        l.load() if File.exists?(lockfile_path)
+        l.load() if File.exist?(lockfile_path)
         l
       end
 
@@ -14,7 +14,7 @@ module Vim
         new_path = Pathname.new(lockfile_path).relative_path_from(Pathname.getwd())
         old_path = new_path.dirname() / 'VimFlavor.lock'
 
-        if error and FileTest.exists?(old_path)
+        if error and FileTest.exist?(old_path)
           Console::error "#{old_path} is no longer used.  Rename it to #{new_path}."
         end
 

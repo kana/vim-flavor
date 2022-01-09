@@ -21,7 +21,7 @@ module Vim
 
       # Return true if this flavor's repository is already cloned.
       def cached?
-        Dir.exists?(cached_repo_path)
+        Dir.exist?(cached_repo_path)
       end
 
       def cached_version?(version)
