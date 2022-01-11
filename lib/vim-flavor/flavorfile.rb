@@ -18,7 +18,7 @@ module Vim
 
       def self.load_or_new(flavorfile_path)
         ff = new()
-        ff.load(flavorfile_path) if FileTest.exists?(flavorfile_path)
+        ff.load(flavorfile_path) if FileTest.exist?(flavorfile_path)
         ff
       end
 
@@ -33,12 +33,12 @@ module Vim
         new_path = Pathname.new(flavorfile_path).relative_path_from(Pathname.getwd())
         old_path = new_path.dirname() / 'VimFlavor'
 
-        path = if FileTest.exists?(new_path)
-          if warn and FileTest.exists?(old_path)
+        path = if FileTest.exist?(new_path)
+          if warn and FileTest.exist?(old_path)
             Console::warn "Delete #{old_path}.  #{new_path} is being read instead."
           end
           new_path
-        elsif FileTest.exists?(old_path)
+        elsif FileTest.exist?(old_path)
           if warn
             Console::warn "Rename #{old_path} to #{new_path}.  #{old_path} wll be ignored in future version."
           end
