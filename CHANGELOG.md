@@ -34,7 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   This is a breaking change if you installed Vim plugins with vim-flavor v4.0.0
   or older.  You'll see the following error in that case:
 
-      fatal: remote error: 
+      fatal: remote error:
         The unauthenticated git protocol on port 9418 is no longer supported.
 
   There are two ways to fix this errors:
