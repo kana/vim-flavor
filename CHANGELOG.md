@@ -8,7 +8,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-## [Unreleased](https://github.com/kana/vim-flavor/compare/v4.0.0...master)
+## [Unreleased](https://github.com/kana/vim-flavor/compare/v4.0.2...master)
+
+
+
+
+## [4.0.2](https://github.com/kana/vim-flavor/compare/v4.0.1...v4.0.2) - 2022-01-11
+
+### Fixed
+
+* Remove deprecated usage of `.exists?` style methods ([#66](https://github.com/kana/vim-flavor/pull/66))
 
 
 
