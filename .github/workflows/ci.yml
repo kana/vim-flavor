@@ -12,7 +12,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0 # t/blame.vim requires all commits.
         submodules: true
@@ -21,7 +21,7 @@ jobs:
       with:
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
     - name: Set up Vim
-      uses: thinca/action-setup-vim@v1
+      uses: thinca/action-setup-vim@v2
       with:
         vim_version: ${{ github.event_name == 'schedule' && 'head' || 'v8.2.3446' }}
         vim_type: vim
