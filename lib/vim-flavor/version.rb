@@ -1,6 +1,6 @@
 module Vim
   module Flavor
-    VERSION = '4.0.2'
+    VERSION = '4.0.3'
 
     class Version
       def self.create(arg)
