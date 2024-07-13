@@ -8,7 +8,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-## [Unreleased](https://github.com/kana/vim-flavor/compare/v4.0.2...master)
+## [Unreleased](https://github.com/kana/vim-flavor/compare/v4.0.3...master)
+
+
+
+
+## [4.0.3](https://github.com/kana/vim-flavor/compare/v4.0.2...v4.0.3) - 2024-07-13
+
+### Fixed
+
+* Fix an error while installing Vim plugins caused by Vim 9.1.0573 or later.
 
 
 
