@@ -5,7 +5,7 @@ Given /^a (?:(?:GitHub|local) )?repository "([^"]*)"$/ do |basename|
     {
       mkdir -p '#{repository_path}' &&
       cd '#{repository_path}' &&
-      git init &&
+      git init -b master &&
       echo 'README' >README.md &&
       git add README.md &&
       git commit -m 'Write README'
