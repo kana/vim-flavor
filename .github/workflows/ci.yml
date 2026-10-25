@@ -23,7 +23,7 @@ jobs:
     - name: Set up Vim
       uses: thinca/action-setup-vim@v2
       with:
-        vim_version: ${{ github.event_name == 'schedule' && 'head' || 'v8.2.3446' }}
+        vim_version: ${{ github.event_name == 'schedule' && 'head' || 'v9.2.0957' }}
         vim_type: vim
         download: never # For some reason 'available' doesn't build from source as a fallback.
     - name: Set up Git

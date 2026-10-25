@@ -14,7 +14,7 @@ task :spec do
 end
 
 task :cucumber do
-  sh 'bundle exec cucumber --format=progress'
+  sh 'bundle exec cucumber --format=progress --guess'
 end
 
 task :update_online_documents do
