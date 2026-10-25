@@ -8,7 +8,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-## [Unreleased](https://github.com/kana/vim-flavor/compare/v4.0.3...master)
+## [Unreleased](https://github.com/kana/vim-flavor/compare/v4.0.4...master)
+
+
+
+
+## [4.0.4](https://github.com/kana/vim-flavor/compare/v4.0.3...v4.0.4) - 2026-10-25
+
+### Fixed
+
+* Update dependencies to run tests with newer versions of Ruby.
 
 
 
